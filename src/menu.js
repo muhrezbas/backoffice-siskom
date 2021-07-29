@@ -28,6 +28,12 @@ export default [
       updateMark: true
     },
     {
+      to: '/smsdetail',
+      label: 'SMS Detail',
+      icon: mdiTable,
+      updateMark: true
+    },
+    {
       to: '/forms',
       label: 'Forms',
       icon: mdiSquareEditOutline
