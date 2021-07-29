@@ -4,7 +4,10 @@
       <h1 class="text-3xl font-semibold leading-tight">
         <slot />
       </h1>
-      <jb-button href="https://tailwind-vue.justboil.me/" target="_blank" label="Premium version" :icon="mdiMonitorClean" />
+      <div v-if="this.$route.name == 'smsdetail'" class="control">
+        <input type="text" class="px-3 mr-2 focus:ring rounded" placeholder="Search" />
+        <jb-button label="Filter" color="info" @click="confirm" />
+      </div>
     </level>
   </section>
 </template>
