@@ -16,7 +16,8 @@ export default createStore({
     isAsideLgActive: false,
 
     /* Sample data (commonly used) */
-    clients: []
+    clients: [],
+    sms: []
   },
   mutations: {
     /* A fit-them-all commit */
@@ -66,6 +67,23 @@ export default createStore({
             if (r.data.data) {
               commit('basic', {
                 key: 'clients',
+                value: r.data.data
+              })
+            }
+          }
+        })
+        .catch(error => {
+          alert(error.message)
+        })
+    },
+    fetchSms ({ commit }) {
+      axios
+        .get('data-sources/sms.json')
+        .then(r => {
+          if (r.data) {
+            if (r.data.data) {
+              commit('basic', {
+                key: 'sms',
                 value: r.data.data
               })
             }
