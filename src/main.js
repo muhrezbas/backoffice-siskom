@@ -8,6 +8,7 @@ import './css/main.css'
 
 /* Fetch sample data */
 store.dispatch('fetchClients')
+store.dispatch('fetchSms')
 
 /* Default title tag */
 const defaultDocumentTitle = 'Admin One Vue 3 Tailwind'
