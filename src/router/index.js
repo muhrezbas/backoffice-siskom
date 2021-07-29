@@ -25,6 +25,14 @@ const routes = [
   },
   {
     meta: {
+      title: 'SMS Detail'
+    },
+    path: '/smsdetail',
+    name: 'smsdetail',
+    component: () => import(/* webpackChunkName: "forms" */ '../views/SmsDetail')
+  },
+  {
+    meta: {
       title: 'Forms'
     },
     path: '/forms',
