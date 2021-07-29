@@ -34,6 +34,12 @@ export default [
       updateMark: true
     },
     {
+      to: '/smsinput',
+      label: 'SMS Input',
+      icon: mdiTable,
+      updateMark: true
+    },
+    {
       to: '/forms',
       label: 'Forms',
       icon: mdiSquareEditOutline
