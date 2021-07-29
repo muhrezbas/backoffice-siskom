@@ -33,6 +33,14 @@ const routes = [
   },
   {
     meta: {
+      title: 'SMS Input'
+    },
+    path: '/smsinput',
+    name: 'smsinput',
+    component: () => import(/* webpackChunkName: "forms" */ '../views/SmsInput')
+  },
+  {
+    meta: {
       title: 'Forms'
     },
     path: '/forms',
