@@ -1,5 +1,6 @@
+/* eslint-disable */
 import {
-  // mdiAccountCircle,
+  mdiAccountCircle,
   mdiDesktopMac,
   // mdiGithub,
   // // mdiLock,
@@ -8,15 +9,15 @@ import {
   mdiTable
   // mdiViewList,
   // mdiTelevisionGuide
-} from '@mdi/js'
+} from "@mdi/js";
 
 export default [
-  'General',
+  "General",
   [
     {
-      to: '/',
+      to: "/",
       icon: mdiDesktopMac,
-      label: 'Dashboard'
+      label: "Dashboard"
     },
     // {
     //   to: '/tables',
@@ -25,17 +26,17 @@ export default [
     //   updateMark: true
     // },
     {
-      to: '/smsdetail',
-      label: 'SMS Detail',
+      to: "/smsdetail",
+      label: "SMS Detail",
       icon: mdiTable,
       updateMark: true
     },
     {
-      to: '/smsinput',
-      label: 'SMS Input',
+      to: "/smsinput",
+      label: "SMS Input",
       icon: mdiTable,
       updateMark: true
-    }
+    },
     // {
     //   to: '/forms',
     //   label: 'Forms',
@@ -46,11 +47,11 @@ export default [
     //   label: 'UI',
     //   icon: mdiTelevisionGuide
     // },
-    // {
-    //   to: '/profile',
-    //   label: 'Profile',
-    //   icon: mdiAccountCircle
-    // },
+    {
+      to: "/profile",
+      label: "Profile",
+      icon: mdiAccountCircle
+    }
     // {
     //   to: '/login',
     //   label: 'Login',
@@ -83,4 +84,4 @@ export default [
   //     icon: mdiGithub
   //   }
   // ]
-]
+];
