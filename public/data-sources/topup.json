@@ -1,0 +1,59 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "topup_credit": 200000,
+      "topup_credit_removed": null,
+      "type": "0073_0",
+      "payment_method": 1,
+      "remark": "Update Credit",
+      "package_date": "03-03-2021",
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    },
+    {
+      "id": 2,
+      "topup_credit": null,
+      "topup_credit_removed": 200000,
+      "type": "0073_1",
+      "payment_method": 1,
+      "remark": "Wrong Top-up",
+      "package_date": "03-03-2021",
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    },
+    {
+      "id": 3,
+      "topup_credit": 200000,
+      "topup_credit_removed": null,
+      "type": "0073_2",
+      "payment_method": 2,
+      "remark": "[CREDIT EXPIRY - SYSTEM AUTO REMOVE]",
+      "package_date": "03-03-2021",
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    },
+    {
+      "id": 4,
+      "topup_credit": 200000,
+      "topup_credit_removed": null,
+      "type": "0073_0",
+      "payment_method": 1,
+      "remark": "Update Credit",
+      "package_date": "03-03-2021",
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    },
+    {
+      "id": 5,
+      "topup_credit": 200000,
+      "topup_credit_removed": null,
+      "type": "0073_4",
+      "payment_method": 3,
+      "remark": "Update Credit",
+      "package_date": "03-03-2021",
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    }
+  ]
+}

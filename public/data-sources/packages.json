@@ -1,0 +1,26 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "package_name": "Pack Trial",
+      "currency_code": "EUR",
+      "currency": "EURO",
+      "price": 360000,
+      "amount": 2,
+      "account": "0001, 0032_LC, 0062_4, 0003, 0001_2_BU, 0004, 0005_alpha, 0006_alpha",
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    },
+    {
+      "id": 2,
+      "package_name": "Pack_routester",
+      "currency_code": "EUR",
+      "currency": "EURO",
+      "price": 450000,
+      "amount": 2,
+      "account": "Routester, M_VPN-China-MKT, 0027_LC, M_IM_ISO, M_LC_SMDO, 6202",
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    }
+  ]
+}
