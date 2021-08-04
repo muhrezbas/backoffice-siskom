@@ -2,42 +2,35 @@
   <title-bar :title-stack="titleStack" />
   <hero-bar>Dashboard</hero-bar>
   <main-section>
-    <notification color="info" :icon="mdiGithub" class="shadow-xl">
-      Please star this project on
-      <a href="https://github.com/justboil/admin-one-vue-tailwind" class="underline" target="_blank">GitHub</a>
-      <template #right>
-        <jb-button
-          href="https://github.com/justboil/admin-one-vue-tailwind"
-          :icon="mdiGithub"
-          label="GitHub"
-          target="_blank"
-          small
-        />
-      </template>
-    </notification>
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6">
-      <card-widget
-        class="tile"
-        color="text-green-500"
-        :icon="mdiAccountMultiple"
-        :number="512"
-        label="Clients"
-      />
+
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 mb-6">
       <card-widget
         class="tile"
         color="text-blue-500"
-        :icon="mdiCartOutline"
-        :number="7770"
-        prefix="$"
-        label="Sales"
+         :icon="mdiCellphoneMessage"
+        :number="512"
+        label="Number of SMS"
       />
       <card-widget
         class="tile"
-        color="text-red-500"
+        color="text-yellow-500"
+        :icon="mdiCheckboxMarked"
+        :number="7770"
+        label="SMS Delivered"
+      />
+      <card-widget
+        class="tile"
+        color="text-purple-500"
+        :icon="mdiFlash"
+        :number="256"
+        label="SMS Blast"
+      />
+        <card-widget
+        class="tile"
+        color="text-green-500"
         :icon="mdiChartTimelineVariant"
         :number="256"
-        suffix="%"
-        label="Performance"
+        label="OTP"
       />
     </div>
 
@@ -52,14 +45,21 @@
         <line-chart :data="chartData" class="h-96"/>
       </div>
     </card-component>
-
-    <notification color="info" :icon="mdiMonitorCellphone">
-      <b>Responsive table.</b> Collapses on mobile
-    </notification>
-
-    <card-component :icon="mdiMonitorCellphone" title="Responsive table" has-table>
-      <clients-table />
+      <!-- <title-bar :title-stack="titleStack" /> -->
+  <hero-bar :control="true">Customer SMS Details List</hero-bar>
+  <main-section>
+    <card-component has-table>
+      <sms-table checkable />
     </card-component>
+  </main-section>
+
+    <!-- <notification color="info" :icon="mdiMonitorCellphone">
+      <b>Responsive table.</b> Collapses on mobile
+    </notification> -->
+
+    <!-- <card-component :icon="mdiMonitorCellphone" title="Responsive table" has-table>
+      <clients-table />
+    </card-component> -->
   </main-section>
 </template>
 
@@ -68,9 +68,11 @@
 import { ref, onMounted } from 'vue'
 import {
   mdiAccountMultiple,
-  mdiCartOutline,
+  mdiCheckboxMarked,
   mdiChartTimelineVariant,
   mdiFinance,
+  mdiFlash,
+  mdiCellphoneMessage,
   mdiMonitorCellphone,
   mdiReload,
   mdiGithub
@@ -79,25 +81,26 @@ import * as chartConfig from '@/components/Charts/chart.config'
 import LineChart from '@/components/Charts/LineChart'
 import MainSection from '@/components/MainSection'
 import TitleBar from '@/components/TitleBar'
+import SmsTable from '@/components/SmsTable'
 import HeroBar from '@/components/HeroBar'
 import CardWidget from '@/components/CardWidget'
 import CardComponent from '@/components/CardComponent'
-import ClientsTable from '@/components/ClientsTable'
-import Notification from '@/components/Notification'
-import JbButton from '@/components/JbButton'
+
+// import ClientsTable from '@/components/ClientsTable'
+// import JbButton from '@/components/JbButton'
 
 export default {
   name: 'Home',
   components: {
     MainSection,
-    ClientsTable,
+    // ClientsTable,
     LineChart,
+    SmsTable,
     CardComponent,
     CardWidget,
     HeroBar,
-    TitleBar,
-    Notification,
-    JbButton
+    TitleBar
+    // JbButton
   },
   setup () {
     const titleStack = ref(['Admin', 'Dashboard'])
@@ -117,11 +120,13 @@ export default {
       chartData,
       fillChartData,
       mdiAccountMultiple,
-      mdiCartOutline,
+      mdiCheckboxMarked,
       mdiChartTimelineVariant,
       mdiFinance,
+      mdiCellphoneMessage,
       mdiMonitorCellphone,
       mdiReload,
+      mdiFlash,
       mdiGithub
     }
   }

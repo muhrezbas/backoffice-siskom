@@ -13,10 +13,21 @@
       </nav-bar-item>
       <nav-bar-item>
         <div class="control">
-          <input type="text" class="px-3 focus:ring rounded border-0" placeholder="Search everywhere..." />
+        <img
+            class="w-20"
+            style="width:'581px;"
+            src="../assets/logo160.png"
+          />
         </div>
       </nav-bar-item>
     </div>
+       <div class="flex-1 items-stretch flex h-14">
+      <nav-bar-item>
+        <div class="control">
+          <input type="text" class="px-3 focus:ring rounded border-0" placeholder="Type here to search....." />
+        </div>
+      </nav-bar-item>
+       </div>
     <div class="flex-none items-stretch flex h-14 lg:hidden">
       <nav-bar-item class="items-center flex" @click.prevent="menuNavBarToggle">
         <icon :path="menuNavBarToggleIcon" size="24" />
@@ -30,7 +41,7 @@
       <div
         class="max-h-screen-menu overflow-y-auto lg:overflow-visible lg:flex lg:items-stretch lg:justify-end lg:ml-auto"
       >
-        <nav-bar-menu has-divider>
+        <!-- <nav-bar-menu has-divider>
           <nav-bar-item-label :icon="mdiMenu" label="Sample menu"/>
 
           <template #dropdown>
@@ -45,35 +56,21 @@
               <nav-bar-item-label :icon="mdiCrop" label="Item Last"/>
             </nav-bar-item>
           </template>
-        </nav-bar-menu>
-        <nav-bar-menu has-divider>
-          <user-avatar class="w-6 h-6 mr-3 inline-flex" />
-          <div>
-            <span>{{ userName }}</span>
-          </div>
+        </nav-bar-menu> -->
 
-          <template #dropdown>
-            <nav-bar-item to="/profile">
-              <nav-bar-item-label :icon="mdiAccount" label="My Profile"/>
+         <nav-bar-item href="https://github.com/justboil/admin-one-vue-tailwind" has-divider is-desktop-icon-only>
+          <nav-bar-item>
+              <nav-bar-item-label :icon="mdiBell"/>
             </nav-bar-item>
-            <nav-bar-item>
-              <nav-bar-item-label :icon="mdiCogOutline" label="Settings"/>
-            </nav-bar-item>
-            <nav-bar-item>
-              <nav-bar-item-label :icon="mdiEmail" label="Messages"/>
-            </nav-bar-item>
-            <nav-bar-menu-divider/>
-            <nav-bar-item>
-              <nav-bar-item-label :icon="mdiLogout" label="Log Out"/>
-            </nav-bar-item>
-          </template>
-        </nav-bar-menu>
+        </nav-bar-item>
         <nav-bar-item href="https://github.com/justboil/admin-one-vue-tailwind" has-divider is-desktop-icon-only>
-          <nav-bar-item-label :icon="mdiGithub" label="GitHub" is-desktop-icon-only />
+          <nav-bar-item>
+              <nav-bar-item-label :icon="mdiEmail"/>
+            </nav-bar-item>
         </nav-bar-item>
-        <nav-bar-item is-desktop-icon-only>
-          <nav-bar-item-label :icon="mdiLogout" label="Log out" is-desktop-icon-only />
-        </nav-bar-item>
+         <nav-bar-item to="/profile">
+               <user-avatar class="w-6 h-6 mr-3 inline-flex" />
+            </nav-bar-item>
       </div>
     </div>
   </nav>
@@ -93,14 +90,15 @@ import {
   mdiCrop,
   mdiAccount,
   mdiCogOutline,
+  mdiBell,
   mdiEmail,
   mdiLogout,
   mdiGithub
 } from '@mdi/js'
 import NavBarItem from '@/components/NavBarItem'
 import NavBarItemLabel from '@/components/NavBarItemLabel'
-import NavBarMenu from '@/components/NavBarMenu'
-import NavBarMenuDivider from '@/components/NavBarMenuDivider'
+// import NavBarMenu from '@/components/NavBarMenu'
+// import NavBarMenuDivider from '@/components/NavBarMenuDivider'
 import UserAvatar from '@/components/UserAvatar'
 import Icon from '@/components/Icon'
 
@@ -108,10 +106,8 @@ export default {
   name: 'NavBar',
   components: {
     UserAvatar,
-    NavBarMenu,
     NavBarItem,
     NavBarItemLabel,
-    NavBarMenuDivider,
     Icon
   },
   setup () {
@@ -154,6 +150,7 @@ export default {
       mdiCloud,
       mdiCrop,
       mdiAccount,
+      mdiBell,
       mdiCogOutline,
       mdiEmail,
       mdiLogout,
