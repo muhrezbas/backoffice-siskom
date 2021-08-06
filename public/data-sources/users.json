@@ -1,0 +1,124 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Bershka",
+      "sms_id": "9002984",
+      "sms_time": "05:30:21",
+      "sms_date": "15/08/2017",
+      "words": 561,
+      "phone": "+62878555586",
+      "response": 1,
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    },
+    {
+      "id": 2,
+      "name": "Levis",
+      "sms_id": "6266754",
+      "sms_time": "17:27:17",
+      "sms_date": "28/10/2012",
+      "words": 453,
+      "phone": "+62878555854",
+      "response": 2,
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    },
+    {
+      "id": 3,
+      "name": "Versace",
+      "sms_id": "9003237",
+      "sms_time": "02:33:48",
+      "sms_date": "12/06/2020",
+      "words": 883,
+      "phone": "+62838555933",
+      "response": 3,
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    },
+    {
+      "id": 4,
+      "name": "Hermes",
+      "sms_id": "9232734",
+      "sms_time": "05:30:21",
+      "sms_date": "28/10/2012",
+      "words": 274,
+      "phone": "+62838555455",
+      "response": 1,
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    },
+    {
+      "id": 5,
+      "name": "Polo Ralph Lauren",
+      "sms_id": "7632785",
+      "sms_time": "23:18:33",
+      "sms_date": "18/09/2016",
+      "words": 492,
+      "phone": "+62899555984",
+      "response": 1,
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    },
+    {
+      "id": 6,
+      "name": "Aeropostale",
+      "sms_id": "3562756",
+      "sms_time": "02:33:48",
+      "sms_date": "07/05/2016",
+      "words": 922,
+      "phone": "+62896555376",
+      "response": 4,
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    },
+    {
+      "id": 7,
+      "name": "Zara",
+      "sms_id": "6426778",
+      "sms_time": "13:11:35",
+      "sms_date": "12/06/2020",
+      "words": 600,
+      "phone": "+62878555131",
+      "response": 2,
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    },
+    {
+      "id": 8,
+      "name": "Calvin Klein",
+      "sms_id": "5637657",
+      "sms_time": "02:33:48",
+      "sms_date": "07/05/2016",
+      "words": 196,
+      "phone": "+62878555973",
+      "response": 4,
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    },
+    {
+      "id": 9,
+      "name": "Adidas",
+      "sms_id": "3342756",
+      "sms_time": "13:11:35",
+      "sms_date": "16/08/2013",
+      "words": 816,
+      "phone": "+62852555877",
+      "response": 1,
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    },
+    {
+      "id": 10,
+      "name": "Prada",
+      "sms_id": "7632525",
+      "sms_time": "12:33:18",
+      "sms_date": "07/05/2016",
+      "words": 429,
+      "phone": "+62838555983",
+      "response": 3,
+      "created": "Mar 3, 2021",
+      "created_mm_dd_yyyy": "03-03-2021"
+    }
+  ]
+}
