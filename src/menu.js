@@ -3,6 +3,7 @@ import {
   mdiAccountCircle,
   mdiDesktopMac,
   mdiReceipt,
+  mdiCog,
   // mdiGithub,
   // // mdiLock,
   // mdiMonitorClean,
@@ -57,6 +58,11 @@ export default [
       to: "/invoice",
       label: "Invoice",
       icon: mdiReceipt
+    },
+    {
+      to: "/setting",
+      label: "Settings",
+      icon: mdiCog
     }
     // {
     //   to: '/login',
