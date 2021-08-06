@@ -69,6 +69,15 @@ const routes = [
   },
   {
     meta: {
+      title: "Setting"
+    },
+    path: "/setting",
+    name: "setting",
+    component: () =>
+      import(/* webpackChunkName: "profile" */ "../views/Setting")
+  },
+  {
+    meta: {
       title: "Ui"
     },
     path: "/ui",
