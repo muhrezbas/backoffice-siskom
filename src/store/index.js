@@ -21,7 +21,9 @@ export default createStore({
     sms: [],
     transaction: [],
     topup: [],
-    packages: []
+    packages: [],
+    admin: [],
+    users: []
   },
   mutations: {
     /* A fit-them-all commit */
@@ -148,6 +150,40 @@ export default createStore({
             if (r.data.data) {
               commit("basic", {
                 key: "packages",
+                value: r.data.data
+              });
+            }
+          }
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    },
+    fetchAdmin({ commit }) {
+      axios
+        .get("data-sources/admin.json")
+        .then(r => {
+          if (r.data) {
+            if (r.data.data) {
+              commit("basic", {
+                key: "admin",
+                value: r.data.data
+              });
+            }
+          }
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    },
+    fetchUsers({ commit }) {
+      axios
+        .get("data-sources/users.json")
+        .then(r => {
+          if (r.data) {
+            if (r.data.data) {
+              commit("basic", {
+                key: "users",
                 value: r.data.data
               });
             }
