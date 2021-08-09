@@ -78,6 +78,14 @@ const routes = [
   },
   {
     meta: {
+      title: "Detail"
+    },
+    path: "/detail",
+    name: "detail",
+    component: () => import(/* webpackChunkName: "profile" */ "../views/Detail")
+  },
+  {
+    meta: {
       title: "Ui"
     },
     path: "/ui",
