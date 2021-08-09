@@ -1,7 +1,72 @@
 <template>
-  <modal-box v-model="isModalActive" title="Please confirm action" has-cancel>
-    <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-    <p>This is sample modal</p>
+  <modal-box v-model="isModalActive" title="User Setting">
+    <field label="Name">
+      <control
+        :icon="mdiAccount"
+        v-model="userData.name"
+        name="name"
+        required
+        autocomplete="name"
+      />
+    </field>
+
+    <field label="ID Admin">
+      <control
+        :icon="mdiAccount"
+        v-model="userData.admin_id"
+        name="admin_id"
+        required
+        autocomplete="admin_id"
+      />
+    </field>
+
+    <field label="Gender">
+      <control
+        :icon="mdiAccount"
+        v-model="userData.gender"
+        name="gender"
+        required
+        autocomplete="gender"
+      />
+    </field>
+
+    <field label="Phone">
+      <control
+        :icon="mdiAccount"
+        v-model="userData.phone"
+        name="phone"
+        required
+        autocomplete="phone"
+      />
+    </field>
+
+    <field label="email">
+      <control
+        :icon="mdiAccount"
+        v-model="userData.email"
+        name="email"
+        required
+        autocomplete="email"
+      />
+    </field>
+
+    <field label="Division">
+      <control
+        :icon="mdiAccount"
+        v-model="userData.division"
+        name="division"
+        required
+        autocomplete="division"
+      />
+    </field>
+  </modal-box>
+
+  <modal-box
+    v-model="isModalDeleteActive"
+    title="Please confirm action"
+    has-cancel
+  >
+    <p>Are you sure you want to delete this entry ?</p>
   </modal-box>
 
   <table>
@@ -38,7 +103,7 @@
               color="info"
               :icon="mdiTrashCan"
               small
-              @click="isModalActive = true"
+              @click="isModalDeleteActive = true"
             />
           </jb-buttons>
         </td>
@@ -68,6 +133,8 @@ import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import ModalBox from "@/components/ModalBox";
+import Field from "@/components/Field";
+import Control from "@/components/Control";
 import Level from "@/components/Level";
 import JbButtons from "@/components/JbButtons";
 import JbButton from "@/components/JbButton";
@@ -76,6 +143,8 @@ export default {
   name: "AdminTable",
   components: {
     ModalBox,
+    Field,
+    Control,
     Level,
     JbButtons,
     JbButton
@@ -86,6 +155,8 @@ export default {
     const items = computed(() => store.state.admin);
 
     const isModalActive = ref(false);
+
+    const isModalDeleteActive = ref(false);
 
     const perPage = ref(10);
 
@@ -118,6 +189,7 @@ export default {
 
     return {
       isModalActive,
+      isModalDeleteActive,
       currentPage,
       currentPageHuman,
       numPages,
@@ -125,7 +197,15 @@ export default {
       itemsPaginated,
       pagesList,
       mdiEye,
-      mdiTrashCan
+      mdiTrashCan,
+      userData: {
+        name: "",
+        admin_id: "",
+        gender: "",
+        phone: "",
+        email: "",
+        division: ""
+      }
     };
   }
 };
