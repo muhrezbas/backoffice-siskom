@@ -49,10 +49,11 @@ export default [
     //   label: 'UI',
     //   icon: mdiTelevisionGuide
     // },
+
     {
-      to: "/profile",
-      label: "Profile",
-      icon: mdiAccountCircle
+      to: "/setting",
+      label: "Settings",
+      icon: mdiCog
     },
     {
       to: "/invoice",
@@ -60,8 +61,8 @@ export default [
       icon: mdiReceipt
     },
     {
-      to: "/setting",
-      label: "Settings",
+      to: "/detail",
+      label: "Detail",
       icon: mdiCog
     }
     // {
