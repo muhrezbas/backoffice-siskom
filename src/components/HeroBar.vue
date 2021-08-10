@@ -4,13 +4,26 @@
       <h1 class="text-3xl font-semibold leading-tight">
         <slot />
       </h1>
-      <div v-if="control" class="control">
+      <div class="control">
+        <jb-button
+          v-if="param"
+          label="Set Parameter"
+          color="info"
+          outline
+          @click="paramFunction"
+        />
         <input
+          v-if="search"
           type="text"
-          class="px-3 mr-2 focus:ring rounded"
+          class="px-3 mx-2 focus:ring rounded"
           placeholder="Search"
         />
-        <jb-button label="Filter" color="info" @click="confirm" />
+        <jb-button
+          v-if="search"
+          label="Filter"
+          color="info"
+          @click="searchFunction"
+        />
       </div>
     </level>
   </section>
@@ -29,10 +42,16 @@ export default {
     JbButton
   },
   props: {
-    control: {
+    param: {
       type: Boolean,
       default: null
-    }
+    },
+    search: {
+      type: Boolean,
+      default: null
+    },
+    paramFunction: Function,
+    searchFunction: Function
   },
   setup() {
     return {

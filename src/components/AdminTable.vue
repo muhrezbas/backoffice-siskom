@@ -2,7 +2,6 @@
   <modal-box v-model="isModalActive" title="User Setting">
     <field label="Name">
       <control
-        :icon="mdiAccount"
         v-model="userData.name"
         name="name"
         required
@@ -12,7 +11,6 @@
 
     <field label="ID Admin">
       <control
-        :icon="mdiAccount"
         v-model="userData.admin_id"
         name="admin_id"
         required
@@ -22,7 +20,6 @@
 
     <field label="Gender">
       <control
-        :icon="mdiAccount"
         v-model="userData.gender"
         name="gender"
         required
@@ -32,7 +29,6 @@
 
     <field label="Phone">
       <control
-        :icon="mdiAccount"
         v-model="userData.phone"
         name="phone"
         required
@@ -40,9 +36,8 @@
       />
     </field>
 
-    <field label="email">
+    <field label="Email">
       <control
-        :icon="mdiAccount"
         v-model="userData.email"
         name="email"
         required
@@ -52,7 +47,6 @@
 
     <field label="Division">
       <control
-        :icon="mdiAccount"
         v-model="userData.division"
         name="division"
         required

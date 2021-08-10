@@ -16,7 +16,7 @@
     </div>
   </main-section>
 
-  <hero-bar :control="true">Transaction History</hero-bar>
+  <hero-bar search>Transaction History</hero-bar>
 
   <main-section>
     <card-component has-table>
@@ -24,7 +24,7 @@
     </card-component>
   </main-section>
 
-  <hero-bar :control="true">Topup History</hero-bar>
+  <hero-bar search>Topup History</hero-bar>
 
   <main-section>
     <card-component has-table>
@@ -32,7 +32,7 @@
     </card-component>
   </main-section>
 
-  <hero-bar :control="true">Package Listing</hero-bar>
+  <hero-bar search>Package Listing</hero-bar>
 
   <main-section>
     <card-component has-table>
@@ -40,7 +40,7 @@
     </card-component>
   </main-section>
 
-  <hero-bar :control="true">Total Monthly Bill</hero-bar>
+  <hero-bar search>Total Monthly Bill</hero-bar>
 
   <main-section>
     <card-component has-table>
