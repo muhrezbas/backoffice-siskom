@@ -64,7 +64,7 @@
     </div>
   </main-section>
 
-  <hero-bar :control="true">History</hero-bar>
+  <hero-bar search>History</hero-bar>
 
   <main-section>
     <card-component has-table>
