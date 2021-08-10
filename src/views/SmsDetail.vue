@@ -1,6 +1,6 @@
 <template>
   <title-bar :title-stack="titleStack" />
-  <hero-bar :control="true">SMS Detail List</hero-bar>
+  <hero-bar search>SMS Detail List</hero-bar>
   <main-section>
     <card-component has-table>
       <sms-table checkable />
