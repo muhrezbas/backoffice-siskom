@@ -1,9 +1,18 @@
 /* eslint-disable */
 import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "../views/Home";
+import Dashboard from "../views/Dashboard";
 import store from "../store/index";
 
 const routes = [
+  {
+    meta: {
+      title: "Home"
+    },
+    path: "/",
+    name: "home",
+    component: Home
+  },
   {
     // Document title tag
     // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
@@ -11,9 +20,9 @@ const routes = [
       title: "Dashboard",
       requiresAuth: true
     },
-    path: "/",
-    name: "home",
-    component: Home
+    path: "/dashboard",
+    name: "dashboard",
+    component: Dashboard
   },
   {
     meta: {
