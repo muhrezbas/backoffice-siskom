@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="homeBar flex items-center justify-between flex-wrap bg-red-700 py-4 px-24"
+    class="homeBar flex items-center justify-between flex-wrap bg-red-700 py-4 px-8 xl:px-24"
   >
     <div class="flex items-center flex-no-shrink text-white mr-6">
       <!-- <img
