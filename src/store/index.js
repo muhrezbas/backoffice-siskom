@@ -1,10 +1,16 @@
 /* eslint-disable */
 import { createStore } from "vuex";
 import axios from "axios";
+import router from "../router/index";
 
 export default createStore({
   state: {
+    /* Auth */
+    status: "",
+    token: localStorage.getItem("token") || "",
+
     /* User */
+    userDetail: localStorage.getItem("user") || "",
     userName: null,
     userEmail: null,
     userAvatar: null,
@@ -26,12 +32,31 @@ export default createStore({
     users: []
   },
   mutations: {
+    /* Auth commit */
+    auth_request(state) {
+      state.status = "loading";
+    },
+    auth_success(state, token) {
+      state.status = "success";
+      state.token = token;
+    },
+    auth_error(state) {
+      state.status = "error";
+    },
+    logout(state) {
+      state.status = "";
+      state.token = "";
+    },
+
     /* A fit-them-all commit */
     basic(state, payload) {
       state[payload.key] = payload.value;
     },
 
     /* User */
+    user_success(state, user) {
+      state.userDetail = user;
+    },
     user(state, payload) {
       if (payload.name) {
         state.userName = payload.name;
@@ -43,6 +68,10 @@ export default createStore({
         state.userAvatar = payload.avatar;
       }
     }
+  },
+  getters: {
+    isLoggedIn: state => !!state.token,
+    authStatus: state => state.status
   },
   actions: {
     asideMobileToggle({ commit, state }, payload = null) {
@@ -73,6 +102,45 @@ export default createStore({
       document.documentElement.classList[value ? "add" : "remove"](
         "form-screen"
       );
+    },
+    login({ commit, state }, payload) {
+      const loginUrl = process.env.VUE_APP_BASE_URL + "api/admins/login/";
+      commit("auth_request");
+      axios
+        .post(loginUrl, payload)
+        .then(r => {
+          if (r.data) {
+            const token = r.data.access_token;
+            localStorage.setItem("token", token);
+            axios.defaults.headers.common[
+              "Authorization"
+            ] = localStorage.getItem("token");
+            commit("auth_success", token);
+            const base64Url = localStorage.getItem("token").split(".")[1];
+            const decodedToken = JSON.parse(window.atob(base64Url));
+            localStorage.setItem("user", JSON.stringify(decodedToken));
+            commit("user_success", JSON.stringify(decodedToken));
+            commit("basic", {
+              key: "token",
+              value: r.data.access_token
+            });
+            router.push("/");
+          }
+        })
+        .catch(error => {
+          commit("auth_error");
+          localStorage.removeItem("token");
+          alert(error.message);
+        });
+    },
+    logout({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        commit("logout");
+        localStorage.removeItem("token");
+        delete axios.defaults.headers.common["Authorization"];
+        resolve();
+        router.push("/login");
+      });
     },
     fetchClients({ commit }) {
       axios

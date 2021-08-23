@@ -1,13 +1,15 @@
 /* eslint-disable */
 import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "../views/Home";
+import store from "../store/index";
 
 const routes = [
   {
     // Document title tag
     // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
     meta: {
-      title: "Dashboard"
+      title: "Dashboard",
+      requiresAuth: true
     },
     path: "/",
     name: "home",
@@ -15,7 +17,8 @@ const routes = [
   },
   {
     meta: {
-      title: "Tables"
+      title: "Tables",
+      requiresAuth: true
     },
     path: "/tables",
     name: "tables",
@@ -26,7 +29,8 @@ const routes = [
   },
   {
     meta: {
-      title: "SMS Detail"
+      title: "SMS Detail",
+      requiresAuth: true
     },
     path: "/smsdetail",
     name: "smsdetail",
@@ -35,7 +39,8 @@ const routes = [
   },
   {
     meta: {
-      title: "SMS Input"
+      title: "SMS Input",
+      requiresAuth: true
     },
     path: "/smsinput",
     name: "smsinput",
@@ -43,7 +48,8 @@ const routes = [
   },
   {
     meta: {
-      title: "Forms"
+      title: "Forms",
+      requiresAuth: true
     },
     path: "/forms",
     name: "forms",
@@ -51,7 +57,8 @@ const routes = [
   },
   {
     meta: {
-      title: "Profile"
+      title: "Profile",
+      requiresAuth: true
     },
     path: "/profile",
     name: "profile",
@@ -60,7 +67,8 @@ const routes = [
   },
   {
     meta: {
-      title: "Invoice"
+      title: "Invoice",
+      requiresAuth: true
     },
     path: "/invoice",
     name: "invoice",
@@ -69,7 +77,8 @@ const routes = [
   },
   {
     meta: {
-      title: "Setting"
+      title: "Setting",
+      requiresAuth: true
     },
     path: "/setting",
     name: "setting",
@@ -78,7 +87,8 @@ const routes = [
   },
   {
     meta: {
-      title: "Detail"
+      title: "Detail",
+      requiresAuth: true
     },
     path: "/detail",
     name: "detail",
@@ -86,7 +96,8 @@ const routes = [
   },
   {
     meta: {
-      title: "Ui"
+      title: "Ui",
+      requiresAuth: true
     },
     path: "/ui",
     name: "ui",
@@ -94,8 +105,7 @@ const routes = [
   },
   {
     meta: {
-      title: "Login",
-      formScreen: true
+      title: "Login"
     },
     path: "/login",
     name: "login",
@@ -109,6 +119,11 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     return savedPosition || { top: 0 };
   }
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.name !== "login" && !store.getters.isLoggedIn) next({ name: "login" });
+  else next();
 });
 
 export default router;

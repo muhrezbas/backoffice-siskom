@@ -1,71 +1,105 @@
 <template>
-  <main-section>
-    <card-component  class="w-11/12 md:w-5/12 shadow-2xl rounded-lg" @submit.prevent="submit" form>
+  <main-section class="login">
+    <img class="pl-40 max-h-14" src="../assets/logo160.png" />
+    <div class="grid grid-cols-1 gap-6 mt-20 xl:grid-cols-2 ">
+      <div class="px-40" form>
+        <div class="mb-20 mt-6 text-center">
+          <h1 class="text-4xl font-normal leading-tight">
+            Get started from here
+          </h1>
+          <p class="font-extralight">Choose your role form below</p>
+        </div>
+        <field label="COMPANY EMAIL ADDRESS">
+          <control
+            v-model="form.username"
+            :icon="mdiAccount"
+            name="login"
+            autocomplete="username"
+          />
+        </field>
 
-      <field label="Login" help="Please enter your login">
-        <control v-model="form.login" :icon="mdiAccount" name="login" autocomplete="username"/>
-      </field>
+        <field label="PASSWORD">
+          <control
+            v-model="form.password"
+            :icon="mdiAsterisk"
+            type="password"
+            name="password"
+            autocomplete="current-password"
+          />
+        </field>
 
-      <field label="Password" help="Please enter your password">
-        <control v-model="form.pass" :icon="mdiAsterisk" type="password" name="password" autocomplete="current-password"/>
-      </field>
+        <divider />
 
-      <check-radio-picker name="remember" v-model="form.remember" :options="{ remember: 'Remember' }" />
+        <jb-buttons>
+          <jb-button
+            @click="submit"
+            class="w-full"
+            type="submit"
+            color="info"
+            label="Sign In"
+          />
+        </jb-buttons>
+      </div>
 
-      <divider />
-
-      <jb-buttons>
-        <jb-button type="submit" color="info" label="Login" />
-        <jb-button to="/" color="info" outline label="Back" />
-      </jb-buttons>
-    </card-component>
+      <img class="invisible xl:visible" src="../assets/login.png" />
+    </div>
   </main-section>
 </template>
 
 <script>
-import { reactive } from 'vue'
-import { useRouter } from 'vue-router'
-import { mdiAccount, mdiAsterisk } from '@mdi/js'
-import MainSection from '@/components/MainSection'
-import CardComponent from '@/components/CardComponent'
-import CheckRadioPicker from '@/components/CheckRadioPicker'
-import Field from '@/components/Field'
-import Control from '@/components/Control'
-import Divider from '@/components/Divider.vue'
-import JbButton from '@/components/JbButton'
-import JbButtons from '@/components/JbButtons'
+/* eslint-disable */
+import store from "../store/index";
+import { reactive } from "vue";
+import { useRouter } from "vue-router";
+import { mdiAccount, mdiAsterisk } from "@mdi/js";
+import MainSection from "@/components/MainSection";
+import CardComponent from "@/components/CardComponent";
+import Field from "@/components/Field";
+import Control from "@/components/Control";
+import Divider from "@/components/Divider.vue";
+import JbButton from "@/components/JbButton";
+import JbButtons from "@/components/JbButtons";
 
 export default {
-  name: 'Login',
+  name: "Login",
   components: {
     MainSection,
     CardComponent,
-    CheckRadioPicker,
     Field,
     Control,
     Divider,
     JbButton,
     JbButtons
   },
-  setup () {
+  setup() {
     const form = reactive({
-      login: 'john.doe',
-      pass: 'very-secret-password-fYjUw-',
-      remember: ['remember']
-    })
+      username: "superAdmin",
+      password: "siskom2021"
+    });
 
-    const router = useRouter()
+    const router = useRouter();
 
     const submit = () => {
-      router.push('/')
-    }
+      store.dispatch("login", form);
+    };
 
     return {
       form,
       submit,
       mdiAccount,
       mdiAsterisk
-    }
+    };
+  }
+};
+</script>
+
+<style>
+@media screen and (min-width: 1280px) {
+  .login {
+    margin-left: -15rem !important;
   }
 }
-</script>
+.login {
+  margin-left: 0;
+}
+</style>
