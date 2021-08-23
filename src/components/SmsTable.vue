@@ -29,13 +29,13 @@
         <td data-label="PhoneNo">{{ sms.msisdn }}</td>
         <td data-label="Words">{{ sms.message }}</td>
         <td data-label="Status">
-          <p v-if="sms.status == 0" class="text-red-700">Error</p>
-          <p v-if="sms.status == 1" class="text-blue-300">Success</p>
-          <p v-if="sms.status == 2" class="text-purple-700">Pending</p>
+          <!-- <p v-if="sms.status == 0" class="text-red-700">Error</p> -->
+          <p v-if="sms.statusSms.code == 0" class="text-blue-300">{{sms.statusSms.label}}</p>
+          <p v-else class="text-red-700">{{sms.statusSms.label}}</p>
         </td>
         <td data-label="Type">
-          <p v-if="sms.type == 1" class="text-yellow-500">OTP</p>
-          <p v-if="sms.type == 2" class="text-blue-500">SMS Blast</p>
+          <p v-if="sms.prize.akun == 'premium'" class="text-yellow-500">OTP</p>
+          <p v-if="sms.prize.akun == 'reguler'" class="text-blue-500">SMS Blast</p>
         </td>
         <!-- <td class="actions-cell">
         <jb-buttons type="justify-start lg:justify-end" no-wrap>
