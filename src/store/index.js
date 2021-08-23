@@ -175,7 +175,7 @@ export default createStore({
               key: "sms",
               value: r.data
             });
-            console.log(r.data)
+            console.log(r.data, "test")
             if (r.data.data) {
               // console.log(r, "test")
               commit("basic", {
