@@ -22,12 +22,12 @@
     <tbody class="font-semibold">
       <tr v-for="sms in itemsPaginated" :key="sms.id">
         <td>{{ sms.id }}</td>
-        <td data-label="SupplierID">{{ sms.supplierId }}</td>
-        <td data-label="SmsId">{{ sms.smsId }}</td>
-        <td data-label="SmsTime">{{ sms.smsTime }}</td>
-        <td data-label="SmsDate">{{ sms.smsDate }}</td>
-        <td data-label="PhoneNo">{{ sms.phoneNo }}</td>
-        <td data-label="Words">{{ sms.words }}</td>
+        <td data-label="SupplierID">{{ sms.prize.protocol.supplier }}</td>
+        <td data-label="SmsId">{{ sms.refno }}</td>
+        <td data-label="SmsTime">{{ sms.createdAt }}</td>
+        <td data-label="SmsDate">{{ sms.createdAt }}</td>
+        <td data-label="PhoneNo">{{ sms.msisdn }}</td>
+        <td data-label="Words">{{ sms.message }}</td>
         <td data-label="Status">
           <p v-if="sms.status == 0" class="text-red-700">Error</p>
           <p v-if="sms.status == 1" class="text-blue-300">Success</p>
