@@ -96,6 +96,30 @@ const routes = [
   },
   {
     meta: {
+      title: "Client",
+      requiresAuth: true
+    },
+    path: "/client",
+    name: "client",
+    component: () =>
+      import(/* webpackChunkName: "profile" */ "../views/Clients"), props: true,
+
+
+  },
+  {
+    meta: {
+      title: "Client Detail",
+      requiresAuth: true
+    },
+    path: "/client/:id",
+    name: "client detail",
+    component: () =>
+      import(/* webpackChunkName: "profile" */ "../views/Detail"), props: true,
+
+
+  },
+  {
+    meta: {
       title: "Detail",
       requiresAuth: true
     },

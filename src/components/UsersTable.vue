@@ -8,30 +8,39 @@
     <thead>
       <tr>
         <th></th>
-        <th>Name</th>
-        <th>SMS ID</th>
-        <th>SMS Time</th>
-        <th>SMS Date</th>
+        <th>Company Name</th>
+        <th>ID Company</th>
+        <th>Username</th>
+        <th>Company Address</th>
         <th>Phone</th>
-        <th>Words</th>
-        <th>Response</th>
+        <th>Name PIC</th>
+        <th>Contact PIC</th>
+        <th>WhiteListIp</th>
+        <th>finance Email</th>
+        <th>Notification Email</th>
       </tr>
     </thead>
     <tbody class="font-semibold">
-      <tr v-for="user in itemsPaginated" :key="user.id">
-        <td>{{ user.id }}</td>
-        <td data-label="Name">{{ user.name }}</td>
-        <td data-label="SmsId">{{ user.sms_id }}</td>
-        <td data-label="SmsTime">{{ user.sms_time }}</td>
-        <td data-label="SmsDate">{{ user.sms_date }}</td>
-        <td data-label="Phone">{{ user.phone }}</td>
-        <td data-label="Words">{{ user.words }}</td>
-        <td data-label="Response">
+      <tr v-for="user in itemsPaginated" :key="user._id">
+        <router-link :to="'/client/' + user._id">
+          <td>{{ user._id }}</td>
+          <td data-label="Company Name">{{ user.companyName }}</td>
+          <td data-label="ID Company">{{ user._id }}</td>
+          <td data-label="username">{{ user.username }}</td>
+          <td data-label="Company Address">{{ user.companyAddress }}</td>
+          <td data-label="Phone">{{ user.companyNumber }}</td>
+          <td data-label="Name PIC">{{ user.namePic }}</td>
+          <td data-label="Contact PIC">{{ user.contactPic }}</td>
+          <td data-label="WhiteListIp">{{ user.whiteListIp }}</td>
+          <td data-label="finance Email">{{ user.financeEmail }}</td>
+          <td data-label="Notification Email">{{ user.notifEmail }}</td>
+        </router-link>
+        <!-- <td data-label="Response">
           <p v-if="user.response == 1" class="text-green-400">OTP</p>
           <p v-if="user.response == 2" class="text-blue-500">SMS Blast</p>
           <p v-if="user.response == 3" class="text-yellow-500">Pending</p>
           <p v-if="user.response == 4" class="text-red-500">Cancel</p>
-        </td>
+        </td> -->
       </tr>
     </tbody>
   </table>
@@ -68,7 +77,7 @@ export default {
     ModalBox,
     Level,
     JbButtons,
-    JbButton
+    JbButton,
   },
   setup() {
     const store = useStore();
@@ -115,8 +124,8 @@ export default {
       itemsPaginated,
       pagesList,
       mdiEye,
-      mdiTrashCan
+      mdiTrashCan,
     };
-  }
+  },
 };
 </script>

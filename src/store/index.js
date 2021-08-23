@@ -24,6 +24,7 @@ export default createStore({
 
     /* Sample data (commonly used) */
     clients: [],
+    client :{},
     sms: [],
     transaction: [],
     topup: [],
@@ -47,7 +48,10 @@ export default createStore({
       state.status = "";
       state.token = "";
     },
-
+    client(state, client) {
+      console.log(client, "res")
+      state.client = client;
+    },
     /* A fit-them-all commit */
     basic(state, payload) {
       state[payload.key] = payload.value;
@@ -71,7 +75,8 @@ export default createStore({
   },
   getters: {
     isLoggedIn: state => !!state.token,
-    authStatus: state => state.status
+    authStatus: state => state.status,
+    clientOne: state =>state.client
   },
   actions: {
     asideMobileToggle({ commit, state }, payload = null) {
@@ -169,7 +174,7 @@ export default createStore({
           }
         })
         .then(r => {
-        
+
           if (r.data) {
             commit("basic", {
               key: "sms",
@@ -258,11 +263,21 @@ export default createStore({
         });
     },
     fetchUsers({ commit }) {
+      const findClientAllUrl = process.env.VUE_APP_BASE_URL + "api/admins/client/";
       axios
-        .get("data-sources/users.json")
+        .get(findClientAllUrl, {
+          headers: {
+            "token": localStorage.getItem("token")
+          }
+        })
         .then(r => {
           if (r.data) {
+            commit("basic", {
+              key: "users",
+              value: r.data
+            });
             if (r.data.data) {
+              // console.log(r.data.data, "tess")
               commit("basic", {
                 key: "users",
                 value: r.data.data
@@ -273,7 +288,27 @@ export default createStore({
         .catch(error => {
           alert(error.message);
         });
+    },
+    fetchClient({ commit}, id) {
+      console.log( id, "tes")
+      const findClientAllUrl = process.env.VUE_APP_BASE_URL + `api/admins/client/${id.id}`;
+      axios
+        .get(findClientAllUrl, {
+          headers: {
+            "token": localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+          console.log(r.data, "client")
+          commit("client",r.data);
+          }
+        })
+        .catch(error => {
+          alert(error.message);
+        });
     }
   },
+  
   modules: {}
 });

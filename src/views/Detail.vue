@@ -8,11 +8,9 @@
           src="https://www.freepnglogos.com/uploads/zara-brand/clothing-brand-zara-hd-zara-logo-2020-3.jpg"
         />
         <div class="mt-4 text-xl font-bold">
-          Zara
+          {{ this.$store.state.client.companyName }}
         </div>
-        <div class="mt-1 text-base">
-          Fashion Cloth
-        </div>
+        <div class="mt-1 text-base">Fashion Cloth</div>
         <div class="mt-6 text-gray-500">
           Zara adalah salah satu merek yg berasal dari Spanyol dan bermarkas di
           Arteixo, Gallicia. Zara didirikan pada tahun 1975 oleh Armancio Ortega
@@ -64,6 +62,7 @@
 /* eslint-disable */
 // @ is an alias to /src
 import { ref, onMounted } from "vue";
+import { mapState } from "vuex";
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -73,7 +72,7 @@ import {
   mdiFinance,
   mdiMonitorCellphone,
   mdiReload,
-  mdiGithub
+  mdiGithub,
 } from "@mdi/js";
 import * as chartConfig from "@/components/Charts/chart.config";
 import LineChart from "@/components/Charts/LineChart";
@@ -86,6 +85,7 @@ import CardComponent from "@/components/CardComponent";
 import SmsTable from "@/components/SmsTable";
 import Notification from "@/components/Notification";
 import JbButton from "@/components/JbButton";
+import store from "../store";
 
 export default {
   name: "Detail",
@@ -99,8 +99,21 @@ export default {
     HeroBar,
     TitleBar,
     Notification,
-    JbButton
+    JbButton,
   },
+  computed: {
+    ...mapState(["clientOne"]),
+    idClient() {
+      // We will see what `params` is shortly
+      return this.$route.params.id;
+    },
+  },
+  async created() {
+    // console.log(this.$store.state.client, "test");
+    await store.dispatch("fetchClient", { id: this.idClient });
+    console.log(this.clientOne, "naan");
+  },
+
   setup() {
     const titleStack = ref(["Admin", "Detailed"]);
 
@@ -111,7 +124,9 @@ export default {
     };
 
     onMounted(() => {
+      // console.log(this.$route, "test");
       fillChartData();
+      // console.log(this.$store.state.client, "tessc");
     });
 
     return {
@@ -126,8 +141,8 @@ export default {
       mdiFinance,
       mdiMonitorCellphone,
       mdiReload,
-      mdiGithub
+      mdiGithub,
     };
-  }
+  },
 };
 </script>

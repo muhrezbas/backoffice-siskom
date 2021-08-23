@@ -56,15 +56,20 @@ export default [
       icon: mdiCog
     },
     {
-      to: "/invoice",
-      label: "Invoice",
-      icon: mdiReceipt
-    },
-    {
-      to: "/detail",
-      label: "Detail",
+      to: "/client",
+      label: "Clients",
       icon: mdiCog
-    }
+    },
+    // {
+    //   to: "/invoice",
+    //   label: "Invoice",
+    //   icon: mdiReceipt
+    // },
+    // {
+    //   to: "/detail",
+    //   label: "Detail",
+    //   icon: mdiCog
+    // }
     // {
     //   to: '/login',
     //   label: 'Login',
