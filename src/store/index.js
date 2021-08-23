@@ -112,7 +112,9 @@ export default createStore({
           if (r.data) {
             const token = r.data.access_token;
             localStorage.setItem("token", token);
-            axios.defaults.headers.common["Authorization"] = token;
+            axios.defaults.headers.common[
+              "Authorization"
+            ] = localStorage.getItem("token");
             commit("auth_success", token);
             const base64Url = localStorage.getItem("token").split(".")[1];
             const decodedToken = JSON.parse(window.atob(base64Url));
