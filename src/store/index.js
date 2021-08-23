@@ -160,11 +160,24 @@ export default createStore({
         });
     },
     fetchSms({ commit }) {
+      console.log('sms')
+      const findSmsAllUrl = process.env.VUE_APP_BASE_URL + "api/operators/findAllSms/";
       axios
-        .get("data-sources/sms.json")
+        .get(findSmsAllUrl, {
+          headers: {
+            "token": localStorage.getItem("token")
+          }
+        })
         .then(r => {
+        
           if (r.data) {
+            commit("basic", {
+              key: "sms",
+              value: r.data
+            });
+            console.log(r.data)
             if (r.data.data) {
+              // console.log(r, "test")
               commit("basic", {
                 key: "sms",
                 value: r.data.data
