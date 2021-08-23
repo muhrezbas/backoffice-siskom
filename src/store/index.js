@@ -124,7 +124,7 @@ export default createStore({
               key: "token",
               value: r.data.access_token
             });
-            router.push("/");
+            router.push("/dashboard");
           }
         })
         .catch(error => {
@@ -139,7 +139,7 @@ export default createStore({
         localStorage.removeItem("token");
         delete axios.defaults.headers.common["Authorization"];
         resolve();
-        router.push("/login");
+        router.push("/");
       });
     },
     fetchClients({ commit }) {
