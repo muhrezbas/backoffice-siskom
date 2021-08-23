@@ -7,7 +7,7 @@
   <table>
     <thead>
       <tr>
-        <th></th>
+        <!-- <th></th> -->
         <th>Company Name</th>
         <th>ID Company</th>
         <th>Username</th>
@@ -21,9 +21,9 @@
       </tr>
     </thead>
     <tbody class="font-semibold">
-      <tr v-for="user in itemsPaginated" :key="user._id">
-        <router-link :to="'/client/' + user._id">
-          <td>{{ user._id }}</td>
+      <tr v-for="user in itemsPaginated" :key="user._id" @click="goTo(user._id)">
+        <!-- <router-link :to="'/client/' + user._id"> -->
+          <!-- <td>{{ user._id }}</td> -->
           <td data-label="Company Name">{{ user.companyName }}</td>
           <td data-label="ID Company">{{ user._id }}</td>
           <td data-label="username">{{ user.username }}</td>
@@ -34,7 +34,7 @@
           <td data-label="WhiteListIp">{{ user.whiteListIp }}</td>
           <td data-label="finance Email">{{ user.financeEmail }}</td>
           <td data-label="Notification Email">{{ user.notifEmail }}</td>
-        </router-link>
+        <!-- </router-link> -->
         <!-- <td data-label="Response">
           <p v-if="user.response == 1" class="text-green-400">OTP</p>
           <p v-if="user.response == 2" class="text-blue-500">SMS Blast</p>
@@ -78,6 +78,14 @@ export default {
     Level,
     JbButtons,
     JbButton,
+  },
+  methods: {
+    goTo(payload){
+      console.log('hello')
+       this.$router.push({
+          path: `/client/${payload}`,
+        });
+    }
   },
   setup() {
     const store = useStore();
