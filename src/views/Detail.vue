@@ -2,20 +2,97 @@
   <title-bar :title-stack="titleStack" />
   <hero-bar>Profile</hero-bar>
   <main-section>
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 mb-6">
-      <card-component class="h-full flex items-center">
-        <img
-          src="https://www.freepnglogos.com/uploads/zara-brand/clothing-brand-zara-hd-zara-logo-2020-3.jpg"
-        />
-        <div class="mt-4 text-xl font-bold">
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 w-full mb-6">
+      <card-component>
+        <table class="table-auto w-full">
+          <tbody class="text-xl" v-if="this.client.companyName !== undefined">
+            <tr>
+              <td>Company Name</td>
+              <td>
+                {{ this.client.companyName }}
+              </td>
+            </tr>
+            <tr></tr>
+            <tr>
+              <td class="">Username</td>
+              <td>
+                {{ this.client.companyName }}
+              </td>
+            </tr>
+            <tr></tr>
+            <tr>
+              <td class="">Company Address</td>
+              <td>
+                {{ this.client.companyAddress }}
+              </td>
+            </tr>
+            <tr></tr>
+            <tr>
+              <td class="">First Priority Supplier</td>
+              <td>
+                {{ this.client.priority[0].supplier }}
+              </td>
+            </tr>
+            <tr></tr>
+            <tr>
+              <td class="">Priority</td>
+              <td>
+                <div
+                  v-for="priority in this.client.priority"
+                  v-bind:key="priority._id"
+                >
+                  {{ priority.supplier }}
+                </div>
+              </td>
+            </tr>
+            <tr></tr>
+            <tr>
+              <td class="">Name PIC</td>
+              <td>
+                {{ this.client.namePic }}
+              </td>
+            </tr>
+            <tr></tr>
+            <tr>
+              <td class="">Contact PIC</td>
+              <td>
+                {{ this.client.contactPic }}
+              </td>
+            </tr>
+            <tr></tr>
+            <tr>
+              <td class="">Finance Email</td>
+              <td>
+                {{ this.client.financeEmail }}
+              </td>
+            </tr>
+            <tr></tr>
+            <tr>
+              <td class="">Notification Email</td>
+              <td>
+                {{ this.client.notifEmail }}
+              </td>
+            </tr>
+            <tr></tr>
+            <tr>
+              <td class="">WhiteListIp</td>
+              <td>
+                {{ this.client.whiteListIp }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- <div class="mt-4 text-xl font-bold">
           {{ this.$store.state.client.companyName }}
         </div>
-        <div class="mt-1 text-base">Fashion Cloth</div>
-        <div class="mt-6 text-gray-500">
-          Zara adalah salah satu merek yg berasal dari Spanyol dan bermarkas di
-          Arteixo, Gallicia. Zara didirikan pada tahun 1975 oleh Armancio Ortega
-          dan Rosallia mera...
+        <div class="mt-1 text-xl">{{ this.$store.state.client.username }}</div>
+        <div class="mt-1 text-gray-500">
+          {{ this.$store.state.client.companyAddress }}
         </div>
+        <div class="mt-1 text-xl">
+          Protocol first priority :
+          {{ this.$store.state.client.protocol.supplier }}
+        </div> -->
       </card-component>
       <div>
         <card-component
@@ -107,11 +184,14 @@ export default {
       // We will see what `params` is shortly
       return this.$route.params.id;
     },
+    client() {
+      return this.$store.state.client;
+    },
   },
   async created() {
     // console.log(this.$store.state.client, "test");
     await store.dispatch("fetchClient", { id: this.idClient });
-    console.log(this.clientOne, "naan");
+    console.log(this.$store.state.client, "naan");
   },
 
   setup() {

@@ -50,10 +50,23 @@ export default [
     //   icon: mdiTelevisionGuide
     // },
 
+    // {
+
+    //   icon: mdiCog
+    // },
     {
-      to: "/setting",
-      label: "Settings",
-      icon: mdiCog
+      label: 'Settings',
+      subLabel: 'Submenus Example',
+      icon: mdiCog,
+      menu: [
+        {
+          to: "/setting",
+          label: "Admin"
+        },
+        {
+          label: 'Sub-item Two'
+        }
+      ]
     },
     {
       to: "/client",
@@ -75,19 +88,7 @@ export default [
     //   label: 'Login',
     //   icon: mdiLock
     // },
-    // {
-    //   label: 'Submenus',
-    //   subLabel: 'Submenus Example',
-    //   icon: mdiViewList,
-    //   menu: [
-    //     {
-    //       label: 'Sub-item One'
-    //     },
-    //     {
-    //       label: 'Sub-item Two'
-    //     }
-    //   ]
-    // }
+
   ]
   // 'About',
   // [

@@ -292,7 +292,7 @@ export default createStore({
     fetchClient({ commit}, id) {
       console.log( id, "tes")
       const findClientAllUrl = process.env.VUE_APP_BASE_URL + `api/admins/client/${id.id}`;
-      axios
+      return axios
         .get(findClientAllUrl, {
           headers: {
             "token": localStorage.getItem("token")

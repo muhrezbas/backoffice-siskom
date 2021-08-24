@@ -139,13 +139,13 @@
     </card-component>
   </main-section>
 
-  <hero-bar search>Users</hero-bar>
+  <!-- <hero-bar search>Users</hero-bar>
 
   <main-section>
     <card-component has-table>
       <users-table checkable />
     </card-component>
-  </main-section>
+  </main-section> -->
 </template>
 
 <script>
