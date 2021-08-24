@@ -19,9 +19,9 @@
       <tr v-for="transaction in itemsPaginated" :key="transaction.id">
         <td>{{ transaction.id }}</td>
         <td data-label="Created">{{ transaction.created }}</td>
-        <td data-label="TopupCredit">
+        <!-- <td data-label="TopupCredit">
           {{ transaction.topup_credit.toLocaleString("id-ID") }}
-        </td>
+        </td> -->
         <td data-label="PackageType">{{ transaction.package_type }}</td>
         <td data-label="Expiration">{{ transaction.expiration }}</td>
         <td v-if="transaction.remark" data-label="Remark">
@@ -57,7 +57,6 @@ import ModalBox from "@/components/ModalBox";
 import Level from "@/components/Level";
 import JbButtons from "@/components/JbButtons";
 import JbButton from "@/components/JbButton";
-import store from "../store";
 
 export default {
   name: "TransactionTable",
@@ -65,16 +64,13 @@ export default {
     ModalBox,
     Level,
     JbButtons,
-    JbButton,
-  },
-  created() {
-    console.log(this.$store.state.transaction, "tes tansaksi");
+    JbButton
   },
   setup() {
     const store = useStore();
 
     const items = computed(() => store.state.transaction);
-    console.log(items, "item transaksi");
+
     const isModalActive = ref(false);
 
     const perPage = ref(10);
@@ -115,8 +111,8 @@ export default {
       itemsPaginated,
       pagesList,
       mdiEye,
-      mdiTrashCan,
+      mdiTrashCan
     };
-  },
+  }
 };
 </script>

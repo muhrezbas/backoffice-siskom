@@ -20,7 +20,7 @@
 
   <main-section>
     <card-component has-table>
-      <transaction-table checkable />
+      <transaction-table checkable v-if="this.$store.state.transaction.length !== 0" :transaksi="this.$store.state.transaction" />
     </card-component>
   </main-section>
 

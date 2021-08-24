@@ -57,9 +57,15 @@ export default createStore({
     },
     saldo(state, saldo) {
       console.log(saldo, "res")
-      state.transaction = saldo.history
-      state.topUp = saldo.history.filter(el => el.action == 'topup')
+
       state.saldo = saldo.jumlah;
+    },
+    transaction(state, saldo) {
+      state.transaction = saldo.history
+
+    },
+    topup(state, saldo) {
+      state.topUp = saldo.history.filter(el => el.action == 'topup')
     },
     /* A fit-them-all commit */
     basic(state, payload) {
@@ -330,6 +336,9 @@ export default createStore({
           if (r.data) {
             console.log(r.data, "client")
             commit("saldo", r.data);
+            commit("topup", r.data);
+            commit("transaction", r.data);
+
           }
         })
         .catch(error => {
