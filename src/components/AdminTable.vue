@@ -79,7 +79,7 @@
       <tr v-for="admins in itemsPaginated" :key="admins.id">
         <td>{{ admins.id }}</td>
         <td data-label="Name">{{ admins.name }}</td>
-        <td data-label="AdminId">{{ admins.admin_id }}</td>
+        <td data-label="AdminId">{{ admins._id }}</td>
         <td data-label="Gender">{{ admins.gender }}</td>
         <td data-label="Phone">{{ admins.phone }}</td>
         <td data-label="Email">{{ admins.email }}</td>

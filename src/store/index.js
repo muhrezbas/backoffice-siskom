@@ -52,20 +52,19 @@ export default createStore({
       state.token = "";
     },
     client(state, client) {
-      console.log(client, "res")
+      console.log(client, "res");
       state.client = client;
     },
     saldo(state, saldo) {
-      console.log(saldo, "res")
+      console.log(saldo, "res");
 
       state.saldo = saldo.jumlah;
     },
     transaction(state, saldo) {
-      state.transaction = saldo.history
-
+      state.transaction = saldo.history;
     },
     topup(state, saldo) {
-      state.topUp = saldo.history.filter(el => el.action == 'topup')
+      state.topUp = saldo.history.filter(el => el.action == "topup");
     },
     /* A fit-them-all commit */
     basic(state, payload) {
@@ -180,22 +179,22 @@ export default createStore({
         });
     },
     fetchSms({ commit }) {
-      console.log('sms')
-      const findSmsAllUrl = process.env.VUE_APP_BASE_URL + "api/operators/findAllSms/";
+      console.log("sms");
+      const findSmsAllUrl =
+        process.env.VUE_APP_BASE_URL + "api/operators/findAllSms/";
       axios
         .get(findSmsAllUrl, {
           headers: {
-            "token": localStorage.getItem("token")
+            token: localStorage.getItem("token")
           }
         })
         .then(r => {
-
           if (r.data) {
             commit("basic", {
               key: "sms",
               value: r.data
             });
-            console.log(r.data, "test")
+            console.log(r.data, "test");
             if (r.data.data) {
               // console.log(r, "test")
               commit("basic", {
@@ -261,16 +260,19 @@ export default createStore({
         });
     },
     fetchAdmin({ commit }) {
+      const adminUrl = process.env.VUE_APP_BASE_URL + "api/admins/admin/";
       axios
-        .get("data-sources/admin.json")
+        .get(adminUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
         .then(r => {
           if (r.data) {
-            if (r.data.data) {
-              commit("basic", {
-                key: "admin",
-                value: r.data.data
-              });
-            }
+            commit("basic", {
+              key: "admin",
+              value: r.data
+            });
           }
         })
         .catch(error => {
@@ -278,21 +280,11 @@ export default createStore({
         });
     },
     fetchUsers({ commit }) {
-      const findClientAllUrl = process.env.VUE_APP_BASE_URL + "api/admins/client/";
       axios
-        .get(findClientAllUrl, {
-          headers: {
-            "token": localStorage.getItem("token")
-          }
-        })
+        .get("data-sources/users.json")
         .then(r => {
           if (r.data) {
-            commit("basic", {
-              key: "users",
-              value: r.data
-            });
             if (r.data.data) {
-              // console.log(r.data.data, "tess")
               commit("basic", {
                 key: "users",
                 value: r.data.data
@@ -305,17 +297,18 @@ export default createStore({
         });
     },
     fetchClient({ commit }, id) {
-      console.log(id, "tes")
-      const findClientAllUrl = process.env.VUE_APP_BASE_URL + `api/admins/client/${id.id}`;
+      console.log(id, "tes");
+      const findClientAllUrl =
+        process.env.VUE_APP_BASE_URL + `api/admins/client/${id.id}`;
       return axios
         .get(findClientAllUrl, {
           headers: {
-            "token": localStorage.getItem("token")
+            token: localStorage.getItem("token")
           }
         })
         .then(r => {
           if (r.data) {
-            console.log(r.data, "client")
+            console.log(r.data, "client");
             commit("client", r.data);
           }
         })
@@ -324,28 +317,27 @@ export default createStore({
         });
     },
     fetchSaldo({ commit }, id) {
-      console.log(id, "tes")
-      const findClientAllUrl = process.env.VUE_APP_BASE_URL + `api/admins/checkSaldo/${id.id}`;
+      console.log(id, "tes");
+      const findClientAllUrl =
+        process.env.VUE_APP_BASE_URL + `api/admins/checkSaldo/${id.id}`;
       return axios
         .get(findClientAllUrl, {
           headers: {
-            "token": localStorage.getItem("token")
+            token: localStorage.getItem("token")
           }
         })
         .then(r => {
           if (r.data) {
-            console.log(r.data, "client")
+            console.log(r.data, "client");
             commit("saldo", r.data);
             commit("topup", r.data);
             commit("transaction", r.data);
-
           }
         })
         .catch(error => {
           alert(error.message);
         });
-    },
-
+    }
   },
 
   modules: {}
