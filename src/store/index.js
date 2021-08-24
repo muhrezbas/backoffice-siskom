@@ -24,9 +24,12 @@ export default createStore({
 
     /* Sample data (commonly used) */
     clients: [],
-    client :{},
-    sms: [],
+    client: {},
+    saldo: 0,
     transaction: [],
+    topUp: [],
+    sms: [],
+    // transaction: [],
     topup: [],
     packages: [],
     admin: [],
@@ -52,6 +55,12 @@ export default createStore({
       console.log(client, "res")
       state.client = client;
     },
+    saldo(state, saldo) {
+      console.log(saldo, "res")
+      state.transaction = saldo.history
+      state.topUp = saldo.history.filter(el => el.action == 'topup')
+      state.saldo = saldo.jumlah;
+    },
     /* A fit-them-all commit */
     basic(state, payload) {
       state[payload.key] = payload.value;
@@ -76,7 +85,7 @@ export default createStore({
   getters: {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
-    clientOne: state =>state.client
+    clientOne: state => state.client
   },
   actions: {
     asideMobileToggle({ commit, state }, payload = null) {
@@ -194,23 +203,23 @@ export default createStore({
           alert(error.message);
         });
     },
-    fetchTransaction({ commit }) {
-      axios
-        .get("data-sources/transaction.json")
-        .then(r => {
-          if (r.data) {
-            if (r.data.data) {
-              commit("basic", {
-                key: "transaction",
-                value: r.data.data
-              });
-            }
-          }
-        })
-        .catch(error => {
-          alert(error.message);
-        });
-    },
+    // fetchTransaction({ commit }) {
+    //   axios
+    //     .get("data-sources/transaction.json")
+    //     .then(r => {
+    //       if (r.data) {
+    //         if (r.data.data) {
+    //           commit("basic", {
+    //             key: "transaction",
+    //             value: r.data.data
+    //           });
+    //         }
+    //       }
+    //     })
+    //     .catch(error => {
+    //       alert(error.message);
+    //     });
+    // },
     fetchTopup({ commit }) {
       axios
         .get("data-sources/topup.json")
@@ -289,8 +298,8 @@ export default createStore({
           alert(error.message);
         });
     },
-    fetchClient({ commit}, id) {
-      console.log( id, "tes")
+    fetchClient({ commit }, id) {
+      console.log(id, "tes")
       const findClientAllUrl = process.env.VUE_APP_BASE_URL + `api/admins/client/${id.id}`;
       return axios
         .get(findClientAllUrl, {
@@ -300,15 +309,35 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
-          console.log(r.data, "client")
-          commit("client",r.data);
+            console.log(r.data, "client")
+            commit("client", r.data);
           }
         })
         .catch(error => {
           alert(error.message);
         });
-    }
+    },
+    fetchSaldo({ commit }, id) {
+      console.log(id, "tes")
+      const findClientAllUrl = process.env.VUE_APP_BASE_URL + `api/admins/checkSaldo/${id.id}`;
+      return axios
+        .get(findClientAllUrl, {
+          headers: {
+            "token": localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            console.log(r.data, "client")
+            commit("saldo", r.data);
+          }
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    },
+
   },
-  
+
   modules: {}
 });

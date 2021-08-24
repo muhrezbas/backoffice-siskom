@@ -57,6 +57,7 @@ import ModalBox from "@/components/ModalBox";
 import Level from "@/components/Level";
 import JbButtons from "@/components/JbButtons";
 import JbButton from "@/components/JbButton";
+import store from "../store";
 
 export default {
   name: "TransactionTable",
@@ -64,13 +65,16 @@ export default {
     ModalBox,
     Level,
     JbButtons,
-    JbButton
+    JbButton,
+  },
+  created() {
+    console.log(this.$store.state.transaction, "tes tansaksi");
   },
   setup() {
     const store = useStore();
 
     const items = computed(() => store.state.transaction);
-
+    console.log(items, "item transaksi");
     const isModalActive = ref(false);
 
     const perPage = ref(10);
@@ -111,8 +115,8 @@ export default {
       itemsPaginated,
       pagesList,
       mdiEye,
-      mdiTrashCan
+      mdiTrashCan,
     };
-  }
+  },
 };
 </script>

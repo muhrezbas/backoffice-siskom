@@ -82,6 +82,9 @@
             </tr>
           </tbody>
         </table>
+        <jb-buttons class="mt-5">
+          <jb-button @click="goToInvoice" color="info" label="Check Invoice" />
+        </jb-buttons>
         <!-- <div class="mt-4 text-xl font-bold">
           {{ this.$store.state.client.companyName }}
         </div>
@@ -162,6 +165,7 @@ import CardComponent from "@/components/CardComponent";
 import SmsTable from "@/components/SmsTable";
 import Notification from "@/components/Notification";
 import JbButton from "@/components/JbButton";
+import JbButtons from "@/components/JbButtons";
 import store from "../store";
 
 export default {
@@ -176,6 +180,7 @@ export default {
     HeroBar,
     TitleBar,
     Notification,
+    JbButtons,
     JbButton,
   },
   computed: {
@@ -187,6 +192,14 @@ export default {
     client() {
       return this.$store.state.client;
     },
+  },
+   methods: {
+    goToInvoice(){
+      console.log('hello')
+       this.$router.push({
+          path: `/invoice/${this.idClient}`,
+        });
+    }
   },
   async created() {
     // console.log(this.$store.state.client, "test");

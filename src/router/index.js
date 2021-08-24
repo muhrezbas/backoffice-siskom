@@ -79,7 +79,7 @@ const routes = [
       title: "Invoice",
       requiresAuth: true
     },
-    path: "/invoice",
+    path: "/invoice/:id",
     name: "invoice",
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/Invoice")

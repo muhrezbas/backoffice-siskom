@@ -7,7 +7,7 @@
         class="tile"
         color="text-green-500"
         :icon="mdiCashMultiple"
-        :numberOne="280000"
+        :numberOne="this.$store.state.saldo"
         :numberTwo="280"
         :prefixOne="'Rp '"
         :prefixTwo="'SMS : '"
@@ -62,7 +62,7 @@ import {
   mdiFinance,
   mdiMonitorCellphone,
   mdiReload,
-  mdiGithub
+  mdiGithub,
 } from "@mdi/js";
 import * as chartConfig from "@/components/Charts/chart.config";
 import LineChart from "@/components/Charts/LineChart";
@@ -76,8 +76,13 @@ import TransactionTable from "@/components/TransactionTable";
 import TopupTable from "@/components/TopupTable";
 import PackageTable from "@/components/PackageTable";
 import BillTable from "@/components/BillTable";
+// import store from "../store";
+import { useRoute } from "vue-router";
+import { useStore } from "vuex";
 import Notification from "@/components/Notification";
 import JbButton from "@/components/JbButton";
+// console.log(this.$route)
+// store.dispatch("fetchSaldo", { id: $route });
 
 export default {
   name: "Invoice",
@@ -94,9 +99,25 @@ export default {
     HeroBar,
     TitleBar,
     Notification,
-    JbButton
+    JbButton,
+  },
+  computed: {
+    idClient() {
+      // We will see what `params` is shortly
+      return this.$route.params.id;
+    },
+  },
+  async created() {
+    // console.log(this.$store.state.client, "test");
+    // console.log(this.$store.state.client, "naan");
   },
   setup() {
+    const store = useStore();
+    // console.log(this.$route, "tess")
+    const route = useRoute();
+    // console.log(route, "fsa");
+    store.dispatch("fetchSaldo", { id: route.params.id });
+    // console.log(store.state.saldo, "saldo")
     const titleStack = ref(["Admin", "Invoice"]);
 
     const chartData = ref(null);
@@ -121,8 +142,8 @@ export default {
       mdiFinance,
       mdiMonitorCellphone,
       mdiReload,
-      mdiGithub
+      mdiGithub,
     };
-  }
+  },
 };
 </script>
