@@ -17,7 +17,7 @@
     </thead>
     <tbody class="font-semibold">
       <tr v-for="transaction in itemsPaginated" :key="transaction.id">
-        <td>{{ transaction.id }}</td>
+        <td>{{ transaction._id }}</td>
         <td data-label="Created">{{ transaction.created }}</td>
         <!-- <td data-label="TopupCredit">
           {{ transaction.topup_credit.toLocaleString("id-ID") }}
@@ -64,13 +64,13 @@ export default {
     ModalBox,
     Level,
     JbButtons,
-    JbButton
+    JbButton,
   },
   setup() {
     const store = useStore();
 
     const items = computed(() => store.state.transaction);
-
+    console.log(store.state.transaction, "nana");
     const isModalActive = ref(false);
 
     const perPage = ref(10);
@@ -111,8 +111,8 @@ export default {
       itemsPaginated,
       pagesList,
       mdiEye,
-      mdiTrashCan
+      mdiTrashCan,
     };
-  }
+  },
 };
 </script>
