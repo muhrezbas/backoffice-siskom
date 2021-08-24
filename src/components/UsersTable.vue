@@ -90,7 +90,7 @@ export default {
   setup() {
     const store = useStore();
 
-    const items = computed(() => store.state.users);
+    const items = computed(() => store.state.clients);
 
     const isModalActive = ref(false);
 

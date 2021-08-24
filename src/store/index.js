@@ -55,6 +55,10 @@ export default createStore({
       console.log(client, "res");
       state.client = client;
     },
+    clients(state, client) {
+      console.log(client, "res");
+      state.clients = client;
+    },
     saldo(state, saldo) {
       console.log(saldo, "res");
 
@@ -162,16 +166,19 @@ export default createStore({
       });
     },
     fetchClients({ commit }) {
-      axios
-        .get("data-sources/clients.json")
+      // console.log(id, "tes");
+      const findClientAllUrl =
+        process.env.VUE_APP_BASE_URL + `api/admins/client`;
+      return axios
+        .get(findClientAllUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
         .then(r => {
           if (r.data) {
-            if (r.data.data) {
-              commit("basic", {
-                key: "clients",
-                value: r.data.data
-              });
-            }
+            console.log(r.data, "client tes");
+            commit("clients", r.data);
           }
         })
         .catch(error => {
@@ -308,7 +315,7 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
-            console.log(r.data, "client");
+            console.log(r.data, "client tes");
             commit("client", r.data);
           }
         })
