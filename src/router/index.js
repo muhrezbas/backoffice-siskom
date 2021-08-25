@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home";
 import Dashboard from "../views/Dashboard";
 import store from "../store/index";
@@ -96,15 +96,43 @@ const routes = [
   },
   {
     meta: {
+      title: "Admin Setting",
+      requiresAuth: true
+    },
+    path: "/admin",
+    name: "admin",
+    component: () => import(/* webpackChunkName: "profile" */ "../views/Admin")
+  },
+  {
+    meta: {
+      title: "Operator Setting",
+      requiresAuth: true
+    },
+    path: "/operator",
+    name: "operator",
+    component: () =>
+      import(/* webpackChunkName: "profile" */ "../views/Operator")
+  },
+  {
+    meta: {
+      title: "Country Setting",
+      requiresAuth: true
+    },
+    path: "/country",
+    name: "country",
+    component: () =>
+      import(/* webpackChunkName: "profile" */ "../views/Country")
+  },
+  {
+    meta: {
       title: "Client",
       requiresAuth: true
     },
     path: "/client",
     name: "client",
     component: () =>
-      import(/* webpackChunkName: "profile" */ "../views/Clients"), props: true,
-
-
+      import(/* webpackChunkName: "profile" */ "../views/Clients"),
+    props: true
   },
   {
     meta: {
@@ -114,9 +142,8 @@ const routes = [
     path: "/client/:id",
     name: "client detail",
     component: () =>
-      import(/* webpackChunkName: "profile" */ "../views/Detail"), props: true,
-
-
+      import(/* webpackChunkName: "profile" */ "../views/Detail"),
+    props: true
   },
   {
     meta: {
@@ -147,7 +174,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
   scrollBehavior(to, from, savedPosition) {
     return savedPosition || { top: 0 };
