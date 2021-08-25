@@ -16,7 +16,7 @@
       <divider />
 
       <jb-buttons>
-        <jb-button :label="buttonLabel" :color="button" @click="confirm" />
+        <jb-button :label="buttonLabel" :color="button" @click="submit" />
         <jb-button v-if="hasCancel" label="Cancel" @click="cancel" :color="button" outline />
       </jb-buttons>
     </card-component>
@@ -45,6 +45,7 @@ export default {
       type: String,
       default: 'info'
     },
+    submit: Function,
     buttonLabel: {
       type: String,
       default: 'Confirm'
@@ -63,8 +64,14 @@ export default {
       value.value = false
       emit(mode)
     }
+    const confirmTrue = mode => {
+      console.log('halo')
+      props.submit()
+      value.value = false
+      emit(mode)
+    }
 
-    const confirm = () => confirmCancel('confirm')
+    const confirm = () => confirmTrue('confirm')
 
     const cancel = () => confirmCancel('cancel')
 
