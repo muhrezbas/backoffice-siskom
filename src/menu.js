@@ -20,7 +20,7 @@ export default [
   "General",
   [
     {
-      to: "/dashboard",
+      to: "/admin/dashboard",
       icon: mdiDesktopMac,
       label: "Dashboard"
     },
@@ -31,13 +31,13 @@ export default [
     //   updateMark: true
     // },
     {
-      to: "/smsdetail",
+      to: "/admin/smsdetail",
       label: "SMS Detail",
       icon: mdiTable,
       updateMark: true
     },
     // {
-    //   to: "/smsinput",
+    //   to: "/admin/smsinput",
     //   label: "SMS Input",
     //   icon: mdiTable,
     //   updateMark: true
@@ -63,47 +63,47 @@ export default [
       icon: mdiCog,
       menu: [
         {
-          to: "/admin",
+          to: "/admin/admin",
           icon: mdiAccountGroup,
           label: "Admin"
         },
         {
-          to: "/operator",
+          to: "/admin/operator",
           icon: mdiAccountBoxMultiple,
           label: "Operator"
         },
         {
-          to: "/country",
+          to: "/admin/country",
           icon: mdiFlagCheckered,
           label: "Country"
         },
         {
-          to: "/senderID",
+          to: "/admin/senderID",
           icon: mdiFlagCheckered,
           label: "Sender ID"
         },
         {
-          to: "/whitelistContent",
+          to: "/admin/whitelistContent",
           icon: mdiFlagCheckered,
           label: "Whitelist Content"
         },
         {
-          to: "/whitelistPhoneNumber",
+          to: "/admin/whitelistPhoneNumber",
           icon: mdiFlagCheckered,
           label: "Whitelist Phone Number"
         },
         {
-          to: "/prize",
+          to: "/admin/prize",
           icon: mdiFlagCheckered,
           label: "Prize of SMS"
         },
         {
-          to: "/prefix",
+          to: "/admin/prefix",
           icon: mdiFlagCheckered,
           label: "Prefix"
         },
         {
-          to: "/keywordReguler",
+          to: "/admin/keywordReguler",
           icon: mdiFlagCheckered,
           label: "Keyword For Reguler"
         }
@@ -111,17 +111,17 @@ export default [
       ]
     },
     {
-      to: "/client",
+      to: "/admin/client",
       label: "Clients",
       icon: mdiCog
     }
     // {
-    //   to: "/invoice",
+    //   to: "/admin/invoice",
     //   label: "Invoice",
     //   icon: mdiReceipt
     // },
     // {
-    //   to: "/detail",
+    //   to: "/admin/detail",
     //   label: "Detail",
     //   icon: mdiCog
     // }

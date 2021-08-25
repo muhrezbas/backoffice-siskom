@@ -35,7 +35,7 @@
       <span class="px-1 sm:px-3" />
       <div>
         <button
-          @click="$router.push('/login')"
+          @click="$router.push('/admin/login')"
           class="font-bold text-white hover:text-red-700 py-1 rounded-md transition duration-500 ease select-none hover:bg-gray-200 focus:outline-none focus:shadow-outline"
         >
           <span class="px-3">Log In</span>

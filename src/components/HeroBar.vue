@@ -5,13 +5,13 @@
         <slot />
       </h1>
       <div class="control">
-        <jb-button
+        <!-- <jb-button
           v-if="param"
           label="Set Parameter"
           color="info"
           outline
           @click="paramFunction"
-        />
+        /> -->
         <input
           v-if="search"
           type="text"

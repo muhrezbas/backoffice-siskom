@@ -87,7 +87,7 @@ export default {
     goTo(payload) {
       //console.log("hello");
       this.$router.push({
-        path: `/client/${payload}`,
+        path: `/admin/client/${payload}`,
       });
     },
   },
