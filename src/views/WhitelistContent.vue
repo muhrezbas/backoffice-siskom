@@ -1,138 +1,31 @@
 <template>
   <modal-box v-model="paramWindow" title="Set Parameter">
-    <field label="Group">
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
+    <field label="Kode Keyword">
+      <control
+        v-model="userData.keyword"
+        name="keyword"
+        required
+        autocomplete="keyword"
+      />
+    </field>
+
+    <field label="Client">
+      <control
+        v-model="userData.client"
+        name="client"
+        required
+        autocomplete="client"
+      />
     </field>
   </modal-box>
+
   <title-bar :title-stack="titleStack" />
   <hero-bar class="mb-5">Settings</hero-bar>
 
   <div id="whitelistContent">
-    <hero-bar param :paramFunction="openParamWindow" search>WhitelistContent</hero-bar>
+    <hero-bar param :paramFunction="openParamWindow" search
+      >Whitelist Content</hero-bar
+    >
 
     <main-section>
       <card-component has-table>
@@ -238,12 +131,8 @@ export default {
       mdiTrashCan,
       mdiGithub,
       userData: {
-        name: "",
-        admin_id: "",
-        gender: "",
-        phone: "",
-        email: "",
-        division: ""
+        keyword: "",
+        client: ""
       }
     };
   }

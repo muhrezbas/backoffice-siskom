@@ -4,14 +4,22 @@ import {
   mdiDesktopMac,
   mdiReceipt,
   mdiCog,
+  mdiMessage,
   mdiAccountGroup,
   mdiAccountBoxMultiple,
   mdiFlagCheckered,
+  mdiCardAccountDetailsOutline,
+  mdiPlaylistCheck,
+  mdiViewListOutline,
+  mdiLicense,
+  mdiFormatTextWrappingClip,
+  mdiFormatText,
   // mdiGithub,
   // // mdiLock,
   // mdiMonitorClean,
   // mdiSquareEditOutline,
-  mdiTable
+  mdiTable,
+  mdiText
   // mdiViewList,
   // mdiTelevisionGuide
 } from "@mdi/js";
@@ -33,7 +41,7 @@ export default [
     {
       to: "/smsdetail",
       label: "SMS Detail",
-      icon: mdiTable,
+      icon: mdiMessage,
       updateMark: true
     },
     // {
@@ -79,35 +87,34 @@ export default [
         },
         {
           to: "/senderID",
-          icon: mdiFlagCheckered,
+          icon: mdiCardAccountDetailsOutline,
           label: "Sender ID"
         },
         {
           to: "/whitelistContent",
-          icon: mdiFlagCheckered,
+          icon: mdiPlaylistCheck,
           label: "Whitelist Content"
         },
         {
           to: "/whitelistPhoneNumber",
-          icon: mdiFlagCheckered,
+          icon: mdiViewListOutline,
           label: "Whitelist Phone Number"
         },
         {
           to: "/prize",
-          icon: mdiFlagCheckered,
+          icon: mdiLicense,
           label: "Prize of SMS"
         },
         {
           to: "/prefix",
-          icon: mdiFlagCheckered,
+          icon: mdiFormatTextWrappingClip,
           label: "Prefix"
         },
         {
           to: "/keywordReguler",
-          icon: mdiFlagCheckered,
+          icon: mdiFormatText,
           label: "Keyword For Reguler"
         }
-
       ]
     },
     {

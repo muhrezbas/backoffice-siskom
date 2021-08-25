@@ -1,131 +1,12 @@
 <template>
   <modal-box v-model="paramWindow" title="Set Parameter">
-    <field label="Group">
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
+    <field label="Keyword">
+      <control
+        v-model="userData.keyword"
+        name="keyword"
+        required
+        autocomplete="keyword"
+      />
     </field>
   </modal-box>
   <title-bar :title-stack="titleStack" />
@@ -238,12 +119,7 @@ export default {
       mdiTrashCan,
       mdiGithub,
       userData: {
-        name: "",
-        admin_id: "",
-        gender: "",
-        phone: "",
-        email: "",
-        division: ""
+        keyword: ""
       }
     };
   }

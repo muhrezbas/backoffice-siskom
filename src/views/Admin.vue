@@ -1,6 +1,6 @@
 <template>
   <modal-box v-model="paramWindow" title="Set Parameter">
-    <field label="Group">
+    <!-- <field label="Group">
       <div class="flex justify-center">
         <control
           class="w-full mr-4"
@@ -26,108 +26,44 @@
           />
         </jb-buttons>
       </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
+    </field> -->
+    <field label="Name">
+      <control
+        v-model="userData.name"
+        name="name"
+        required
+        autocomplete="name"
+      />
+    </field>
+
+    <field label="Gender">
+      <control
+        v-model="userData.gender"
+        name="gender"
+        required
+        autocomplete="gender"
+      />
+    </field>
+
+    <field label="Phone">
+      <control
+        v-model="userData.phone"
+        name="phone"
+        required
+        autocomplete="phone"
+      />
+    </field>
+
+    <field label="Email">
+      <control
+        v-model="userData.email"
+        name="email"
+        required
+        autocomplete="email"
+      />
     </field>
   </modal-box>
+
   <title-bar :title-stack="titleStack" />
   <hero-bar class="mb-5">Settings</hero-bar>
 
@@ -239,11 +175,9 @@ export default {
       mdiGithub,
       userData: {
         name: "",
-        admin_id: "",
         gender: "",
         phone: "",
-        email: "",
-        division: ""
+        email: ""
       }
     };
   }

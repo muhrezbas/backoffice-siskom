@@ -1,56 +1,20 @@
 <template>
   <modal-box v-model="isModalActive" title="User Setting">
-    <field label="Name">
+    <field label="Kode">
       <control
-        v-model="userData.name"
-        name="name"
+        v-model="userData.kode"
+        name="kode"
         required
-        autocomplete="name"
+        autocomplete="kode"
       />
     </field>
 
-    <field label="ID Admin">
+    <field label="Region">
       <control
-        v-model="userData.admin_id"
-        name="admin_id"
+        v-model="userData.region"
+        name="region"
         required
-        autocomplete="admin_id"
-      />
-    </field>
-
-    <field label="Gender">
-      <control
-        v-model="userData.gender"
-        name="gender"
-        required
-        autocomplete="gender"
-      />
-    </field>
-
-    <field label="Phone">
-      <control
-        v-model="userData.phone"
-        name="phone"
-        required
-        autocomplete="phone"
-      />
-    </field>
-
-    <field label="Email">
-      <control
-        v-model="userData.email"
-        name="email"
-        required
-        autocomplete="email"
-      />
-    </field>
-
-    <field label="Division">
-      <control
-        v-model="userData.division"
-        name="division"
-        required
-        autocomplete="division"
+        autocomplete="region"
       />
     </field>
   </modal-box>
@@ -149,7 +113,7 @@ export default {
     });
 
     const items = computed(() => store.state.country);
-    console.log(items, "fna")
+    console.log(items, "fna");
 
     const isModalActive = ref(false);
 
@@ -196,12 +160,8 @@ export default {
       mdiEye,
       mdiTrashCan,
       userData: {
-        name: "",
-        admin_id: "",
-        gender: "",
-        phone: "",
-        email: "",
-        division: ""
+        kode: "",
+        region: ""
       }
     };
   }
