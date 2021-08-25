@@ -57,11 +57,15 @@
           </template>
         </nav-bar-menu>-->
 
+<<<<<<< HEAD
         <!-- <nav-bar-item
           href="https://github.com/justboil/admin-one-vue-tailwind"
           has-divider
           is-desktop-icon-only
         >
+=======
+        <nav-bar-item has-divider is-desktop-icon-only>
+>>>>>>> fixing dsahboard
           <nav-bar-item>
             <nav-bar-item-label :icon="mdiBell" />
           </nav-bar-item>
