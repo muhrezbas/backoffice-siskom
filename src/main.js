@@ -15,6 +15,7 @@ import "./css/main.css";
 store.dispatch("fetchPackages");
 store.dispatch("fetchAdmin");
 // store.dispatch("fetchUsers");
+store.dispatch("fetchCountrys");
 
 /* Default title tag */
 const defaultDocumentTitle = "Admin One Vue 3 Tailwind";
