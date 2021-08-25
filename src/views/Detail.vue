@@ -133,7 +133,7 @@
 
   <main-section>
     <card-component has-table>
-      <sms-table checkable />
+      <sms-table v-if="this.sms" :sms="this.sms" checkable />
     </card-component>
   </main-section>
 </template>
@@ -192,19 +192,25 @@ export default {
     client() {
       return this.$store.state.client;
     },
-  },
-   methods: {
-    goToInvoice(){
-      console.log('hello')
-       this.$router.push({
-          path: `/invoice/${this.idClient}`,
-        });
+    sms() {
+      return this.$store.state.smsClient;
     }
+  },
+  methods: {
+    goToInvoice() {
+      console.log("hello");
+      this.$router.push({
+        path: `/invoice/${this.idClient}`,
+      });
+    },
   },
   async created() {
     // console.log(this.$store.state.client, "test");
     await store.dispatch("fetchClient", { id: this.idClient });
+    await store.dispatch("fetchSmsClient", { id: this.idClient });
+
     console.log(this.$store.state.client, "naan");
+    console.log(this.$store.state.smsClient, "naan");
   },
 
   setup() {

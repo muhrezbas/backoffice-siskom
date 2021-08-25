@@ -9,21 +9,21 @@
       <tr>
         <th></th>
         <th>Date</th>
-        <th>Topup Credit</th>
+        <th>Total</th>
+        <th>Action</th>
         <th>Package</th>
-        <th>Expire Date</th>
         <th>Remark</th>
       </tr>
     </thead>
     <tbody class="font-semibold">
       <tr v-for="transaction in itemsPaginated" :key="transaction.id">
         <td>{{ transaction._id }}</td>
-        <td data-label="Created">{{ transaction.created }}</td>
-        <!-- <td data-label="TopupCredit">
-          {{ transaction.topup_credit.toLocaleString("id-ID") }}
-        </td> -->
-        <td data-label="PackageType">{{ transaction.package_type }}</td>
-        <td data-label="Expiration">{{ transaction.expiration }}</td>
+        <td data-label="Created">{{ transaction.createdAt }}</td>
+        <td data-label="TopupCredit">
+          {{ transaction.jumlah.toLocaleString("id-ID") }}
+        </td>
+        <td data-label="Action">{{ transaction.action }}</td>
+        <td data-label="PackageType">{{ transaction.package }}</td>
         <td v-if="transaction.remark" data-label="Remark">
           {{ transaction.remark }}
         </td>

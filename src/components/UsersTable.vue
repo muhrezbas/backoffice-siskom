@@ -21,19 +21,23 @@
       </tr>
     </thead>
     <tbody class="font-semibold">
-      <tr v-for="user in itemsPaginated" :key="user._id" @click="goTo(user._id)">
+      <tr
+        v-for="user in itemsPaginated"
+        :key="user._id"
+        @click="goTo(user._id)"
+      >
         <!-- <router-link :to="'/client/' + user._id"> -->
-          <!-- <td>{{ user._id }}</td> -->
-          <td data-label="Company Name">{{ user.companyName }}</td>
-          <td data-label="ID Company">{{ user._id }}</td>
-          <td data-label="username">{{ user.username }}</td>
-          <td data-label="Company Address">{{ user.companyAddress }}</td>
-          <td data-label="Phone">{{ user.companyNumber }}</td>
-          <td data-label="Name PIC">{{ user.namePic }}</td>
-          <td data-label="Contact PIC">{{ user.contactPic }}</td>
-          <td data-label="WhiteListIp">{{ user.whiteListIp }}</td>
-          <td data-label="finance Email">{{ user.financeEmail }}</td>
-          <td data-label="Notification Email">{{ user.notifEmail }}</td>
+        <!-- <td>{{ user._id }}</td> -->
+        <td data-label="Company Name">{{ user.companyName }}</td>
+        <td data-label="ID Company">{{ user._id }}</td>
+        <td data-label="username">{{ user.username }}</td>
+        <td data-label="Company Address">{{ user.companyAddress }}</td>
+        <td data-label="Phone">{{ user.companyNumber }}</td>
+        <td data-label="Name PIC">{{ user.namePic }}</td>
+        <td data-label="Contact PIC">{{ user.contactPic }}</td>
+        <td data-label="WhiteListIp">{{ user.whiteListIp }}</td>
+        <td data-label="finance Email">{{ user.financeEmail }}</td>
+        <td data-label="Notification Email">{{ user.notifEmail }}</td>
         <!-- </router-link> -->
         <!-- <td data-label="Response">
           <p v-if="user.response == 1" class="text-green-400">OTP</p>
@@ -80,17 +84,19 @@ export default {
     JbButton,
   },
   methods: {
-    goTo(payload){
-      console.log('hello')
-       this.$router.push({
-          path: `/client/${payload}`,
-        });
-    }
+    goTo(payload) {
+      //console.log("hello");
+      this.$router.push({
+        path: `/client/${payload}`,
+      });
+    },
   },
   setup() {
     const store = useStore();
+    store.dispatch("fetchClients");
 
     const items = computed(() => store.state.clients);
+    //console.log(items, "tess");
 
     const isModalActive = ref(false);
 
@@ -106,7 +112,7 @@ export default {
         perPage.value * (currentPage.value + 1)
       )
     );
-
+    //console.log(itemsPaginated, "tess item");
     const numPages = computed(() =>
       Math.ceil(items.value.length / perPage.value)
     );
@@ -122,6 +128,7 @@ export default {
 
       return pagesList;
     });
+    //console.log(pagesList, "test");
 
     return {
       isModalActive,

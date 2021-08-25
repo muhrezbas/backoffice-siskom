@@ -8,8 +8,8 @@ import store from "./store";
 import "./css/main.css";
 
 /* Fetch sample data */
-store.dispatch("fetchClients");
-store.dispatch("fetchSms");
+
+// store.dispatch("fetchSms");
 // store.dispatch("fetchTransaction");
 store.dispatch("fetchTopup");
 store.dispatch("fetchPackages");

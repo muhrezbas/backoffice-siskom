@@ -30,12 +30,16 @@
         <td data-label="Words">{{ sms.message }}</td>
         <td data-label="Status">
           <!-- <p v-if="sms.status == 0" class="text-red-700">Error</p> -->
-          <p v-if="sms.statusSms.code == 0" class="text-blue-300">{{sms.statusSms.label}}</p>
-          <p v-else class="text-red-700">{{sms.statusSms.label}}</p>
+          <p v-if="sms.statusSms.code == 0" class="text-blue-300">
+            {{ sms.statusSms.label }}
+          </p>
+          <p v-else class="text-red-700">{{ sms.statusSms.label }}</p>
         </td>
         <td data-label="Type">
           <p v-if="sms.prize.akun == 'premium'" class="text-yellow-500">OTP</p>
-          <p v-if="sms.prize.akun == 'reguler'" class="text-blue-500">SMS Blast</p>
+          <p v-if="sms.prize.akun == 'reguler'" class="text-blue-500">
+            SMS Blast
+          </p>
         </td>
         <!-- <td class="actions-cell">
         <jb-buttons type="justify-start lg:justify-end" no-wrap>
@@ -78,55 +82,59 @@ export default {
     ModalBox,
     Level,
     JbButtons,
-    JbButton
+    JbButton,
   },
-  setup() {
+  props: ["sms"],
+  setup(props) {
     const store = useStore();
+    if (props.sms !== undefined) {
+      console.log(props.sms, "sms dkdkdk");
 
-    const items = computed(() => store.state.sms);
+      const items = computed(() => props.sms);
 
-    const isModalActive = ref(false);
+      const isModalActive = ref(false);
 
-    const perPage = ref(10);
+      const perPage = ref(10);
 
-    const currentPage = ref(0);
+      const currentPage = ref(0);
 
-    const checkedRows = ref([]);
+      const checkedRows = ref([]);
 
-    const itemsPaginated = computed(() =>
-      items.value.slice(
-        perPage.value * currentPage.value,
-        perPage.value * (currentPage.value + 1)
-      )
-    );
+      const itemsPaginated = computed(() =>
+        items.value.slice(
+          perPage.value * currentPage.value,
+          perPage.value * (currentPage.value + 1)
+        )
+      );
 
-    const numPages = computed(() =>
-      Math.ceil(items.value.length / perPage.value)
-    );
+      const numPages = computed(() =>
+        Math.ceil(items.value.length / perPage.value)
+      );
 
-    const currentPageHuman = computed(() => currentPage.value + 1);
+      const currentPageHuman = computed(() => currentPage.value + 1);
 
-    const pagesList = computed(() => {
-      const pagesList = [];
+      const pagesList = computed(() => {
+        const pagesList = [];
 
-      for (let i = 0; i < numPages.value; i++) {
-        pagesList.push(i);
-      }
+        for (let i = 0; i < numPages.value; i++) {
+          pagesList.push(i);
+        }
 
-      return pagesList;
-    });
+        return pagesList;
+      });
 
-    return {
-      isModalActive,
-      currentPage,
-      currentPageHuman,
-      numPages,
-      checkedRows,
-      itemsPaginated,
-      pagesList,
-      mdiEye,
-      mdiTrashCan
-    };
-  }
+      return {
+        isModalActive,
+        currentPage,
+        currentPageHuman,
+        numPages,
+        checkedRows,
+        itemsPaginated,
+        pagesList,
+        mdiEye,
+        mdiTrashCan,
+      };
+    }
+  },
 };
 </script>

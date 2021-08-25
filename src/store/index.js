@@ -23,6 +23,7 @@ export default createStore({
     isAsideLgActive: false,
 
     /* Sample data (commonly used) */
+    smsClient : [],
     clients: [],
     client: {},
     saldo: 0,
@@ -58,6 +59,10 @@ export default createStore({
     clients(state, client) {
       console.log(client, "res");
       state.clients = client;
+    },
+    smsClient(state, client) {
+      console.log(client, "res smsClient");
+      state.smsClient = client;
     },
     saldo(state, saldo) {
       console.log(saldo, "res");
@@ -177,7 +182,7 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
-            console.log(r.data, "client tes");
+            console.log(r.data, "client tes da");
             commit("clients", r.data);
           }
         })
@@ -317,6 +322,26 @@ export default createStore({
           if (r.data) {
             console.log(r.data, "client tes");
             commit("client", r.data);
+          }
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    },
+    fetchSmsClient({ commit }, id) {
+      console.log(id, "tes");
+      const findClientAllUrl =
+        process.env.VUE_APP_BASE_URL + `api/operators/findAllSmsByClient/${id.id}`;
+      return axios
+        .get(findClientAllUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            console.log(r.data, "sms client tes");
+            commit("smsClient", r.data);
           }
         })
         .catch(error => {

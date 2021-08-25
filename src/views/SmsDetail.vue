@@ -3,19 +3,20 @@
   <hero-bar search>SMS Detail List</hero-bar>
   <main-section>
     <card-component has-table>
-      <sms-table checkable />
+      <sms-table :sms="this.sms" checkable />
     </card-component>
   </main-section>
 </template>
 
 <script>
 /* eslint-disable */
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import { useStore } from "vuex";
 import {
   mdiMonitorCellphone,
   mdiAccountMultiple,
   mdiTableBorder,
-  mdiTableOff
+  mdiTableOff,
 } from "@mdi/js";
 import MainSection from "@/components/MainSection";
 import SmsTable from "@/components/SmsTable";
@@ -30,18 +31,23 @@ export default {
     HeroBar,
     TitleBar,
     CardComponent,
-    SmsTable
+    SmsTable,
   },
   setup() {
+    const store = useStore();
+    store.dispatch("fetchSms");
+    const sms = computed(() => store.state.sms);
+    console.log(sms, "smssss");
     const titleStack = ref(["Admin", "SMS Detail"]);
 
     return {
       titleStack,
       mdiMonitorCellphone,
+      sms,
       mdiAccountMultiple,
       mdiTableBorder,
-      mdiTableOff
+      mdiTableOff,
     };
-  }
+  },
 };
 </script>
