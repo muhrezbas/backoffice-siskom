@@ -11,10 +11,11 @@ import "./css/main.css";
 
 // store.dispatch("fetchSms");
 // store.dispatch("fetchTransaction");
-store.dispatch("fetchTopup");
-store.dispatch("fetchPackages");
+// store.dispatch("fetchTopup");
+// store.dispatch("fetchPackages");
 store.dispatch("fetchAdmin");
-store.dispatch("fetchUsers");
+store.dispatch("fetchOperators");
+store.dispatch("fetchCountrys");
 
 /* Default title tag */
 const defaultDocumentTitle = "Admin One Vue 3 Tailwind";

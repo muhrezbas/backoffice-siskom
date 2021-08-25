@@ -4,6 +4,9 @@ import {
   mdiDesktopMac,
   mdiReceipt,
   mdiCog,
+  mdiAccountGroup,
+  mdiAccountBoxMultiple,
+  mdiFlagCheckered,
   // mdiGithub,
   // // mdiLock,
   // mdiMonitorClean,
@@ -55,16 +58,25 @@ export default [
     //   icon: mdiCog
     // },
     {
-      label: 'Settings',
-      subLabel: 'Submenus Example',
+      to: "/setting",
+      label: "Settings",
+      subLabel: "Submenus Example",
       icon: mdiCog,
       menu: [
         {
-          to: "/setting",
+          to: "/admin",
+          icon: mdiAccountGroup,
           label: "Admin"
         },
         {
-          label: 'Sub-item Two'
+          to: "/operator",
+          icon: mdiAccountBoxMultiple,
+          label: "Operator"
+        },
+        {
+          to: "/country",
+          icon: mdiFlagCheckered,
+          label: "Country"
         }
       ]
     },
@@ -72,7 +84,7 @@ export default [
       to: "/client",
       label: "Clients",
       icon: mdiCog
-    },
+    }
     // {
     //   to: "/invoice",
     //   label: "Invoice",
@@ -88,7 +100,6 @@ export default [
     //   label: 'Login',
     //   icon: mdiLock
     // },
-
   ]
   // 'About',
   // [

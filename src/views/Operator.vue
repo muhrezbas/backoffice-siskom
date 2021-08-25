@@ -131,32 +131,12 @@
   <title-bar :title-stack="titleStack" />
   <hero-bar class="mb-5">Settings</hero-bar>
 
-  <div id="admin">
-    <hero-bar param :paramFunction="openParamWindow" search>Admin</hero-bar>
-
-    <main-section>
-      <card-component has-table>
-        <admin-table checkable />
-      </card-component>
-    </main-section>
-  </div>
-
   <div id="operator">
     <hero-bar param :paramFunction="openParamWindow" search>Operator</hero-bar>
 
     <main-section>
       <card-component has-table>
-        <admin-table checkable />
-      </card-component>
-    </main-section>
-  </div>
-
-  <div id="country">
-    <hero-bar param :paramFunction="openParamWindow" search>Country</hero-bar>
-
-    <main-section>
-      <card-component has-table>
-        <admin-table checkable />
+        <operator-table checkable />
       </card-component>
     </main-section>
   </div>
@@ -197,7 +177,7 @@ import Control from "@/components/Control";
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
 import CardComponent from "@/components/CardComponent";
-import AdminTable from "@/components/AdminTable";
+import OperatorTable from "@/components/OperatorTable";
 import UsersTable from "@/components/UsersTable";
 import Notification from "@/components/Notification";
 import JbButtons from "@/components/JbButtons";
@@ -211,7 +191,7 @@ export default {
     Level,
     Field,
     Control,
-    AdminTable,
+    OperatorTable,
     UsersTable,
     LineChart,
     CardComponent,
@@ -222,7 +202,7 @@ export default {
     JbButton
   },
   setup() {
-    const titleStack = ref(["Admin", "Settings"]);
+    const titleStack = ref(["Operator", "Settings"]);
 
     const chartData = ref(null);
 

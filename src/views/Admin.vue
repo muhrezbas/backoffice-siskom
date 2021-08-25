@@ -141,26 +141,6 @@
     </main-section>
   </div>
 
-  <div id="operator">
-    <hero-bar param :paramFunction="openParamWindow" search>Operator</hero-bar>
-
-    <main-section>
-      <card-component has-table>
-        <admin-table checkable />
-      </card-component>
-    </main-section>
-  </div>
-
-  <div id="country">
-    <hero-bar param :paramFunction="openParamWindow" search>Country</hero-bar>
-
-    <main-section>
-      <card-component has-table>
-        <admin-table checkable />
-      </card-component>
-    </main-section>
-  </div>
-
   <!-- <hero-bar search>Users</hero-bar>
 
   <main-section>

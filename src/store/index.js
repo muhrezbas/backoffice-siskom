@@ -36,7 +36,9 @@ export default createStore({
     topup: [],
     packages: [],
     admin: [],
-    users: []
+    users: [],
+    operator: [],
+    country: []
   },
   mutations: {
     /* Auth commit */
@@ -293,6 +295,48 @@ export default createStore({
           if (r.data) {
             commit("basic", {
               key: "admin",
+              value: r.data
+            });
+          }
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    },
+    fetchOperators({ commit }) {
+      const operatorUrl =
+        process.env.VUE_APP_BASE_URL + "api/operators/findOperatorAll/";
+      axios
+        .get(operatorUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            commit("basic", {
+              key: "operator",
+              value: r.data
+            });
+          }
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    },
+    fetchCountrys({ commit }) {
+      const countryUrl =
+        process.env.VUE_APP_BASE_URL + "api/operators/findCountryAll/";
+      axios
+        .get(countryUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            commit("basic", {
+              key: "country",
               value: r.data
             });
           }
