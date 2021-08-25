@@ -36,12 +36,12 @@ export default [
       icon: mdiTable,
       updateMark: true
     },
-    {
-      to: "/smsinput",
-      label: "SMS Input",
-      icon: mdiTable,
-      updateMark: true
-    },
+    // {
+    //   to: "/smsinput",
+    //   label: "SMS Input",
+    //   icon: mdiTable,
+    //   updateMark: true
+    // },
     // {
     //   to: '/forms',
     //   label: 'Forms',
@@ -58,7 +58,6 @@ export default [
     //   icon: mdiCog
     // },
     {
-      to: "/setting",
       label: "Settings",
       subLabel: "Submenus Example",
       icon: mdiCog,
@@ -77,7 +76,38 @@ export default [
           to: "/country",
           icon: mdiFlagCheckered,
           label: "Country"
+        },
+        {
+          to: "/senderID",
+          icon: mdiFlagCheckered,
+          label: "Sender ID"
+        },
+        {
+          to: "/whitelistContent",
+          icon: mdiFlagCheckered,
+          label: "Whitelist Content"
+        },
+        {
+          to: "/whitelistPhoneNumber",
+          icon: mdiFlagCheckered,
+          label: "Whitelist Phone Number"
+        },
+        {
+          to: "/prize",
+          icon: mdiFlagCheckered,
+          label: "Prize of SMS"
+        },
+        {
+          to: "/prefix",
+          icon: mdiFlagCheckered,
+          label: "Prefix"
+        },
+        {
+          to: "/keywordReguler",
+          icon: mdiFlagCheckered,
+          label: "Keyword For Reguler"
         }
+
       ]
     },
     {

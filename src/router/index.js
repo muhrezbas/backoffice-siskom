@@ -66,6 +66,60 @@ const routes = [
   },
   {
     meta: {
+      title: "SenderID",
+      requiresAuth: true
+    },
+    path: "/senderID",
+    name: "SenderID",
+    component: () => import(/* webpackChunkName: "forms" */ "../views/SenderID")
+  },
+  {
+    meta: {
+      title: "Whitelist Content",
+      requiresAuth: true
+    },
+    path: "/whitelistContent",
+    name: "Whitelist Content",
+    component: () => import(/* webpackChunkName: "forms" */ "../views/WhitelistContent")
+  },
+  {
+    meta: {
+      title: "Whitelist Phone Number",
+      requiresAuth: true
+    },
+    path: "/whitelistPhoneNumber",
+    name: "Whitelist Phone Number",
+    component: () => import(/* webpackChunkName: "forms" */ "../views/WhitelistPhoneNumber")
+  },
+  {
+    meta: {
+      title: "Prize",
+      requiresAuth: true
+    },
+    path: "/prize",
+    name: "Prize",
+    component: () => import(/* webpackChunkName: "forms" */ "../views/Prize")
+  },
+  {
+    meta: {
+      title: "Prefix",
+      requiresAuth: true
+    },
+    path: "/prefix",
+    name: "Prefix",
+    component: () => import(/* webpackChunkName: "forms" */ "../views/Prefix")
+  },
+  {
+    meta: {
+      title: "Keyword For Reguler",
+      requiresAuth: true
+    },
+    path: "/keywordReguler",
+    name: "Keyword For Reguler",
+    component: () => import(/* webpackChunkName: "forms" */ "../views/Keyword")
+  },
+  {
+    meta: {
       title: "Profile",
       requiresAuth: true
     },

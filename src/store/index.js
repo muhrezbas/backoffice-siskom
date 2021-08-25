@@ -32,13 +32,19 @@ export default createStore({
     transaction: [],
     topUp: [],
     sms: [],
+    senderid: [],
     // transaction: [],
     topup: [],
     packages: [],
     admin: [],
     users: [],
     operator: [],
-    country: []
+    country: [],
+    whitelistContent: [],
+    whitelistPhoneNumber: [],
+    prize: [],
+    prefix: [],
+    keyword: []
   },
   mutations: {
     /* Auth commit */
@@ -325,6 +331,7 @@ export default createStore({
         });
     },
     fetchCountrys({ commit }) {
+      console.log('conutr')
       const countryUrl =
         process.env.VUE_APP_BASE_URL + "api/operators/findCountryAll/";
       axios
@@ -337,6 +344,138 @@ export default createStore({
           if (r.data) {
             commit("basic", {
               key: "country",
+              value: r.data
+            });
+          }
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    },
+    fetchSenderIDs({ commit }) {
+      const countryUrl = process.env.VUE_APP_BASE_URL + "api/operators/senderid/";
+      console.log('senderidss')
+      axios
+        .get(countryUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            console.log(r.data, "senderid")
+            commit("basic", {
+              key: "senderid",
+              value: r.data
+            });
+          }
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    },
+    fetchWhitelistContent({ commit }) {
+      const countryUrl = process.env.VUE_APP_BASE_URL + "api/operators/whitelistContent/";
+      console.log('senderidss')
+      axios
+        .get(countryUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            console.log(r.data, "whitelist content")
+            commit("basic", {
+              key: "whitelistContent",
+              value: r.data
+            });
+          }
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    },
+    fetchWhitelistPhoneNumber({ commit }) {
+      const countryUrl = process.env.VUE_APP_BASE_URL + "api/operators/whitelistPhoneNumber/";
+      console.log('senderidss')
+      axios
+        .get(countryUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            console.log(r.data, "whitelistPhoneNumber")
+            commit("basic", {
+              key: "whitelistPhoneNumber",
+              value: r.data
+            });
+          }
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    },
+    fetchPrize({ commit }) {
+      const countryUrl = process.env.VUE_APP_BASE_URL + "api/operators/prize/";
+      console.log('senderidss')
+      axios
+        .get(countryUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            console.log(r.data, "prize")
+            commit("basic", {
+              key: "prize",
+              value: r.data
+            });
+          }
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    },
+    fetchPrefix({ commit }) {
+      const countryUrl = process.env.VUE_APP_BASE_URL + "api/operators/prefix/";
+      console.log('prefix')
+      axios
+        .get(countryUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            console.log(r.data, "prefix")
+            commit("basic", {
+              key: "prefix",
+              value: r.data
+            });
+          }
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    },
+    fetchKeyword({ commit }) {
+      const countryUrl = process.env.VUE_APP_BASE_URL + "api/operators/keyword/";
+      console.log('senderidss')
+      axios
+        .get(countryUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            console.log(r.data, "keyword")
+            commit("basic", {
+              key: "keyword",
               value: r.data
             });
           }
