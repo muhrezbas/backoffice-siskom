@@ -333,7 +333,7 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error, "operator")
           // alert(error.message);
         });
     },
@@ -349,9 +349,10 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
+            console.log(r.data.Country, "tesss")
             commit("basic", {
               key: "country",
-              value: r.data
+              value: r.data.Country
             });
           }
         })

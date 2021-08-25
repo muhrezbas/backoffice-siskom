@@ -151,7 +151,7 @@
     <card-component has-table>
       <users-table checkable />
     </card-component>
-  </main-section> -->
+  </main-section>-->
 </template>
 
 <script>
@@ -210,6 +210,15 @@ export default {
   },
   setup() {
     const store = useStore();
+    // 
+    onMounted(async () => {
+      const res = await store.dispatch("fetchOperators");
+
+      console.log(res, "tes");
+      // console.log(this.$route, "test");
+      // fillChartData();
+      // console.log(this.$store.state.client, "tessc");
+    });
 
     const operators = computed(() => store.state.operator);
 

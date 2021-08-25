@@ -117,7 +117,7 @@
 
 <script>
 /* eslint-disable */
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import ModalBox from "@/components/ModalBox";
@@ -139,8 +139,17 @@ export default {
   },
   setup() {
     const store = useStore();
+    onMounted(async () => {
+      const res = await store.dispatch("fetchCountrys");
 
-    const items = computed(() => store.state.country.Country);
+      console.log(res, "tes");
+      // console.log(this.$route, "test");
+      // fillChartData();
+      // console.log(this.$store.state.client, "tessc");
+    });
+
+    const items = computed(() => store.state.country);
+    console.log(items, "fna")
 
     const isModalActive = ref(false);
 
