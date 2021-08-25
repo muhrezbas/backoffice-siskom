@@ -9,30 +9,34 @@
       <tr>
         <th></th>
         <th>Date</th>
-        <th>Type</th>
-        <th>Topup Credit</th>
-        <th>Removed Credit</th>
+        <!-- <th>Type</th> -->
         <th>Package</th>
+        <th>Topup Credit</th>
+        <!-- <th>Removed Credit</th> -->
         <th>Remark</th>
-        <th>Payment Method</th>
+        <!-- <th>Payment Method</th> -->
       </tr>
     </thead>
     <tbody class="font-semibold">
       <tr v-for="topup in itemsPaginated" :key="topup.id">
-        <td>{{ topup.id }}</td>
-        <td data-label="Created">{{ topup.created }}</td>
-        <td data-label="Type">{{ topup.type }}</td>
-        <td v-if="topup.topup_credit" data-label="TopupCredit">
-          {{ topup.topup_credit }}
+        <td>{{ topup._id }}</td>
+        <td data-label="Created">{{ topup.createdAt }}</td>
+        <td data-label="Package">{{ topup.package }}</td>
+        <td v-if="topup.jumlah" data-label="TopupCredit">
+          {{ topup.jumlah.toLocaleString("id-ID") }}
         </td>
         <td v-else data-label="TopupCredit">-</td>
-        <td v-if="topup.topup_credit_removed" data-label="TopupCreditRemoved">
+        <!-- <td v-if="topup.topup_credit_removed" data-label="TopupCreditRemoved">
           {{ topup.topup_credit_removed }}
         </td>
-        <td v-else data-label="TopupCreditRemoved">-</td>
-        <td data-label="PackageDate">{{ topup.package_date }}</td>
-        <td data-label="Remark">{{ topup.remark }}</td>
-        <td v-if="topup.payment_method == 1" data-label="PaymentMethod">
+        <td v-else data-label="TopupCreditRemoved">-</td> -->
+        <!-- <td data-label="PackageDate">{{ topup.package_date }}</td> -->
+        <!-- <td data-label="Remark">{{ topup.remark }}</td> -->
+        <td v-if="topup.remark" data-label="Remark">
+          {{ transaction.remark }}
+        </td>
+        <td v-else data-label="Remark">-</td>
+        <!-- <td v-if="topup.payment_method == 1" data-label="PaymentMethod">
           <img
             class="w-20"
             src="https://statik.tempo.co/data/2019/04/23/id_836405/836405_720.jpg"
@@ -49,7 +53,7 @@
             class="w-20"
             src="https://logos-download.com/wp-content/uploads/2016/06/Bank_Mandiri_logo_white_bg.png"
           />
-        </td>
+        </td> -->
       </tr>
     </tbody>
   </table>
@@ -86,12 +90,12 @@ export default {
     ModalBox,
     Level,
     JbButtons,
-    JbButton
+    JbButton,
   },
   setup() {
     const store = useStore();
 
-    const items = computed(() => store.state.topup);
+    const items = computed(() => store.state.topUp);
 
     const isModalActive = ref(false);
 
@@ -133,8 +137,8 @@ export default {
       itemsPaginated,
       pagesList,
       mdiEye,
-      mdiTrashCan
+      mdiTrashCan,
     };
-  }
+  },
 };
 </script>

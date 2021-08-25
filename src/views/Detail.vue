@@ -114,14 +114,14 @@
             class="tile"
             color="text-blue-500"
             :icon="mdiCellphoneMessage"
-            :number="1300"
+            :number="this.$store.state.blast"
             label="SMS Blast Delivered"
           />
           <card-widget
             class="tile"
             color="text-blue-500"
             :icon="mdiCellphoneText"
-            :number="2300"
+            :number="this.$store.state.otp"
             label="OTP Delivered"
           />
         </div>
@@ -142,7 +142,8 @@
 /* eslint-disable */
 // @ is an alias to /src
 import { ref, onMounted } from "vue";
-import { mapState } from "vuex";
+import { useRoute } from "vue-router";
+import { mapState, useStore } from "vuex";
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -194,7 +195,7 @@ export default {
     },
     sms() {
       return this.$store.state.smsClient;
-    }
+    },
   },
   methods: {
     goToInvoice() {
@@ -207,26 +208,136 @@ export default {
   async created() {
     // console.log(this.$store.state.client, "test");
     await store.dispatch("fetchClient", { id: this.idClient });
-    await store.dispatch("fetchSmsClient", { id: this.idClient });
+    // await store.dispatch("fetchSmsClient", { id: this.idClient });
 
     console.log(this.$store.state.client, "naan");
-    console.log(this.$store.state.smsClient, "naan");
+    // console.log(this.$store.state.smsClient, "naan");
   },
 
   setup() {
-    const titleStack = ref(["Admin", "Detailed"]);
+    const store = useStore();
+    const route = useRoute();
+    console.log(route.params.id);
+    onMounted(async () => {
+      const res = await store.dispatch("fetchSmsClient", {
+        id: route.params.id,
+      });
 
-    const chartData = ref(null);
-
-    const fillChartData = () => {
-      chartData.value = chartConfig.sampleChartData();
-    };
-
-    onMounted(() => {
+      console.log(res, "tes");
       // console.log(this.$route, "test");
       fillChartData();
       // console.log(this.$store.state.client, "tessc");
     });
+
+    const titleStack = ref(["Admin", "Detailed"]);
+
+    const chartData = ref(null);
+    const chartColors = {
+      default: {
+        primary: "#00D1B2",
+        info: "#209CEE",
+        // danger: '#FF3860'
+      },
+    };
+
+    const randomChartData = (n, l) => {
+      const data = [];
+      const thisYear = new Date().getYear();
+      console.log(thisYear, "tessss");
+      console.log(n, "nanfka");
+
+      for (let i = 0; i < l.length; i++) {
+        console.log(
+          n.filter(
+            (el) =>
+              new Date(el.createdAt).getMonth() == i &&
+              new Date(el.createdAt).getYear() == thisYear
+          )
+        ),
+          "AH";
+        data.push(
+          n.filter(
+            (el) =>
+              new Date(el.createdAt).getMonth() == i &&
+              new Date(el.createdAt).getYear() == thisYear
+          ).length
+        );
+        // data.push(Math.round(Math.random() * 200));
+      }
+
+      return data;
+    };
+
+    const datasetObject = (color, points, labels) => {
+      return {
+        fill: false,
+        borderColor: chartColors.default[color],
+        borderWidth: 2,
+        borderDash: [],
+        borderDashOffset: 0.0,
+        pointBackgroundColor: chartColors.default[color],
+        pointBorderColor: "rgba(255,255,255,0)",
+        pointHoverBackgroundColor: chartColors.default[color],
+        pointBorderWidth: 20,
+        pointHoverRadius: 4,
+        pointHoverBorderWidth: 15,
+        pointRadius: 4,
+        data: randomChartData(points, labels),
+        tension: 0.5,
+        cubicInterpolationMode: "default",
+      };
+    };
+    console.log(
+      store.state.smsClient.filter((el) => el.prize.akun == "premium"),
+      "client prem"
+    );
+    console.log(
+      store.state.smsClient.filter((el) => el.prize.akun == "reguler"),
+      "client reg"
+    );
+    const sampleChartData = (points = 12) => {
+      const labels = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "Novermber",
+        "Desember",
+      ];
+
+      // for (let i = 1; i <= points; i++) {
+      //   labels.push(`${i}`);
+      // }
+
+      return {
+        labels,
+        datasets: [
+          datasetObject(
+            "primary",
+            store.state.smsClient.filter((el) => el.prize.akun == "premium"),
+            labels
+          ),
+          datasetObject(
+            "info",
+            store.state.smsClient.filter((el) => el.prize.akun == "reguler"),
+            labels
+          ),
+          // datasetObject('danger', points)
+        ],
+      };
+    };
+
+    const fillChartData = () => {
+      chartData.value = sampleChartData();
+    };
+    console.log(chartData);
+    console.log(fillChartData);
 
     return {
       titleStack,

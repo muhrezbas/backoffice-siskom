@@ -32,7 +32,7 @@
     </card-component>
   </main-section>
 
-  <hero-bar search>Package Listing</hero-bar>
+  <!-- <hero-bar search>Package Listing</hero-bar>
 
   <main-section>
     <card-component has-table>
@@ -46,7 +46,7 @@
     <card-component has-table>
       <bill-table checkable />
     </card-component>
-  </main-section>
+  </main-section> -->
 </template>
 
 <script>

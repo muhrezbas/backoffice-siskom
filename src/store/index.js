@@ -23,10 +23,12 @@ export default createStore({
     isAsideLgActive: false,
 
     /* Sample data (commonly used) */
-    smsClient : [],
+    smsClient: [],
     clients: [],
     client: {},
     saldo: 0,
+    blast: 0,
+    otp: 0,
     transaction: [],
     topUp: [],
     sms: [],
@@ -74,6 +76,14 @@ export default createStore({
     },
     topup(state, saldo) {
       state.topUp = saldo.history.filter(el => el.action == "topup");
+    },
+    otp(state, otp) {
+      state.otp = otp.filter(el => el.prize.akun == "premium").length
+      // state.topUp = saldo.history.filter(el => el.action == "topup");
+    },
+    blast(state, blast) {
+      state.blast = blast.filter(el => el.prize.akun == "reguler").length
+
     },
     /* A fit-them-all commit */
     basic(state, payload) {
@@ -322,6 +332,7 @@ export default createStore({
           if (r.data) {
             console.log(r.data, "client tes");
             commit("client", r.data);
+
           }
         })
         .catch(error => {
@@ -342,6 +353,8 @@ export default createStore({
           if (r.data) {
             console.log(r.data, "sms client tes");
             commit("smsClient", r.data);
+            commit("blast", r.data)
+            commit("otp", r.data)
           }
         })
         .catch(error => {
@@ -361,6 +374,7 @@ export default createStore({
         .then(r => {
           if (r.data) {
             console.log(r.data, "client");
+
             commit("saldo", r.data);
             commit("topup", r.data);
             commit("transaction", r.data);
