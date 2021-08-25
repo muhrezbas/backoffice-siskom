@@ -34,7 +34,6 @@ router.afterEach(to => {
     document.title = defaultDocumentTitle;
   }
 });
-
 createApp(App)
   .use(store)
   .use(router)

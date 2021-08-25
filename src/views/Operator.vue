@@ -128,10 +128,12 @@
       </div>
     </field>
   </modal-box>
-  <title-bar :title-stack="titleStack" />
-  <hero-bar class="mb-5">Settings</hero-bar>
 
-  <div id="operator">
+  <title-bar :title-stack="titleStack" />
+
+  <hero-bar class="mb-5" v-if="operators.value">Settings</hero-bar>
+
+  <div id="operator" v-if="operators.value">
     <hero-bar param :paramFunction="openParamWindow" search>Operator</hero-bar>
 
     <main-section>
@@ -140,6 +142,8 @@
       </card-component>
     </main-section>
   </div>
+
+  <error-access v-else />
 
   <!-- <hero-bar search>Users</hero-bar>
 
@@ -153,7 +157,8 @@
 <script>
 /* eslint-disable */
 // @ is an alias to /src
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
+import { useStore } from "vuex";
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -175,6 +180,7 @@ import Level from "@/components/Level";
 import Field from "@/components/Field";
 import Control from "@/components/Control";
 import TitleBar from "@/components/TitleBar";
+import ErrorAccess from "@/components/ErrorAccess";
 import HeroBar from "@/components/HeroBar";
 import CardComponent from "@/components/CardComponent";
 import OperatorTable from "@/components/OperatorTable";
@@ -198,10 +204,15 @@ export default {
     HeroBar,
     TitleBar,
     Notification,
+    ErrorAccess,
     JbButtons,
     JbButton
   },
   setup() {
+    const store = useStore();
+
+    const operators = computed(() => store.state.operator);
+
     const titleStack = ref(["Operator", "Settings"]);
 
     const chartData = ref(null);
@@ -224,6 +235,7 @@ export default {
       titleStack,
       chartData,
       fillChartData,
+      operators,
       paramWindow,
       openParamWindow,
       mdiAccountMultiple,
