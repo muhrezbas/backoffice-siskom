@@ -29,6 +29,10 @@ export default createStore({
     saldo: 0,
     blast: 0,
     otp: 0,
+    blastAll: 0,
+    otpAll: 0,
+    smsAll: 0,
+    deliveredAll: 0,
     transaction: [],
     topUp: [],
     sms: [],
@@ -95,6 +99,7 @@ export default createStore({
     },
     /* A fit-them-all commit */
     basic(state, payload) {
+      console.log(payload.value, state[payload.key], "nana")
       state[payload.key] = payload.value;
     },
 
@@ -225,6 +230,24 @@ export default createStore({
               key: "sms",
               value: r.data
             });
+            commit("basic", {
+              key: "blastAll",
+              value: r.data.filter(el => el.prize.akun == 'reguler' && el.statusSms.code == 0).length
+            });
+            commit("basic", {
+              key: "otpAll",
+              value: r.data.filter(el => el.prize.akun == 'premium').length
+            });
+            commit("basic", {
+              key: "smsAll",
+              value: r.data.length
+            });
+            commit("basic", {
+              key: "deliveredAll",
+              value: r.data.filter(el => el.statusSms.code == 0).length
+            });
+            // commit("blast", r.data)
+            // commit("otp", r.data)
             console.log(r.data, "test");
             if (r.data.data) {
               // console.log(r, "test")

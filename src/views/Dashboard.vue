@@ -7,28 +7,28 @@
         class="tile"
         color="text-blue-500"
         :icon="mdiCellphoneMessage"
-        :number="512"
+        :number="$store.state.smsAll"
         label="Number of SMS"
       />
       <card-widget
         class="tile"
         color="text-yellow-500"
         :icon="mdiCheckboxMarked"
-        :number="7770"
+        :number="$store.state.deliveredAll"
         label="SMS Delivered"
       />
       <card-widget
         class="tile"
         color="text-purple-500"
         :icon="mdiFlash"
-        :number="256"
+        :number="$store.state.blastAll"
         label="SMS Blast"
       />
       <card-widget
         class="tile"
         color="text-green-500"
         :icon="mdiChartTimelineVariant"
-        :number="256"
+        :number="$store.state.otpAll"
         label="OTP"
       />
     </div>
@@ -48,17 +48,17 @@
     <hero-bar :control="true">Customer SMS Details List</hero-bar>
     <main-section>
       <card-component has-table>
-        <sms-table checkable />
+        <sms-table v-if="this.sms" :sms="this.sms" checkable />
       </card-component>
     </main-section>
 
     <!-- <notification color="info" :icon="mdiMonitorCellphone">
       <b>Responsive table.</b> Collapses on mobile
-    </notification> -->
+    </notification>-->
 
     <!-- <card-component :icon="mdiMonitorCellphone" title="Responsive table" has-table>
       <clients-table />
-    </card-component> -->
+    </card-component>-->
   </main-section>
 </template>
 
@@ -66,6 +66,7 @@
 /* eslint-disable */
 // @ is an alias to /src
 import { ref, onMounted } from "vue";
+import { useStore } from "vuex";
 import {
   mdiAccountMultiple,
   mdiCheckboxMarked,
@@ -102,24 +103,149 @@ export default {
     TitleBar
     // JbButton
   },
+  computed: {
+    sms() {
+      return this.$store.state.sms;
+    },
+  },
   setup() {
+    const store = useStore();
+    onMounted(async () => {
+      const res = await store.dispatch("fetchSms");
+
+      console.log(res, "tes");
+      // console.log(this.$route, "test");
+      fillChartData();
+      tkn();
+      // console.log(this.$store.state.client, "tessc");
+    });
+    console.log(store.state.sms)
+    console.log(store.state.smsAll, "sms All")
     const titleStack = ref(["Admin", "Dashboard"]);
 
     const chartData = ref(null);
-
-    const fillChartData = () => {
-      chartData.value = chartConfig.sampleChartData();
+    const chartColors = {
+      default: {
+        primary: "#00D1B2",
+        info: "purple",
+        yellow: "yellow",
+        blue: 'blue'
+        // danger: '#FF3860'
+      },
     };
 
+    const randomChartData = (n, l) => {
+      const data = [];
+      const thisYear = new Date().getYear();
+      console.log(thisYear, "tessss");
+      console.log(n, "nanfka");
+
+      for (let i = 0; i < l.length; i++) {
+        console.log(
+          n.filter(
+            (el) =>
+              new Date(el.createdAt).getMonth() == i &&
+              new Date(el.createdAt).getYear() == thisYear
+          )
+        ),
+          "AH";
+        data.push(
+          n.filter(
+            (el) =>
+              new Date(el.createdAt).getMonth() == i &&
+              new Date(el.createdAt).getYear() == thisYear
+          ).length
+        );
+        // data.push(Math.round(Math.random() * 200));
+      }
+
+      return data;
+    };
+
+    const datasetObject = (color, points, labels) => {
+      return {
+        fill: false,
+        borderColor: chartColors.default[color],
+        borderWidth: 2,
+        borderDash: [],
+        borderDashOffset: 0.0,
+        pointBackgroundColor: chartColors.default[color],
+        pointBorderColor: "rgba(255,255,255,0)",
+        pointHoverBackgroundColor: chartColors.default[color],
+        pointBorderWidth: 20,
+        pointHoverRadius: 4,
+        pointHoverBorderWidth: 15,
+        pointRadius: 4,
+        data: randomChartData(points, labels),
+        tension: 0.5,
+        cubicInterpolationMode: "default",
+      };
+    };
+    console.log(
+      store.state.smsClient.filter((el) => el.prize.akun == "premium"),
+      "client prem"
+    );
+    console.log(
+      store.state.smsClient.filter((el) => el.prize.akun == "reguler"),
+      "client reg"
+    );
+    const sampleChartData = (points = 12) => {
+      const labels = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "Novermber",
+        "Desember",
+      ];
+
+      // for (let i = 1; i <= points; i++) {
+      //   labels.push(`${i}`);
+      // }
+
+      return {
+        labels,
+        datasets: [
+          datasetObject(
+            "primary",
+            store.state.sms.filter((el) => el.prize.akun == "premium"),
+            labels
+          ),
+          datasetObject(
+            "info",
+            store.state.sms.filter((el => el.prize.akun == 'reguler' && el.statusSms.code == 0)),
+            labels
+          ),
+          datasetObject(
+            "blue",
+            store.state.sms,
+            labels
+          ),
+          datasetObject(
+            "yellow",
+            store.state.sms.filter(el => el.statusSms.code == 0),
+            labels
+          ),
+          // datasetObject('danger', points)
+        ],
+      };
+    };
+
+    const fillChartData = () => {
+      chartData.value = sampleChartData();
+    };
     const tkn = () => {
       var base64Url = localStorage.getItem("token").split(".")[1];
       console.log(JSON.parse(window.atob(base64Url)));
     };
 
-    onMounted(() => {
-      fillChartData();
-      tkn();
-    });
+
 
     return {
       titleStack,
