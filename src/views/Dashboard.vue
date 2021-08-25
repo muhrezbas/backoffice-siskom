@@ -75,6 +75,9 @@ import {
   mdiFlash,
   mdiCellphoneMessage,
   mdiMonitorCellphone,
+  mdiMessageProcessing,
+  mdiCellphoneKey,
+  mdiBullhornOutline,
   mdiReload,
   mdiGithub
 } from "@mdi/js";
@@ -258,6 +261,9 @@ export default {
       mdiFinance,
       mdiCellphoneMessage,
       mdiMonitorCellphone,
+      mdiMessageProcessing,
+      mdiCellphoneKey,
+      mdiBullhornOutline,
       mdiReload,
       mdiFlash,
       mdiGithub

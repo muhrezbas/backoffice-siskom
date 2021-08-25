@@ -1,142 +1,41 @@
 <template>
   <modal-box v-model="paramWindow" title="Set Parameter">
-    <field label="Group">
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
+    <field label="Kode">
+      <control
+        v-model="userData.kode"
+        name="kode"
+        required
+        autocomplete="kode"
+      />
+    </field>
+
+    <field label="MSISDN">
+      <control
+        v-model="userData.msisdn"
+        name="msisdn"
+        required
+        autocomplete="msisdn"
+      />
+    </field>
+
+    <field label="Operator">
+      <control
+        v-model="userData.operator"
+        name="operator"
+        required
+        autocomplete="operator"
+      />
     </field>
   </modal-box>
   <title-bar :title-stack="titleStack" />
   <hero-bar class="mb-5">Settings</hero-bar>
 
   <div id="senderID">
-    <hero-bar param :paramFunction="openParamWindow" search>SenderID</hero-bar>
+    <hero-bar param :paramFunction="openParamWindow" search>Prefix</hero-bar>
 
     <main-section>
       <card-component has-table>
-        <senderID-table checkable />
+        <prefix-table checkable />
       </card-component>
     </main-section>
   </div>
@@ -177,7 +76,7 @@ import Control from "@/components/Control";
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
 import CardComponent from "@/components/CardComponent";
-import SenderIDTable from "@/components/SenderIDTable";
+import PrefixTable from "@/components/PrefixTable";
 import UsersTable from "@/components/UsersTable";
 import Notification from "@/components/Notification";
 import JbButtons from "@/components/JbButtons";
@@ -191,7 +90,7 @@ export default {
     Level,
     Field,
     Control,
-    SenderIDTable,
+    PrefixTable,
     UsersTable,
     LineChart,
     CardComponent,
@@ -238,12 +137,9 @@ export default {
       mdiTrashCan,
       mdiGithub,
       userData: {
-        name: "",
-        admin_id: "",
-        gender: "",
-        phone: "",
-        email: "",
-        division: ""
+        kode: "",
+        msisdn: "",
+        operator: ""
       }
     };
   }

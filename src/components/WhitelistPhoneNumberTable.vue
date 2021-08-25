@@ -1,31 +1,29 @@
 <template>
   <modal-box v-model="isModalActive" title="User Setting">
-    <field label="Name">
-      <control v-model="userData.name" name="name" required autocomplete="name" />
+    <field label="Phone Number">
+      <control
+        v-model="userData.phone"
+        name="phone"
+        required
+        autocomplete="phone"
+      />
     </field>
 
-    <field label="ID Admin">
-      <control v-model="userData.admin_id" name="admin_id" required autocomplete="admin_id" />
-    </field>
-
-    <field label="Gender">
-      <control v-model="userData.gender" name="gender" required autocomplete="gender" />
-    </field>
-
-    <field label="Phone">
-      <control v-model="userData.phone" name="phone" required autocomplete="phone" />
-    </field>
-
-    <field label="Email">
-      <control v-model="userData.email" name="email" required autocomplete="email" />
-    </field>
-
-    <field label="Division">
-      <control v-model="userData.division" name="division" required autocomplete="division" />
+    <field label="Client">
+      <control
+        v-model="userData.client"
+        name="client"
+        required
+        autocomplete="client"
+      />
     </field>
   </modal-box>
 
-  <modal-box v-model="isModalDeleteActive" title="Please confirm action" has-cancel>
+  <modal-box
+    v-model="isModalDeleteActive"
+    title="Please confirm action"
+    has-cancel
+  >
     <p>Are you sure you want to delete this entry ?</p>
   </modal-box>
 
@@ -115,7 +113,7 @@ export default {
     });
 
     const items = computed(() => store.state.whitelistPhoneNumber);
-    console.log(store.state.whitelistPhoneNumber, "tesss")
+    console.log(store.state.whitelistPhoneNumber, "tesss");
 
     const isModalActive = ref(false);
 
@@ -162,12 +160,8 @@ export default {
       mdiEye,
       mdiTrashCan,
       userData: {
-        name: "",
-        admin_id: "",
-        gender: "",
         phone: "",
-        email: "",
-        division: ""
+        client: ""
       }
     };
   }

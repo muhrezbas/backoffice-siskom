@@ -1,56 +1,42 @@
 <template>
   <modal-box v-model="isModalActive" title="User Setting">
-    <field label="Name">
+    <field label="Tipe Account">
       <control
-        v-model="userData.name"
-        name="name"
+        v-model="userData.akun"
+        name="akun"
         required
-        autocomplete="name"
+        autocomplete="akun"
       />
     </field>
 
-    <field label="ID Admin">
+    <field label="Prize">
       <control
-        v-model="userData.admin_id"
-        name="admin_id"
+        v-model="userData.prize"
+        name="prize"
         required
-        autocomplete="admin_id"
+        autocomplete="prize"
       />
     </field>
 
-    <field label="Gender">
+    <field label="Tax">
+      <control v-model="userData.tax" name="tax" required autocomplete="tax" />
+    </field>
+
+    <field label="Supplier">
       <control
-        v-model="userData.gender"
-        name="gender"
+        v-model="userData.supplier"
+        name="supplier"
         required
-        autocomplete="gender"
+        autocomplete="supplier"
       />
     </field>
 
-    <field label="Phone">
+    <field label="Operator">
       <control
-        v-model="userData.phone"
-        name="phone"
+        v-model="userData.operator"
+        name="operator"
         required
-        autocomplete="phone"
-      />
-    </field>
-
-    <field label="Email">
-      <control
-        v-model="userData.email"
-        name="email"
-        required
-        autocomplete="email"
-      />
-    </field>
-
-    <field label="Division">
-      <control
-        v-model="userData.division"
-        name="division"
-        required
-        autocomplete="division"
+        autocomplete="operator"
       />
     </field>
   </modal-box>
@@ -155,9 +141,8 @@ export default {
       // console.log(this.$store.state.client, "tessc");
     });
 
-
     const items = computed(() => store.state.prize);
-    console.log(store.state.prize, "tesss")
+    console.log(store.state.prize, "tesss");
 
     const isModalActive = ref(false);
 
@@ -204,12 +189,11 @@ export default {
       mdiEye,
       mdiTrashCan,
       userData: {
-        name: "",
-        admin_id: "",
-        gender: "",
-        phone: "",
-        email: "",
-        division: ""
+        akun: "",
+        prize: "",
+        tax: "",
+        supplier: "",
+        operator: ""
       }
     };
   }
