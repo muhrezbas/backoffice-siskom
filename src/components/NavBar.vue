@@ -34,8 +34,7 @@
       </nav-bar-item>
     </div>
     <div
-      class="absolute w-screen top-14 left-0 bg-white border-b border-gray-100 shadow
-        lg:w-auto lg:items-stretch lg:flex lg:flex-grow lg:static lg:border-b-0 lg:overflow-visible lg:shadow-none"
+      class="absolute w-screen top-14 left-0 bg-white border-b border-gray-100 shadow lg:w-auto lg:items-stretch lg:flex lg:flex-grow lg:static lg:border-b-0 lg:overflow-visible lg:shadow-none"
       :class="{ hidden: !isMenuNavBarActive, block: isMenuNavBarActive }"
     >
       <div
@@ -56,7 +55,7 @@
               <nav-bar-item-label :icon="mdiCrop" label="Item Last"/>
             </nav-bar-item>
           </template>
-        </nav-bar-menu> -->
+        </nav-bar-menu>-->
 
         <!-- <nav-bar-item
           href="https://github.com/justboil/admin-one-vue-tailwind"
@@ -67,11 +66,7 @@
             <nav-bar-item-label :icon="mdiBell" />
           </nav-bar-item>
         </nav-bar-item>
-        <nav-bar-item
-          href="https://github.com/justboil/admin-one-vue-tailwind"
-          has-divider
-          is-desktop-icon-only
-        >
+        <nav-bar-item has-divider is-desktop-icon-only>
           <nav-bar-item>
             <nav-bar-item-label :icon="mdiEmail" />
           </nav-bar-item>
@@ -80,11 +75,7 @@
           <user-avatar class="w-6 h-6 mr-3 inline-flex" />
         </nav-bar-item>
         <nav-bar-item is-desktop-icon-only @click="logout">
-          <nav-bar-item-label
-            :icon="mdiLogout"
-            label="Log out"
-            is-desktop-icon-only
-          />
+          <nav-bar-item-label :icon="mdiLogout" label="Log out" is-desktop-icon-only />
         </nav-bar-item>
       </div>
     </div>
