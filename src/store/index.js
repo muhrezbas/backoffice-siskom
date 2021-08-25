@@ -176,7 +176,7 @@ export default createStore({
         .catch(error => {
           commit("auth_error");
           localStorage.removeItem("token");
-          alert(error.message);
+          // alert(error.message);
         });
     },
     logout({ commit, state }) {
@@ -205,7 +205,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     },
     fetchSms({ commit }) {
@@ -235,7 +236,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     },
     // fetchTransaction({ commit }) {
@@ -252,7 +254,8 @@ export default createStore({
     //       }
     //     })
     //     .catch(error => {
-    //       alert(error.message);
+    // console.log(error
+    // alert(error.message);
     //     });
     // },
     fetchTopup({ commit }) {
@@ -269,7 +272,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     },
     fetchPackages({ commit }) {
@@ -286,7 +290,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     },
     fetchAdmin({ commit }) {
@@ -306,7 +311,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     },
     fetchOperators({ commit }) {
@@ -327,7 +333,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     },
     fetchCountrys({ commit }) {
@@ -349,7 +356,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     },
     fetchSenderIDs({ commit }) {
@@ -371,7 +379,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     },
     fetchWhitelistContent({ commit }) {
@@ -393,7 +402,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     },
     fetchWhitelistPhoneNumber({ commit }) {
@@ -415,7 +425,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     },
     fetchPrize({ commit }) {
@@ -437,7 +448,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     },
     fetchPrefix({ commit }) {
@@ -459,7 +471,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     },
     fetchKeyword({ commit }) {
@@ -481,7 +494,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     },
     fetchUsers({ commit }) {
@@ -498,7 +512,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     },
     fetchClient({ commit }, id) {
@@ -519,7 +534,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     },
     fetchSmsClient({ commit }, id) {
@@ -541,7 +557,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     },
     fetchSaldo({ commit }, id) {
@@ -564,7 +581,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          alert(error.message);
+          console.log(error)
+          // alert(error.message);
         });
     }
   },

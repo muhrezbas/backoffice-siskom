@@ -39,7 +39,7 @@
       </tr>
     </thead>
     <tbody class="font-semibold">
-      <tr v-for="country in itemsPaginated" :key="country.id">
+      <tr v-for="country in itemsPaginated" :key="country.id" :v-if="country !== undefined">
         <td>{{ country._id }}</td>
         <td data-label="Kode">{{ country.code }}</td>
         <td data-label="Kode">{{ country.client.companyName }}</td>

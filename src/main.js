@@ -12,10 +12,9 @@ import "./css/main.css";
 // store.dispatch("fetchSms");
 // store.dispatch("fetchTransaction");
 // store.dispatch("fetchTopup");
-// store.dispatch("fetchPackages");
+store.dispatch("fetchPackages");
 store.dispatch("fetchAdmin");
-store.dispatch("fetchOperators");
-store.dispatch("fetchCountrys");
+// store.dispatch("fetchUsers");
 
 /* Default title tag */
 const defaultDocumentTitle = "Admin One Vue 3 Tailwind";
@@ -35,10 +34,8 @@ router.afterEach(to => {
     document.title = defaultDocumentTitle;
   }
 });
-import VueSweetalert2 from 'vue-sweetalert2';
-import 'sweetalert2/dist/sweetalert2.min.css';
+
 createApp(App)
-  .use(VueSweetalert2)
   .use(store)
   .use(router)
   .mount("#app");
