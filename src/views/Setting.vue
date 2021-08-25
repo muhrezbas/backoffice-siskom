@@ -131,13 +131,35 @@
   <title-bar :title-stack="titleStack" />
   <hero-bar class="mb-5">Settings</hero-bar>
 
-  <hero-bar param :paramFunction="openParamWindow" search>Admin</hero-bar>
+  <div id="admin">
+    <hero-bar param :paramFunction="openParamWindow" search>Admin</hero-bar>
 
-  <main-section>
-    <card-component has-table>
-      <admin-table checkable />
-    </card-component>
-  </main-section>
+    <main-section>
+      <card-component has-table>
+        <admin-table checkable />
+      </card-component>
+    </main-section>
+  </div>
+
+  <div id="operator">
+    <hero-bar param :paramFunction="openParamWindow" search>Operator</hero-bar>
+
+    <main-section>
+      <card-component has-table>
+        <admin-table checkable />
+      </card-component>
+    </main-section>
+  </div>
+
+  <div id="country">
+    <hero-bar param :paramFunction="openParamWindow" search>Country</hero-bar>
+
+    <main-section>
+      <card-component has-table>
+        <admin-table checkable />
+      </card-component>
+    </main-section>
+  </div>
 
   <!-- <hero-bar search>Users</hero-bar>
 
