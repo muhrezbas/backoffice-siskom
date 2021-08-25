@@ -9,15 +9,6 @@
       />
     </field>
 
-    <field label="ID Admin">
-      <control
-        v-model="userData.admin_id"
-        name="admin_id"
-        required
-        autocomplete="admin_id"
-      />
-    </field>
-
     <field label="Gender">
       <control
         v-model="userData.gender"
@@ -42,15 +33,6 @@
         name="email"
         required
         autocomplete="email"
-      />
-    </field>
-
-    <field label="Division">
-      <control
-        v-model="userData.division"
-        name="division"
-        required
-        autocomplete="division"
       />
     </field>
   </modal-box>
@@ -194,11 +176,9 @@ export default {
       mdiTrashCan,
       userData: {
         name: "",
-        admin_id: "",
         gender: "",
         phone: "",
-        email: "",
-        division: ""
+        email: ""
       }
     };
   }

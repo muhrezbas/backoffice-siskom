@@ -13,21 +13,21 @@
       <card-widget
         class="tile"
         color="text-yellow-500"
-        :icon="mdiCheckboxMarked"
+        :icon="mdiMessageProcessing"
         :number="7770"
         label="SMS Delivered"
       />
       <card-widget
         class="tile"
         color="text-purple-500"
-        :icon="mdiFlash"
+        :icon="mdiBullhornOutline"
         :number="256"
         label="SMS Blast"
       />
       <card-widget
         class="tile"
         color="text-green-500"
-        :icon="mdiChartTimelineVariant"
+        :icon="mdiCellphoneKey"
         :number="256"
         label="OTP"
       />
@@ -74,6 +74,9 @@ import {
   mdiFlash,
   mdiCellphoneMessage,
   mdiMonitorCellphone,
+  mdiMessageProcessing,
+  mdiCellphoneKey,
+  mdiBullhornOutline,
   mdiReload,
   mdiGithub
 } from "@mdi/js";
@@ -132,6 +135,9 @@ export default {
       mdiFinance,
       mdiCellphoneMessage,
       mdiMonitorCellphone,
+      mdiMessageProcessing,
+      mdiCellphoneKey,
+      mdiBullhornOutline,
       mdiReload,
       mdiFlash,
       mdiGithub

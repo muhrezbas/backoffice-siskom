@@ -1,56 +1,29 @@
 <template>
   <modal-box v-model="isModalActive" title="User Setting">
-    <field label="Name">
+    <field label="Kode">
       <control
-        v-model="userData.name"
-        name="name"
+        v-model="userData.kode"
+        name="kode"
         required
-        autocomplete="name"
+        autocomplete="kode"
       />
     </field>
 
-    <field label="ID Admin">
+    <field label="MSISDN">
       <control
-        v-model="userData.admin_id"
-        name="admin_id"
+        v-model="userData.msisdn"
+        name="msisdn"
         required
-        autocomplete="admin_id"
+        autocomplete="msisdn"
       />
     </field>
 
-    <field label="Gender">
+    <field label="Operator">
       <control
-        v-model="userData.gender"
-        name="gender"
+        v-model="userData.operator"
+        name="operator"
         required
-        autocomplete="gender"
-      />
-    </field>
-
-    <field label="Phone">
-      <control
-        v-model="userData.phone"
-        name="phone"
-        required
-        autocomplete="phone"
-      />
-    </field>
-
-    <field label="Email">
-      <control
-        v-model="userData.email"
-        name="email"
-        required
-        autocomplete="email"
-      />
-    </field>
-
-    <field label="Division">
-      <control
-        v-model="userData.division"
-        name="division"
-        required
-        autocomplete="division"
+        autocomplete="operator"
       />
     </field>
   </modal-box>
@@ -66,17 +39,17 @@
   <table>
     <thead>
       <tr>
-        <th>ID</th>
         <th>Kode</th>
-        <th>Region</th>
+        <th>MSISDN</th>
+        <th>Operator</th>
         <th></th>
       </tr>
     </thead>
     <tbody class="font-semibold">
-      <tr v-for="country in itemsPaginated" :key="country.id">
-        <td>{{ country._id }}</td>
-        <td data-label="Kode">{{ country.kode }}</td>
-        <td data-label="Region">{{ country.region.toUpperCase() }}</td>
+      <tr v-for="prefix in itemsPaginated" :key="prefix.id">
+        <td>{{ prefix.kode }}</td>
+        <td data-label="Msisdn">{{ prefix.msisdn }}</td>
+        <td data-label="Operator">{{ prefix.operator }}</td>
         <td class="actions-cell">
           <jb-buttons type="justify-start lg:justify-end" no-wrap>
             <jb-button
@@ -117,7 +90,7 @@
 
 <script>
 /* eslint-disable */
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import ModalBox from "@/components/ModalBox";
@@ -128,7 +101,7 @@ import JbButtons from "@/components/JbButtons";
 import JbButton from "@/components/JbButton";
 
 export default {
-  name: "SenderIDTable",
+  name: "CountryTable",
   components: {
     ModalBox,
     Field,
@@ -139,9 +112,17 @@ export default {
   },
   setup() {
     const store = useStore();
+    onMounted(async () => {
+      const res = await store.dispatch("fetchPrefix");
 
-    const items = computed(() => store.state.country.Country);
-    console.log(store.state.country.Country, "tesss")
+      console.log(res, "tes");
+      // console.log(this.$route, "test");
+      // fillChartData();
+      // console.log(this.$store.state.client, "tessc");
+    });
+
+    const items = computed(() => store.state.prefix);
+    console.log(items, "fna");
 
     const isModalActive = ref(false);
 
@@ -188,12 +169,9 @@ export default {
       mdiEye,
       mdiTrashCan,
       userData: {
-        name: "",
-        admin_id: "",
-        gender: "",
-        phone: "",
-        email: "",
-        division: ""
+        kode: "",
+        msisdn: "",
+        operator: ""
       }
     };
   }
