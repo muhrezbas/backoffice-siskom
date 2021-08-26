@@ -3,14 +3,10 @@
     class="homeBar flex items-center justify-between flex-wrap bg-red-700 py-4 px-8 xl:px-24"
   >
     <div class="flex items-center flex-no-shrink text-white mr-6">
-      <!-- <img
-        src="../assets/logo160.png"
-        class="h-8"
-        style="filter: grayscale(100%);"
-      /> -->
-      <div class="text-white font-extrabold text-center text-xl sm:text-2xl">
+      <img src="../assets/logo160.png" class="h-12" />
+      <!-- <div class="text-white font-extrabold text-center text-xl sm:text-2xl">
         Siskom
-      </div>
+      </div> -->
     </div>
     <div class="block sm:hidden">
       <button
