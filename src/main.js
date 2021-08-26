@@ -18,7 +18,7 @@ store.dispatch("fetchAdmin");
 store.dispatch("fetchCountrys");
 
 /* Default title tag */
-const defaultDocumentTitle = "Admin One Vue 3 Tailwind";
+const defaultDocumentTitle = "TKDI SMS Dashboard";
 
 /* Collapse mobile aside menu on route change & set document title from route meta */
 router.beforeEach(to => {
