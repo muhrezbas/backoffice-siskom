@@ -17,7 +17,7 @@
         </div>
       </nav-bar-item>
     </div>
-    <div class="flex-1 items-stretch flex h-14">
+    <!-- <div class="flex-1 items-stretch flex h-14">
       <nav-bar-item>
         <div class="control">
           <input
@@ -27,7 +27,7 @@
           />
         </div>
       </nav-bar-item>
-    </div>
+    </div> -->
     <div class="flex-none items-stretch flex h-14 lg:hidden">
       <nav-bar-item class="items-center flex" @click.prevent="menuNavBarToggle">
         <icon :path="menuNavBarToggleIcon" size="24" />
