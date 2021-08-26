@@ -58,7 +58,7 @@
           </template>
         </nav-bar-menu> -->
 
-        <nav-bar-item
+        <!-- <nav-bar-item
           href="https://github.com/justboil/admin-one-vue-tailwind"
           has-divider
           is-desktop-icon-only
@@ -75,7 +75,7 @@
           <nav-bar-item>
             <nav-bar-item-label :icon="mdiEmail" />
           </nav-bar-item>
-        </nav-bar-item>
+        </nav-bar-item> -->
         <nav-bar-item to="/profile">
           <user-avatar class="w-6 h-6 mr-3 inline-flex" />
         </nav-bar-item>
