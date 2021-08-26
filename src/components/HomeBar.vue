@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="homeBar flex items-center justify-between flex-wrap bg-red-700 py-4 px-8 xl:px-24"
+    class="homeBar flex items-center justify-between flex-wrap bg-white py-4 px-8 xl:px-24"
   >
     <div class="flex items-center flex-no-shrink text-white mr-6">
       <img src="../assets/logo160.png" class="h-12" />
@@ -32,7 +32,7 @@
       <div>
         <button
           @click="$router.push('/login')"
-          class="font-bold text-white hover:text-red-700 py-1 rounded-md transition duration-500 ease select-none hover:bg-gray-200 focus:outline-none focus:shadow-outline"
+          class="font-bold hover:text-red-700 py-1 rounded-md transition duration-500 ease select-none hover:bg-gray-200 focus:outline-none focus:shadow-outline"
         >
           <span class="px-3">Log In</span>
         </button>
