@@ -1,12 +1,7 @@
 <template>
-  <modal-box v-model="paramWindow" title="Set Parameter">
+  <modal-box v-model="paramWindow" title="Set Parameter" :submit="postKeyword">
     <field label="Keyword">
-      <control
-        v-model="userData.keyword"
-        name="keyword"
-        required
-        autocomplete="keyword"
-      />
+      <control v-model="userData.code" name="keyword" required autocomplete="keyword" />
     </field>
   </modal-box>
   <title-bar :title-stack="titleStack" />
@@ -28,13 +23,16 @@
     <card-component has-table>
       <users-table checkable />
     </card-component>
-  </main-section> -->
+  </main-section>-->
 </template>
 
 <script>
 /* eslint-disable */
 // @ is an alias to /src
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
+import { useStore } from "vuex";
+import Swal from 'sweetalert2'
+import axios from 'axios'
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -86,16 +84,60 @@ export default {
     const titleStack = ref(["Country", "Settings"]);
 
     const chartData = ref(null);
+    const store = useStore();
 
     const paramWindow = ref(false);
 
     const openParamWindow = () => {
       paramWindow.value = !paramWindow.value;
     };
+    const userData = computed(() =>
+      reactive({
+        code: ""
+      })
+    )
+    const postKeyword = () => {
+      console.log(userData.value)
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/operators/registerValidasi/";
+      // commit("auth_request");
+      axios
+        .post(loginUrl, userData.value, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+          userData.value.code = ""
 
+          if (r.data) {
+            Swal.fire({
+              title: "ADD Whitelist Phone Number!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchKeyword");
+          paramWindow.value = false
+
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "ADD Keyword for validation!",
+            text: error.response.data.message,
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+    }
     const fillChartData = () => {
       chartData.value = chartConfig.sampleChartData();
     };
+    // registerValidasi
 
     onMounted(() => {
       fillChartData();
@@ -115,12 +157,11 @@ export default {
       mdiPencilBoxOutline,
       mdiFinance,
       mdiMonitorCellphone,
+      postKeyword,
       mdiReload,
       mdiTrashCan,
       mdiGithub,
-      userData: {
-        keyword: ""
-      }
+      userData
     };
   }
 };

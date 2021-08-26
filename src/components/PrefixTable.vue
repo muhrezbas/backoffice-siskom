@@ -49,7 +49,7 @@
       <tr v-for="prefix in itemsPaginated" :key="prefix.id">
         <td>{{ prefix.kode }}</td>
         <td data-label="Msisdn">{{ prefix.msisdn }}</td>
-        <td data-label="Operator">{{ prefix.operator }}</td>
+        <td data-label="Operator">{{ prefix.operator.name }}</td>
         <td class="actions-cell">
           <jb-buttons type="justify-start lg:justify-end" no-wrap>
             <jb-button
