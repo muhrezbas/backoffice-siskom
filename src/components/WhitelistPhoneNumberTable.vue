@@ -2,10 +2,10 @@
   <modal-box v-model="isModalActive" title="User Setting">
     <field label="Phone Number">
       <control
-        v-model="userData.phone"
-        name="phone"
+        v-model="userData.phoneNumber"
+        name="phoneNumber"
         required
-        autocomplete="phone"
+        autocomplete="phoneNumber"
       />
     </field>
 
@@ -160,7 +160,7 @@ export default {
       mdiEye,
       mdiTrashCan,
       userData: {
-        phone: "",
+        phoneNumber: "",
         client: ""
       }
     };

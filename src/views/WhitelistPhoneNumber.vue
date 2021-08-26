@@ -1,21 +1,22 @@
 <template>
-  <modal-box v-model="paramWindow" title="Set Parameter">
+  <modal-box v-model="paramWindow" :submit="postWhitelist" title="Set Parameter">
     <field label="Phone Number">
       <control
-        v-model="userData.phone"
-        name="phone"
+        v-model="userData.phoneNumber"
+        name="phoneNumber"
         required
-        autocomplete="phone"
+        autocomplete="phoneNumber"
       />
     </field>
 
     <field label="Client">
-      <control
-        v-model="userData.client"
-        name="client"
-        required
-        autocomplete="client"
-      />
+      <select v-model="userData.client" class="w-full">
+        <option
+          v-for="option in $store.state.clients"
+          :key="option._id ?? option"
+          :value="option._id"
+        >{{ option.companyName ?? option }}</option>
+      </select>
     </field>
   </modal-box>
 
@@ -23,9 +24,7 @@
   <hero-bar class="mb-5">Settings</hero-bar>
 
   <div id="senderID">
-    <hero-bar param :paramFunction="openParamWindow" search
-      >Whitelist Phone Number</hero-bar
-    >
+    <hero-bar param :paramFunction="openParamWindow" search>Whitelist Phone Number</hero-bar>
 
     <main-section>
       <card-component has-table>
@@ -40,13 +39,16 @@
     <card-component has-table>
       <users-table checkable />
     </card-component>
-  </main-section> -->
+  </main-section>-->
 </template>
 
 <script>
 /* eslint-disable */
 // @ is an alias to /src
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
+import { useStore } from "vuex";
+import Swal from 'sweetalert2'
+import axios from 'axios'
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -96,6 +98,56 @@ export default {
   },
   setup() {
     const titleStack = ref(["Country", "Settings"]);
+    const store = useStore();
+    onMounted(async () => {
+      await store.dispatch("fetchClients");
+      fillChartData();
+    });
+    const userData = computed(() =>
+      reactive({
+        phoneNumber: "",
+        client: ""
+      })
+    )
+    const postWhitelist = () => {
+      console.log(userData.value)
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/operators/createWhitelistNumber/";
+      // commit("auth_request");
+      axios
+        .post(loginUrl, userData.value, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+          userData.value.phoneNumber = "";
+          userData.value.client = "";
+
+          if (r.data) {
+            Swal.fire({
+              title: "ADD Whitelist Phone Number!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchWhitelistPhoneNumber");
+          paramWindow.value = false
+
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "ADD Whitelist Phone Number!",
+            text: error.response.data.message,
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+    }
 
     const chartData = ref(null);
 
@@ -128,12 +180,10 @@ export default {
       mdiFinance,
       mdiMonitorCellphone,
       mdiReload,
+      postWhitelist,
       mdiTrashCan,
       mdiGithub,
-      userData: {
-        phone: "",
-        client: ""
-      }
+      userData
     };
   }
 };

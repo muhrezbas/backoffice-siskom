@@ -147,7 +147,7 @@ export default {
 
         })
         .catch((error) => {
-          console.log(error)
+          console.log(error.response.data.message)
           // commit("auth_error");
           // localStorage.removeItem("token");
           Swal.fire({

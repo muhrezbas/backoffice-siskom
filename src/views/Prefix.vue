@@ -1,30 +1,21 @@
 <template>
-  <modal-box v-model="paramWindow" title="Set Parameter">
+  <modal-box v-model="paramWindow" :submit="postSender" title="Set Parameter">
     <field label="Kode">
-      <control
-        v-model="userData.kode"
-        name="kode"
-        required
-        autocomplete="kode"
-      />
+      <control v-model="userData.kode" name="kode" required autocomplete="kode" />
     </field>
 
     <field label="MSISDN">
-      <control
-        v-model="userData.msisdn"
-        name="msisdn"
-        required
-        autocomplete="msisdn"
-      />
+      <control v-model="userData.msisdn" name="msisdn" required autocomplete="msisdn" />
     </field>
 
     <field label="Operator">
-      <control
-        v-model="userData.operator"
-        name="operator"
-        required
-        autocomplete="operator"
-      />
+      <select v-model="userData.operator" class="w-full">
+        <option
+          v-for="option in $store.state.operator"
+          :key="option._id ?? option"
+          :value="option._id"
+        >{{ option.nickname ?? option }}</option>
+      </select>
     </field>
   </modal-box>
   <title-bar :title-stack="titleStack" />
@@ -46,13 +37,16 @@
     <card-component has-table>
       <users-table checkable />
     </card-component>
-  </main-section> -->
+  </main-section>-->
 </template>
 
 <script>
 /* eslint-disable */
 // @ is an alias to /src
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
+import { useStore } from "vuex";
+import Swal from 'sweetalert2'
+import axios from 'axios'
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -102,6 +96,19 @@ export default {
   },
   setup() {
     const titleStack = ref(["Country", "Settings"]);
+    const store = useStore();
+
+    onMounted(async () => {
+      await store.dispatch("fetchOperators");
+      fillChartData();
+    });
+    const userData = computed(() =>
+      reactive({
+        kode: "",
+        msisdn: "",
+        operator: ""
+      })
+    )
 
     const chartData = ref(null);
 
@@ -115,9 +122,46 @@ export default {
       chartData.value = chartConfig.sampleChartData();
     };
 
-    onMounted(() => {
-      fillChartData();
-    });
+    const postSender = () => {
+      console.log(userData.value)
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/operators/registerPrefix/";
+      // commit("auth_request");
+      axios
+        .post(loginUrl, userData.value, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+          userData.value.kode = "";
+          userData.value.msisdn = "";
+          userData.value.operator = "";
+
+          if (r.data) {
+            Swal.fire({
+              title: "ADD Prefix!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchPrefix");
+          paramWindow.value = false
+
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "ADD Prefix!",
+            text: "Gagal",
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+    }
 
     return {
       titleStack,
@@ -136,11 +180,8 @@ export default {
       mdiReload,
       mdiTrashCan,
       mdiGithub,
-      userData: {
-        kode: "",
-        msisdn: "",
-        operator: ""
-      }
+      postSender,
+      userData
     };
   }
 };

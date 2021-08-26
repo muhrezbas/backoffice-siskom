@@ -1,17 +1,26 @@
 <template>
-  <modal-box v-model="paramWindow" title="Set Parameter">
+  <modal-box v-model="paramWindow" title="Set Parameter" :submit="postPrize">
     <field label="Tipe Account">
-      <control
-        v-model="userData.akun"
-        name="akun"
-        required
-        autocomplete="akun"
-      />
+      <select v-model="userData.akun" class="w-full">
+        <option
+          v-for="option in ['reguler','protocol']"
+          :key="option"
+          :value="option"
+        >{{  option }}</option>
+      </select>
     </field>
 
     <field label="Prize">
       <control
-        v-model="userData.prize"
+        v-model="userData.total"
+        name="prize"
+        required
+        autocomplete="prize"
+      />
+    </field>
+    <field label="Code Prize">
+      <control
+        v-model="userData.kodePrize"
         name="prize"
         required
         autocomplete="prize"
@@ -23,21 +32,23 @@
     </field>
 
     <field label="Supplier">
-      <control
-        v-model="userData.supplier"
-        name="supplier"
-        required
-        autocomplete="supplier"
-      />
+      <select v-model="userData.protocol" class="w-full">
+        <option
+          v-for="option in $store.state.protocol"
+          :key="option._id ?? option"
+          :value="option._id"
+        >{{ option.supplier ?? option }}</option>
+      </select>
     </field>
 
     <field label="Operator">
-      <control
-        v-model="userData.operator"
-        name="operator"
-        required
-        autocomplete="operator"
-      />
+      <select v-model="userData.operator"  class="w-full">
+        <option
+          v-for="option in $store.state.operator"
+          :key="option._id ?? option"
+          :value="option._id"
+        >{{ option.nickname ?? option }}</option>
+      </select>
     </field>
   </modal-box>
   <title-bar :title-stack="titleStack" />
@@ -65,7 +76,10 @@
 <script>
 /* eslint-disable */
 // @ is an alias to /src
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
+import { useStore } from "vuex";
+import Swal from 'sweetalert2'
+import axios from 'axios'
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -115,10 +129,64 @@ export default {
   },
   setup() {
     const titleStack = ref(["Country", "Settings"]);
+    const store = useStore();
 
     const chartData = ref(null);
 
     const paramWindow = ref(false);
+    const userData = computed(() =>
+      reactive({
+        akun: "",
+        total: 0,
+        tax: 0,
+        protocol: "",
+        operator: "",
+        kodePrize : ""
+      })
+    )
+    const postPrize = () => {
+      console.log(userData.value)
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/operators/registerPrizeByOperator/";
+      // commit("auth_request");
+      axios
+        .post(loginUrl, userData.value, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+          userData.value.akun = "";
+          userData.value.total = 0;
+          userData.value.protocol = "";
+          userData.value.operator = "";
+          userData.value.kodePrize = "";
+          userData.value.tax = 0;
+
+          if (r.data) {
+            Swal.fire({
+              title: "ADD Prize!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchPrize");
+          paramWindow.value = false
+
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "ADD Prize!",
+            text: "Gagal",
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+    }
 
     const openParamWindow = () => {
       paramWindow.value = !paramWindow.value;
@@ -128,9 +196,12 @@ export default {
       chartData.value = chartConfig.sampleChartData();
     };
 
-    onMounted(() => {
+    onMounted(async() => {
+      await store.dispatch("fetchOperators");
+      await store.dispatch("fetchProtocol");
       fillChartData();
     });
+    console.log(store.state.protocol, "tess pro")
 
     return {
       titleStack,
@@ -148,14 +219,9 @@ export default {
       mdiMonitorCellphone,
       mdiReload,
       mdiTrashCan,
+      postPrize,
       mdiGithub,
-      userData: {
-        akun: "",
-        prize: "",
-        tax: "",
-        supplier: "",
-        operator: ""
-      }
+      userData
     };
   }
 };
