@@ -66,12 +66,16 @@
           <nav-bar-item>
             <nav-bar-item-label :icon="mdiEmail" />
           </nav-bar-item>
-        </nav-bar-item> -->
+        </nav-bar-item>
         <nav-bar-item to="/profile">
           <user-avatar class="w-6 h-6 mr-3 inline-flex" />
         </nav-bar-item>
         <nav-bar-item is-desktop-icon-only @click="logout">
-          <nav-bar-item-label :icon="mdiLogout" label="Log out" is-desktop-icon-only />
+          <nav-bar-item-label
+            :icon="mdiLogout"
+            label="Log out"
+            is-desktop-icon-only
+          />
         </nav-bar-item>
       </div>
     </div>
