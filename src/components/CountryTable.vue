@@ -1,5 +1,5 @@
 <template>
-  <modal-box v-model="isModalActive" title="User Setting">
+  <modal-box v-model="isModalActive" title="Edit Country">
     <field label="Kode">
       <control
         v-model="userData.kode"

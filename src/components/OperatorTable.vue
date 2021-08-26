@@ -18,7 +18,7 @@
       />
     </field>
 
-    <field label="Gender">
+    <field label="Nickname">
       <control
         v-model="userData.gender"
         name="gender"
@@ -67,22 +67,18 @@
     <thead>
       <tr>
         <th></th>
-        <th>Name</th>
-        <th>ID Admin</th>
-        <th>Gender</th>
-        <th>Phone</th>
-        <th>Email</th>
+        <th>Company Name</th>
+        <th>ID</th>
+        <th>Nickname</th>
         <th></th>
       </tr>
     </thead>
     <tbody class="font-semibold">
       <tr v-for="admins in itemsPaginated" :key="admins.id">
         <td>{{ admins.id }}</td>
-        <td data-label="Name">{{ admins.name }}</td>
-        <td data-label="AdminId">{{ admins._id }}</td>
-        <td data-label="Gender">{{ admins.gender }}</td>
-        <td data-label="Phone">{{ admins.phone }}</td>
-        <td data-label="Email">{{ admins.email }}</td>
+        <td data-label="Company Name">{{ admins.name }}</td>
+        <td data-label="ID">{{ admins._id }}</td>
+        <td data-label="Nickname">{{ admins.nickname }}</td>
         <td class="actions-cell">
           <jb-buttons type="justify-start lg:justify-end" no-wrap>
             <jb-button

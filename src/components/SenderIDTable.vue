@@ -1,11 +1,11 @@
 <template>
   <modal-box v-model="isModalActive" title="User Setting">
-    <field label="Kode">
+    <field label="Sender ID">
       <control
-        v-model="userData.kode"
-        name="kode"
+        v-model="userData.senderID"
+        name="senderID"
         required
-        autocomplete="kode"
+        autocomplete="senderID"
       />
     </field>
 
@@ -33,6 +33,7 @@
         <th>ID</th>
         <th>Kode</th>
         <th>Region</th>
+        <th>Operator</th>
         <th></th>
       </tr>
     </thead>
@@ -41,6 +42,7 @@
         <td>{{ country._id }}</td>
         <td data-label="Sender ID">{{ country.senderID }}</td>
         <td data-label="Region">{{ country.region.toUpperCase() }}</td>
+        <td data-label="Operator">{{ country.operator.nickname }}</td>
         <td class="actions-cell">
           <jb-buttons type="justify-start lg:justify-end" no-wrap>
             <jb-button
@@ -160,7 +162,7 @@ export default {
       mdiEye,
       mdiTrashCan,
       userData: {
-        kode: "",
+        senderID: "",
         region: ""
       }
     };
