@@ -80,7 +80,8 @@ const routes = [
     },
     path: "/whitelistContent",
     name: "Whitelist Content",
-    component: () => import(/* webpackChunkName: "forms" */ "../views/WhitelistContent")
+    component: () =>
+      import(/* webpackChunkName: "forms" */ "../views/WhitelistContent")
   },
   {
     meta: {
@@ -89,7 +90,8 @@ const routes = [
     },
     path: "/whitelistPhoneNumber",
     name: "Whitelist Phone Number",
-    component: () => import(/* webpackChunkName: "forms" */ "../views/WhitelistPhoneNumber")
+    component: () =>
+      import(/* webpackChunkName: "forms" */ "../views/WhitelistPhoneNumber")
   },
   {
     meta: {
@@ -236,8 +238,13 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== "login" && !store.getters.isLoggedIn) next({ name: "login" });
-  else next();
+  if (to.name === "login" && !store.getters.isLoggedIn) {
+    next();
+  } else if (to.name === "home" && !store.getters.isLoggedIn) {
+    next();
+  } else if (to.name !== "home" && !store.getters.isLoggedIn) {
+    next({ name: "login" });
+  } else next();
 });
 
 export default router;
