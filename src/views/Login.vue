@@ -2,9 +2,9 @@
   <main-section class="login">
     <img class="pl-40 max-h-14" src="../assets/logo160.png" />
     <div class="grid grid-cols-1 gap-6 mt-20 xl:grid-cols-2 ">
-      <div class="px-40" form>
+      <div class="px-12 md:px-24 lg:px-36 xl:px-40" form>
         <div class="mb-20 mt-6 text-center">
-          <h1 class="text-4xl font-normal leading-tight">
+          <h1 class="text-3xl xl:text-4xl font-normal leading-tight">
             Get started from here
           </h1>
           <p class="font-extralight">Choose your role form below</p>
