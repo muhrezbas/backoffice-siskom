@@ -17,6 +17,7 @@
           <div class="w-0 sm:w-2/3" />
         </div>
         <button
+          @click="contact"
           type="button"
           class="bg-red-600 text-white rounded-md px-36 xl:px-10 py-4 mt-10 transition duration-500 ease select-none hover:bg-red-700 focus:outline-none focus:shadow-outline"
         >
@@ -442,11 +443,12 @@
     <div class="h-auto bg-red-800">
       <div class="mx-auto max-w-screen-xl">
         <div class="flex flex-col pt-12">
-          <div
+          <!-- <div
             class="text-white font-extrabold text-center text-xl sm:text-3xl"
           >
             Siskom
-          </div>
+          </div> -->
+          <img src="../assets/logo160.png" class="h-16 mx-auto" />
           <div class="flex flex-col xl:px-24 pt-4">
             <div class="flex flex-col justify-between pt-8 sm:flex-row">
               <div class="flex flex-row pt-4 text-white text-sm sm:text-base">
@@ -586,21 +588,19 @@ export default {
       chartData.value = chartConfig.sampleChartData();
     };
 
-    const tkn = () => {
-      var base64Url = localStorage.getItem("token").split(".")[1];
-      console.log(JSON.parse(window.atob(base64Url)));
+    const contact = () => {
+      window.open("https://www.wa.me/6281212351238");
     };
 
     onMounted(() => {
       fillChartData();
-      tkn();
     });
 
     return {
       titleStack,
       chartData,
       fillChartData,
-      tkn,
+      contact,
       mdiAccountMultiple,
       mdiCheckboxMarked,
       mdiChartTimelineVariant,
