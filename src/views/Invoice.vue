@@ -247,7 +247,7 @@ export default {
             text: "Gagal",
             icon: "warning",
           });
-          alert(error.message);
+          // alert(error.message);
         });
       // paramWindow.value = !paramWindow.value;
     };

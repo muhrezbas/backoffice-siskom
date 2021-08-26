@@ -1,47 +1,23 @@
 <template>
   <modal-box v-model="isModalActive" title="User Setting">
     <field label="Name">
-      <control
-        v-model="userData.name"
-        name="name"
-        required
-        autocomplete="name"
-      />
+      <control v-model="userData.name" name="name" required autocomplete="name" />
     </field>
 
     <field label="Gender">
-      <control
-        v-model="userData.gender"
-        name="gender"
-        required
-        autocomplete="gender"
-      />
+      <control v-model="userData.gender" name="gender" required autocomplete="gender" />
     </field>
 
     <field label="Phone">
-      <control
-        v-model="userData.phone"
-        name="phone"
-        required
-        autocomplete="phone"
-      />
+      <control v-model="userData.phone" name="phone" required autocomplete="phone" />
     </field>
 
     <field label="Email">
-      <control
-        v-model="userData.email"
-        name="email"
-        required
-        autocomplete="email"
-      />
+      <control v-model="userData.email" name="email" required autocomplete="email" />
     </field>
   </modal-box>
 
-  <modal-box
-    v-model="isModalDeleteActive"
-    title="Please confirm action"
-    has-cancel
-  >
+  <modal-box v-model="isModalDeleteActive" title="Please confirm action" has-cancel>
     <p>Are you sure you want to delete this entry ?</p>
   </modal-box>
 
@@ -105,7 +81,7 @@
 
 <script>
 /* eslint-disable */
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import ModalBox from "@/components/ModalBox";
@@ -128,6 +104,9 @@ export default {
   setup() {
     const store = useStore();
 
+    onMounted(async () => {
+      await store.dispatch("fetchAdmin");
+    })
     const items = computed(() => store.state.admin);
 
     const isModalActive = ref(false);
