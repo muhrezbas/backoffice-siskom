@@ -12,7 +12,7 @@
 
     <main-section>
       <card-component has-table>
-        <keyword-table checkable />
+        <keyword-table checkable  />
       </card-component>
     </main-section>
   </div>
@@ -113,7 +113,7 @@ export default {
 
           if (r.data) {
             Swal.fire({
-              title: "ADD Whitelist Phone Number!",
+              title: "ADD Keyword for validation!",
               text: "Success",
               icon: "success",
             });
