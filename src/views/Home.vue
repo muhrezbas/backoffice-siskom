@@ -30,8 +30,8 @@
     <div class="h-auto bg-white pb-12">
       <div class="mx-auto max-w-screen-xl shadow-lg">
         <div class="flex flex-col">
-          <div class="h-full bg-white -mt-12 rounded-md">
-            <div class="flex flex-col justify-between py-4 px-10 xl:flex-row">
+          <div class="h-full bg-white -mt-12 mx-4 rounded-md">
+            <div class="flex flex-col justify-between py-4 px-10 lg:flex-row">
               <div class="bg-white rounded-md px-16 py-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -109,8 +109,10 @@
             About
           </div>
           <div class="h-full bg-white rounded-md">
-            <div class="flex justify-between items-center m-4 p-12 lg:m-8">
-              <div class="w-1/3 pr-16">
+            <div
+              class="flex flex-col md:flex-row justify-between items-center m-4 p-12 lg:m-8"
+            >
+              <div class="xl:w-1/3 pb-12 xl:pb-0 xl:pr-16">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="mx-auto h-12 w-12 stroke-current text-gray-400"
@@ -125,7 +127,7 @@
                   />
                 </svg>
               </div>
-              <div class="w-2/3 bg-red-700 rounded-l-lg p-12">
+              <div class="xl:w-2/3 bg-red-700 rounded-l-lg p-12">
                 <div class="flex flex-row text-white text-sm sm:text-base">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -294,7 +296,7 @@
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare
               rhoncus lacus,
             </div>
-            <div class="flex flex-col justify-between pt-8 sm:flex-row">
+            <div class="flex flex-col justify-between pt-8 px-4 lg:flex-row">
               <div
                 class="bg-white border hover:border-gray-400 rounded-md px-16 py-16"
               >
@@ -398,9 +400,9 @@
           >
             Say Hello
           </div>
-          <div class="">
+          <div class="px-4 pb-12 xl:pb-0">
             <div class="mt-8">
-              <span class="text-sm text-white font-bold text-xl">Name</span>
+              <span class="text-sm text-white font-bold lg:text-xl">Name</span>
               <input
                 class="w-full bg-white text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                 type="text"
@@ -408,14 +410,16 @@
               />
             </div>
             <div class="mt-8">
-              <span class="text-sm text-white font-bold text-xl">Company</span>
+              <span class="text-sm text-white font-bold lg:text-xl"
+                >Company</span
+              >
               <input
                 class="w-full bg-white text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                 type="text"
               />
             </div>
             <div class="mt-8">
-              <span class="text-sm text-white font-bold text-xl"
+              <span class="text-sm text-white font-bold lg:text-xl"
                 >Email Address</span
               >
               <input
@@ -424,7 +428,9 @@
               />
             </div>
             <div class="mt-8">
-              <span class="text-sm text-white font-bold text-xl">Content</span>
+              <span class="text-sm text-white font-bold lg:text-xl"
+                >Content</span
+              >
               <textarea
                 class="w-full h-32 bg-white text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
               ></textarea>
@@ -450,7 +456,7 @@
           </div> -->
           <img src="../assets/logo160.png" class="h-16 mx-auto" />
           <div class="flex flex-col xl:px-24 pt-4">
-            <div class="flex flex-col justify-between pt-8 sm:flex-row">
+            <div class="flex flex-col justify-between pt-8 px-6 lg:flex-row">
               <div class="flex flex-row pt-4 text-white text-sm sm:text-base">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -497,7 +503,7 @@
             </div>
           </div>
           <div class="flex flex-col xl:px-96 pt-4">
-            <div class="flex flex-col justify-between pt-8 sm:flex-row">
+            <div class="flex flex-row justify-between pt-8 px-6">
               <div
                 class="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center"
               />
