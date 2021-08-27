@@ -216,7 +216,7 @@ export default {
       console.log(userData.packages);
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
-        "api/admins/topup/60f28280044dfb5b86c07433/";
+        `api/admins/topup/${route.params.id}/`;
       // commit("auth_request");
       axios
         .post(loginUrl, userData.value, {
