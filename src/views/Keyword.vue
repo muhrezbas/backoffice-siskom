@@ -113,7 +113,7 @@ export default {
 
           if (r.data) {
             Swal.fire({
-              title: "ADD Keyword for validation!",
+              title: "ADD Keyword!",
               text: "Success",
               icon: "success",
             });

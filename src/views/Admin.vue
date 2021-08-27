@@ -1,5 +1,5 @@
 <template>
-  <modal-box v-model="paramWindow" title="Set Parameter">
+  <modal-box v-model="paramWindow" title="Set Parameter" :submit="postAdmin">
     <!-- <field label="Group">
       <div class="flex justify-center">
         <control
@@ -26,38 +26,27 @@
           />
         </jb-buttons>
       </div>
-    </field> -->
+    </field>-->
     <field label="Name">
-      <control
-        v-model="userData.name"
-        name="name"
-        required
-        autocomplete="name"
-      />
+      <control v-model="userData.name" name="name" required autocomplete="name" />
     </field>
 
-    <field label="Gender">
-      <control
-        v-model="userData.gender"
-        name="gender"
-        required
-        autocomplete="gender"
-      />
+    <field label="Username">
+      <control v-model="userData.username" name="username" required autocomplete="username" />
     </field>
 
-    <field label="Phone">
-      <control
-        v-model="userData.phone"
-        name="phone"
-        required
-        autocomplete="phone"
-      />
+    <field label="Admin Code">
+      <control v-model="userData.adminCode" name="adminCode" required autocomplete="adminCode" />
     </field>
 
     <field label="Email">
+      <control v-model="userData.email" name="email" required autocomplete="email" />
+    </field>
+    <field label="Password">
       <control
-        v-model="userData.email"
+        v-model="userData.password"
         name="email"
+        type="password"
         required
         autocomplete="email"
       />
@@ -83,13 +72,16 @@
     <card-component has-table>
       <users-table checkable />
     </card-component>
-  </main-section> -->
+  </main-section>-->
 </template>
 
 <script>
 /* eslint-disable */
 // @ is an alias to /src
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
+import { useStore } from "vuex";
+import Swal from 'sweetalert2'
+import axios from 'axios'
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -138,6 +130,7 @@ export default {
     JbButton
   },
   setup() {
+    const store = useStore();
     const titleStack = ref(["Admin", "Settings"]);
 
     const chartData = ref(null);
@@ -147,6 +140,70 @@ export default {
     const openParamWindow = () => {
       paramWindow.value = !paramWindow.value;
     };
+    const userData = computed(() =>
+      reactive({
+        name: "",
+        username: "",
+        adminCode: "",
+        email: "",
+        password: ""
+      })
+    )
+    const postAdmin = () => {
+      console.log(userData.value)
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/admins/register/";
+      // commit("auth_request");
+      axios
+        .post(loginUrl, userData.value, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+          userData.value.name = ""
+          userData.value.username = ""
+          userData.value.adminCode = ""
+          userData.value.email = ""
+          userData.value.password = ""
+
+          if (r.data) {
+            Swal.fire({
+              title: "ADD Admin!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchAdmin");
+          paramWindow.value = false
+
+        })
+        .catch((error) => {
+          console.log(error.response)
+          let err
+          if (error.response.status == 403) {
+            err = "Not Authorize"
+          }
+          else if (error.response.data == undefined) {
+            err = error.response
+          }
+
+          else {
+            err = error.response.data.message
+          }
+          console.log(err, "cas")
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+
+          Swal.fire({
+            title: "ADD Admin!",
+            text: err,
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+    }
 
     const fillChartData = () => {
       chartData.value = chartConfig.sampleChartData();
@@ -164,21 +221,14 @@ export default {
       openParamWindow,
       mdiAccountMultiple,
       mdiCashMultiple,
-      mdiCellphoneText,
-      mdiCellphoneMessage,
       mdiChartTimelineVariant,
       mdiPencilBoxOutline,
       mdiFinance,
-      mdiMonitorCellphone,
       mdiReload,
+      postAdmin,
       mdiTrashCan,
       mdiGithub,
-      userData: {
-        name: "",
-        gender: "",
-        phone: "",
-        email: ""
-      }
+      userData
     };
   }
 };
