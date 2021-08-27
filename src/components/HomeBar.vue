@@ -10,7 +10,7 @@
     </div>
     <div class="block sm:hidden">
       <button
-        @click="toggle"
+        @click="open = !open"
         class="flex items-center px-3 py-2 border rounded text-teal-lighter border-teal-light hover:text-gray-700 hover:border-gray-700"
       >
         <svg
@@ -53,3 +53,18 @@
   margin-left: 0;
 }
 </style>
+
+<script>
+/* eslint-disable */
+import { ref } from "vue";
+
+export default {
+  setup() {
+    const open = ref(false);
+
+    return {
+      open
+    };
+  }
+};
+</script>
