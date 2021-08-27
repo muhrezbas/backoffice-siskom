@@ -4,26 +4,30 @@
       <h1 class="text-3xl font-semibold leading-tight">
         <slot />
       </h1>
-      <div class="control">
+      <div class="flex flex-col control md:flex-row">
         <jb-button
           v-if="param"
+          class="w-full md:w-auto"
           label="Set Parameter"
           color="info"
           outline
           @click="paramFunction"
         />
-        <input
-          v-if="search"
-          type="text"
-          class="px-3 mx-2 focus:ring rounded"
-          placeholder="Search"
-        />
-        <jb-button
-          v-if="search"
-          label="Filter"
-          color="info"
-          @click="searchFunction"
-        />
+        <div class="flex flex-row justify-between mt-2 md:mt-0">
+          <input
+            v-if="search"
+            type="text"
+            class="px-3 mx-0 md:mx-2 focus:ring rounded"
+            placeholder="Search"
+          />
+          <jb-button
+            v-if="search"
+            class="ml-2 md:ml-0"
+            label="Filter"
+            color="info"
+            @click="searchFunction"
+          />
+        </div>
       </div>
     </level>
   </section>
