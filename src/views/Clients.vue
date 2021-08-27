@@ -2,48 +2,48 @@
   <modal-box v-model="paramWindow" title="Set Parameter" :submit="postClient">
     <div class="flex flex-wrap -mx-3 mb-6">
       <field label="Username" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+        <control v-model="userData.username" name="prize" required autocomplete="prize" />
       </field>
 
       <field label="Company Name" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+        <control v-model="userData.companyName" name="prize" required autocomplete="prize" />
       </field>
     </div>
 
     <div class="flex flex-wrap -mx-3 mb-6">
       <field label="Company Phone Number" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+        <control v-model="userData.companyNumber" name="prize" required autocomplete="prize" />
       </field>
 
       <field label="Company Address" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+        <control v-model="userData.companyAddress" name="prize" required autocomplete="prize" />
       </field>
     </div>
     <div class="flex flex-wrap -mx-3 mb-6">
       <field label="Name PIC" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+        <control v-model="userData.namePic" name="prize" required autocomplete="prize" />
       </field>
 
       <field label="Contact PIC" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+        <control v-model="userData.contactPic" name="prize" required autocomplete="prize" />
       </field>
     </div>
     <div class="flex flex-wrap -mx-3 mb-6">
       <field label="Whitelist IP" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+        <control v-model="userData.whiteListIp" name="prize" required autocomplete="prize" />
       </field>
 
       <field label="Finance Email" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+        <control v-model="userData.financeEmail" name="prize" required autocomplete="prize" />
       </field>
     </div>
     <div class="flex flex-wrap -mx-3 mb-6">
       <field label="Notification Email" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+        <control v-model="userData.notifEmail" name="prize" required autocomplete="prize" />
       </field>
 
       <field label="Password" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+        <control v-model="userData.password" name="prize" required autocomplete="prize" />
       </field>
     </div>
     <!-- <div class="flex flex-wrap -mx-3 mb-6"> -->
@@ -159,7 +159,38 @@ export default {
     };
     const userData = computed(() =>
       reactive({
-        priority: []
+        priority: [],
+        username
+          :
+          "",
+        companyName
+          :
+          "",
+        companyNumber
+          :
+          "",
+        companyAddress
+          :
+          "",
+        namePic
+          :
+          "",
+        contactPic
+          :
+          "",
+        whiteListIp
+          :
+          "",
+        financeEmail
+          :
+          "",
+        notifEmail
+          :
+          "",
+        password
+          :
+          "",
+
       })
     )
 
@@ -177,14 +208,63 @@ export default {
       if (hasDuplicates(userData.value.priority)) {
         console.log("Duplicate elements found.");
         Swal.fire({
+          title: "ADD Client!",
+          text: "Gagal",
+          icon: "warning",
+        });
+
+      }
+      else {
+        console.log(userData.value)
+        let userDataAdd = userData.value
+        userDataAdd.protocol = userData.value.priority[0]
+        const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/users/client/";
+      // commit("auth_request");
+      axios
+        .post(loginUrl,userDataAdd, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+          userData.value.priority =[];
+          userData.value.namePic = "";
+          userData.value.companyName = "";
+          userData.value.companyNumber = "";
+          userData.value.companyAddress = "";
+          userData.value.username = "";
+          userData.value.contactPic = "";
+          userData.value.whiteListIp = "";
+          userData.value.password = "";
+          userData.value.notifEmail = "";
+          userData.value.financeEmail = "";
+
+          if (r.data) {
+            Swal.fire({
+              title: "ADD Client!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchClients");
+          paramWindow.value = false
+
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
             title: "ADD Client!",
             text: "Gagal",
             icon: "warning",
           });
-
-      }
-      else {
+          // alert(error.message);
+        });
         console.log("No Duplicates found.");
+
       }
     }
     const store = useStore();
