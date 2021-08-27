@@ -20,7 +20,7 @@ const routes = [
       title: "Dashboard",
       requiresAuth: true
     },
-    path: "/dashboard",
+    path: "/admin/dashboard",
     name: "dashboard",
     component: Dashboard
   },
@@ -29,7 +29,7 @@ const routes = [
       title: "Tables",
       requiresAuth: true
     },
-    path: "/tables",
+    path: "/admin/tables",
     name: "tables",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -41,7 +41,7 @@ const routes = [
       title: "SMS Detail",
       requiresAuth: true
     },
-    path: "/smsdetail",
+    path: "/admin/smsdetail",
     name: "smsdetail",
     component: () =>
       import(/* webpackChunkName: "forms" */ "../views/SmsDetail")
@@ -51,7 +51,7 @@ const routes = [
       title: "SMS Input",
       requiresAuth: true
     },
-    path: "/smsinput",
+    path: "/admin/smsinput",
     name: "smsinput",
     component: () => import(/* webpackChunkName: "forms" */ "../views/SmsInput")
   },
@@ -60,7 +60,7 @@ const routes = [
       title: "Forms",
       requiresAuth: true
     },
-    path: "/forms",
+    path: "/admin/forms",
     name: "forms",
     component: () => import(/* webpackChunkName: "forms" */ "../views/Forms")
   },
@@ -69,7 +69,7 @@ const routes = [
       title: "SenderID",
       requiresAuth: true
     },
-    path: "/senderID",
+    path: "/admin/senderID",
     name: "SenderID",
     component: () => import(/* webpackChunkName: "forms" */ "../views/SenderID")
   },
@@ -78,7 +78,7 @@ const routes = [
       title: "Whitelist Content",
       requiresAuth: true
     },
-    path: "/whitelistContent",
+    path: "/admin/whitelistContent",
     name: "Whitelist Content",
     component: () =>
       import(/* webpackChunkName: "forms" */ "../views/WhitelistContent")
@@ -88,7 +88,7 @@ const routes = [
       title: "Whitelist Phone Number",
       requiresAuth: true
     },
-    path: "/whitelistPhoneNumber",
+    path: "/admin/whitelistPhoneNumber",
     name: "Whitelist Phone Number",
     component: () =>
       import(/* webpackChunkName: "forms" */ "../views/WhitelistPhoneNumber")
@@ -98,7 +98,7 @@ const routes = [
       title: "Prize",
       requiresAuth: true
     },
-    path: "/prize",
+    path: "/admin/prize",
     name: "Prize",
     component: () => import(/* webpackChunkName: "forms" */ "../views/Prize")
   },
@@ -107,7 +107,7 @@ const routes = [
       title: "Prefix",
       requiresAuth: true
     },
-    path: "/prefix",
+    path: "/admin/prefix",
     name: "Prefix",
     component: () => import(/* webpackChunkName: "forms" */ "../views/Prefix")
   },
@@ -116,7 +116,7 @@ const routes = [
       title: "Keyword For Reguler",
       requiresAuth: true
     },
-    path: "/keywordReguler",
+    path: "/admin/keywordReguler",
     name: "Keyword For Reguler",
     component: () => import(/* webpackChunkName: "forms" */ "../views/Keyword")
   },
@@ -125,7 +125,7 @@ const routes = [
       title: "Profile",
       requiresAuth: true
     },
-    path: "/profile",
+    path: "/admin/profile",
     name: "profile",
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/Profile")
@@ -135,7 +135,7 @@ const routes = [
       title: "Invoice",
       requiresAuth: true
     },
-    path: "/invoice/:id",
+    path: "/admin/invoice/:id",
     name: "invoice",
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/Invoice")
@@ -145,7 +145,7 @@ const routes = [
       title: "Setting",
       requiresAuth: true
     },
-    path: "/setting",
+    path: "/admin/setting",
     name: "setting",
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/Setting")
@@ -155,7 +155,7 @@ const routes = [
       title: "Admin Setting",
       requiresAuth: true
     },
-    path: "/admin",
+    path: "/admin/admin",
     name: "admin",
     component: () => import(/* webpackChunkName: "profile" */ "../views/Admin")
   },
@@ -164,7 +164,7 @@ const routes = [
       title: "Operator Setting",
       requiresAuth: true
     },
-    path: "/operator",
+    path: "/admin/operator",
     name: "operator",
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/Operator")
@@ -174,7 +174,7 @@ const routes = [
       title: "Country Setting",
       requiresAuth: true
     },
-    path: "/country",
+    path: "/admin/country",
     name: "country",
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/Country")
@@ -184,7 +184,7 @@ const routes = [
       title: "Client",
       requiresAuth: true
     },
-    path: "/client",
+    path: "/admin/client",
     name: "client",
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/Clients"),
@@ -195,7 +195,7 @@ const routes = [
       title: "Client Detail",
       requiresAuth: true
     },
-    path: "/client/:id",
+    path: "/admin/client/:id",
     name: "client detail",
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/Detail"),
@@ -206,7 +206,7 @@ const routes = [
       title: "Detail",
       requiresAuth: true
     },
-    path: "/detail",
+    path: "/admin/detail",
     name: "detail",
     component: () => import(/* webpackChunkName: "profile" */ "../views/Detail")
   },
@@ -215,7 +215,7 @@ const routes = [
       title: "Ui",
       requiresAuth: true
     },
-    path: "/ui",
+    path: "/admin/ui",
     name: "ui",
     component: () => import(/* webpackChunkName: "profile" */ "../views/Ui")
   },
@@ -223,7 +223,7 @@ const routes = [
     meta: {
       title: "Login"
     },
-    path: "/login",
+    path: "/admin/login",
     name: "login",
     component: () => import(/* webpackChunkName: "login" */ "../views/Login")
   }

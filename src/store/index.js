@@ -177,7 +177,7 @@ export default createStore({
               key: "token",
               value: r.data.access_token
             });
-            router.push("/dashboard");
+            router.push("/admin/dashboard");
           }
         })
         .catch(error => {
