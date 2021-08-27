@@ -29,7 +29,7 @@ const routes = [
       title: "Tables",
       requiresAuth: true
     },
-    path: "/tables",
+    path: "/admin/tables",
     name: "tables",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -60,7 +60,7 @@ const routes = [
       title: "Forms",
       requiresAuth: true
     },
-    path: "/forms",
+    path: "/admin/forms",
     name: "forms",
     component: () => import(/* webpackChunkName: "forms" */ "../views/Forms")
   },
@@ -215,7 +215,7 @@ const routes = [
       title: "Ui",
       requiresAuth: true
     },
-    path: "/ui",
+    path: "/admin/ui",
     name: "ui",
     component: () => import(/* webpackChunkName: "profile" */ "../views/Ui")
   },

@@ -86,7 +86,6 @@ export default [
           label: "Country"
         },
         {
-<<<<<<< HEAD
           to: "/admin/senderID",
           icon: mdiFlagCheckered,
           label: "Sender ID"
@@ -114,35 +113,6 @@ export default [
         {
           to: "/admin/keywordReguler",
           icon: mdiFlagCheckered,
-=======
-          to: "/senderID",
-          icon: mdiCardAccountDetailsOutline,
-          label: "Sender ID"
-        },
-        {
-          to: "/whitelistContent",
-          icon: mdiPlaylistCheck,
-          label: "Whitelist Content"
-        },
-        {
-          to: "/whitelistPhoneNumber",
-          icon: mdiViewListOutline,
-          label: "Whitelist Phone Number"
-        },
-        {
-          to: "/prize",
-          icon: mdiLicense,
-          label: "Prize of SMS"
-        },
-        {
-          to: "/prefix",
-          icon: mdiFormatTextWrappingClip,
-          label: "Prefix"
-        },
-        {
-          to: "/keywordReguler",
-          icon: mdiFormatText,
->>>>>>> 573d8b4f1b0747af3b21ee0e04d29797112a5ec5
           label: "Keyword For Reguler"
         }
       ]
