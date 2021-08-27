@@ -3,14 +3,14 @@
   <hero-bar search>SMS Detail List</hero-bar>
   <main-section>
     <card-component has-table>
-      <sms-table :sms="this.sms" checkable />
+      <sms-table v-if="this.sms" :sms="this.sms" checkable />
     </card-component>
   </main-section>
 </template>
 
 <script>
 /* eslint-disable */
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import {
   mdiMonitorCellphone,
@@ -35,10 +35,14 @@ export default {
   },
   setup() {
     const store = useStore();
-    store.dispatch("fetchSms");
+
     const sms = computed(() => store.state.sms);
     console.log(sms, "smssss");
     const titleStack = ref(["Admin", "SMS Detail"]);
+    onMounted(async () => {
+      // fillChartData();
+      await store.dispatch("fetchSms");
+    });
 
     return {
       titleStack,
