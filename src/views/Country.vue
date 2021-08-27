@@ -1,131 +1,11 @@
 <template>
-  <modal-box v-model="paramWindow" title="Set Parameter">
-    <field label="Group">
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
+  <modal-box v-model="paramWindow" title="Set Parameter" :submit="postCountry">
+    <field label="Kode">
+      <control v-model="userData.kode" name="kode" required autocomplete="kode" />
+    </field>
+
+    <field label="Region">
+      <control v-model="userData.region" name="region" required autocomplete="region" />
     </field>
   </modal-box>
   <title-bar :title-stack="titleStack" />
@@ -147,13 +27,14 @@
     <card-component has-table>
       <users-table checkable />
     </card-component>
-  </main-section> -->
+  </main-section>-->
 </template>
 
 <script>
 /* eslint-disable */
 // @ is an alias to /src
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
+import { useStore } from "vuex";
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -168,6 +49,8 @@ import {
   mdiGithub
 } from "@mdi/js";
 import * as chartConfig from "@/components/Charts/chart.config";
+import Swal from 'sweetalert2'
+import axios from 'axios'
 import LineChart from "@/components/Charts/LineChart";
 import MainSection from "@/components/MainSection";
 import ModalBox from "@/components/ModalBox";
@@ -202,16 +85,61 @@ export default {
     JbButton
   },
   setup() {
+    const store = useStore();
     const titleStack = ref(["Country", "Settings"]);
 
     const chartData = ref(null);
 
     const paramWindow = ref(false);
+    const userData = computed(() =>
+      reactive({
+        kode: "",
+        region: ""
+      })
+    )
 
     const openParamWindow = () => {
       paramWindow.value = !paramWindow.value;
     };
+    const postCountry = () => {
+      console.log(userData.value)
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/operators/country/";
+      // commit("auth_request");
+      axios
+        .post(loginUrl, userData.value, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+          userData.value.region = "";
+          userData.value.kode = "";
 
+          if (r.data) {
+            Swal.fire({
+              title: "ADD Country!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchCountrys");
+          paramWindow.value = false
+         
+        })
+        .catch((error) => {
+          console.log(error)
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "TOP UP!",
+            text: "Gagal",
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+    }
     const fillChartData = () => {
       chartData.value = chartConfig.sampleChartData();
     };
@@ -237,14 +165,8 @@ export default {
       mdiReload,
       mdiTrashCan,
       mdiGithub,
-      userData: {
-        name: "",
-        admin_id: "",
-        gender: "",
-        phone: "",
-        email: "",
-        division: ""
-      }
+      postCountry,
+      userData
     };
   }
 };

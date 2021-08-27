@@ -1,27 +1,7 @@
 <template>
-  <modal-box v-model="isModalActive" title="User Setting">
-    <field label="Name">
-      <control v-model="userData.name" name="name" required autocomplete="name" />
-    </field>
-
-    <field label="ID Admin">
-      <control v-model="userData.admin_id" name="admin_id" required autocomplete="admin_id" />
-    </field>
-
-    <field label="Gender">
-      <control v-model="userData.gender" name="gender" required autocomplete="gender" />
-    </field>
-
-    <field label="Phone">
-      <control v-model="userData.phone" name="phone" required autocomplete="phone" />
-    </field>
-
-    <field label="Email">
-      <control v-model="userData.email" name="email" required autocomplete="email" />
-    </field>
-
-    <field label="Division">
-      <control v-model="userData.division" name="division" required autocomplete="division" />
+  <modal-box v-model="isModalActive" title="User Setting" :submit="putKeyword">
+    <field label="Keyword">
+      <control v-model="userData.code" name="keyword" required autocomplete="keyword" />
     </field>
   </modal-box>
 
@@ -49,7 +29,7 @@
               color="info"
               :icon="mdiEye"
               small
-              @click="isModalActive = true"
+              @click="clickEye(country)"
             />
             <jb-button
               class="mr-3"
@@ -82,8 +62,10 @@
 
 <script>
 /* eslint-disable */
-import { computed, ref, onMounted } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
 import { useStore } from "vuex";
+import Swal from 'sweetalert2'
+import axios from 'axios'
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import ModalBox from "@/components/ModalBox";
 import Field from "@/components/Field";
@@ -102,6 +84,7 @@ export default {
     JbButtons,
     JbButton
   },
+
   setup() {
     const store = useStore();
 
@@ -114,7 +97,64 @@ export default {
       // console.log(this.$store.state.client, "tessc");
     });
     const items = computed(() => store.state.keyword);
-    console.log(store.state.country.Country, "tesss")
+    console.log(store.state.country.Country, "tesss");
+    const userData = computed(() =>
+      reactive({
+        code: "",
+        _id : ""
+      })
+    )
+    const clickEye = (payload) => {
+      console.log(payload, "tesr")
+      userData.value.code = payload.code
+      userData.value._id = payload._id
+
+      isModalActive.value = true
+    }
+    const putKeyword = () => {
+      console.log(userData.value)
+      let keyword = {
+        code : userData.value.code
+      }
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/operators/editValidasi/"+ userData.value._id + "/";
+      // commit("auth_request");
+      axios
+        .put(loginUrl, keyword, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+          userData.value.code = ""
+          userData.value._id = ""
+
+          if (r.data) {
+            Swal.fire({
+              title: "EDIT Keyword for validation!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchKeyword");
+          isModalActive.value =false
+
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "EDIT Keyword for validation!",
+            text: error.response.data.message,
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+
+
+    }
 
     const isModalActive = ref(false);
 
@@ -158,16 +198,11 @@ export default {
       checkedRows,
       itemsPaginated,
       pagesList,
+      putKeyword,
       mdiEye,
       mdiTrashCan,
-      userData: {
-        name: "",
-        admin_id: "",
-        gender: "",
-        phone: "",
-        email: "",
-        division: ""
-      }
+      clickEye,
+      userData
     };
   }
 };

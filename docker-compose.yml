@@ -1,0 +1,17 @@
+version: '3'
+services:
+    web_dk:
+        image: "160karakter/api/web/backoffice:0.1"
+        container_name: web
+        volumes:
+            - ./conf:/conf
+            - /etc/localtime:/etc/localtime
+        env_file:
+            - .env
+        ports:
+            - "80:80"
+            - "443:443"
+        restart: always
+
+        
+

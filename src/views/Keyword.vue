@@ -1,131 +1,7 @@
 <template>
-  <modal-box v-model="paramWindow" title="Set Parameter">
-    <field label="Group">
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
+  <modal-box v-model="paramWindow" title="Set Parameter" :submit="postKeyword">
+    <field label="Keyword">
+      <control v-model="userData.code" name="keyword" required autocomplete="keyword" />
     </field>
   </modal-box>
   <title-bar :title-stack="titleStack" />
@@ -136,7 +12,7 @@
 
     <main-section>
       <card-component has-table>
-        <keyword-table checkable />
+        <keyword-table checkable  />
       </card-component>
     </main-section>
   </div>
@@ -147,13 +23,16 @@
     <card-component has-table>
       <users-table checkable />
     </card-component>
-  </main-section> -->
+  </main-section>-->
 </template>
 
 <script>
 /* eslint-disable */
 // @ is an alias to /src
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
+import { useStore } from "vuex";
+import Swal from 'sweetalert2'
+import axios from 'axios'
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -205,16 +84,60 @@ export default {
     const titleStack = ref(["Country", "Settings"]);
 
     const chartData = ref(null);
+    const store = useStore();
 
     const paramWindow = ref(false);
 
     const openParamWindow = () => {
       paramWindow.value = !paramWindow.value;
     };
+    const userData = computed(() =>
+      reactive({
+        code: ""
+      })
+    )
+    const postKeyword = () => {
+      console.log(userData.value)
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/operators/registerValidasi/";
+      // commit("auth_request");
+      axios
+        .post(loginUrl, userData.value, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+          userData.value.code = ""
 
+          if (r.data) {
+            Swal.fire({
+              title: "ADD Keyword for validation!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchKeyword");
+          paramWindow.value = false
+
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "ADD Keyword for validation!",
+            text: error.response.data.message,
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+    }
     const fillChartData = () => {
       chartData.value = chartConfig.sampleChartData();
     };
+    // registerValidasi
 
     onMounted(() => {
       fillChartData();
@@ -234,17 +157,11 @@ export default {
       mdiPencilBoxOutline,
       mdiFinance,
       mdiMonitorCellphone,
+      postKeyword,
       mdiReload,
       mdiTrashCan,
       mdiGithub,
-      userData: {
-        name: "",
-        admin_id: "",
-        gender: "",
-        phone: "",
-        email: "",
-        division: ""
-      }
+      userData
     };
   }
 };

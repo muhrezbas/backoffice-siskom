@@ -1,139 +1,34 @@
 <template>
-  <modal-box v-model="paramWindow" title="Set Parameter">
-    <field label="Group">
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
+  <modal-box v-model="paramWindow" :submit="postSender" title="Set Parameter">
+    <field label="Sender ID">
+      <control v-model="userData.senderID" name="senderID" required autocomplete="senderID" />
+    </field>
+
+    <field label="Region">
+      <select v-model="userData.region"  class="w-full">
+        <option
+          v-for="option in ['local','international']"
+          :key="option._id ?? option"
+          :value="option"
+        >{{ option.nickname ?? option }}</option>
+      </select>
+    </field>
+    <field label="Operator">
+      <select v-model="userData.operator"  class="w-full">
+        <option
+          v-for="option in $store.state.operator"
+          :key="option._id ?? option"
+          :value="option._id"
+        >{{ option.nickname ?? option }}</option>
+      </select>
     </field>
   </modal-box>
+
   <title-bar :title-stack="titleStack" />
   <hero-bar class="mb-5">Settings</hero-bar>
 
   <div id="senderID">
-    <hero-bar param :paramFunction="openParamWindow" search>SenderID</hero-bar>
-
+    <hero-bar param :paramFunction="openParamWindow" search>Sender ID</hero-bar>
     <main-section>
       <card-component has-table>
         <senderID-table checkable />
@@ -147,13 +42,14 @@
     <card-component has-table>
       <users-table checkable />
     </card-component>
-  </main-section> -->
+  </main-section>-->
 </template>
 
 <script>
 /* eslint-disable */
 // @ is an alias to /src
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
+import { useStore } from "vuex";
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -171,6 +67,8 @@ import * as chartConfig from "@/components/Charts/chart.config";
 import LineChart from "@/components/Charts/LineChart";
 import MainSection from "@/components/MainSection";
 import ModalBox from "@/components/ModalBox";
+import Swal from 'sweetalert2'
+import axios from 'axios'
 import Level from "@/components/Level";
 import Field from "@/components/Field";
 import Control from "@/components/Control";
@@ -202,11 +100,64 @@ export default {
     JbButton
   },
   setup() {
-    const titleStack = ref(["Sender ID", "Settings"]);
 
+    const titleStack = ref(["Sender ID", "Settings"]);
+    const store = useStore();
+    onMounted(async () => {
+      await store.dispatch("fetchOperators");
+      fillChartData();
+    });
     const chartData = ref(null);
 
     const paramWindow = ref(false);
+    const userData = computed(() =>
+      reactive({
+        senderID: "",
+        region: "",
+        operator: ""
+      })
+    )
+    const operators = computed(() => store.state.operator);
+    const postSender = () => {
+      console.log(userData.value)
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/operators/senderid/";
+      // commit("auth_request");
+      axios
+        .post(loginUrl, userData.value, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+          userData.value.region = "";
+          userData.value.senderID = "";
+          userData.value.operator = "";
+
+          if (r.data) {
+            Swal.fire({
+              title: "ADD SenderID!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchSenderIDs");
+          paramWindow.value = false
+
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "ADD SenderID!",
+            text: "Gagal",
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+    }
 
     const openParamWindow = () => {
       paramWindow.value = !paramWindow.value;
@@ -216,9 +167,6 @@ export default {
       chartData.value = chartConfig.sampleChartData();
     };
 
-    onMounted(() => {
-      fillChartData();
-    });
 
     return {
       titleStack,
@@ -237,14 +185,8 @@ export default {
       mdiReload,
       mdiTrashCan,
       mdiGithub,
-      userData: {
-        name: "",
-        admin_id: "",
-        gender: "",
-        phone: "",
-        email: "",
-        division: ""
-      }
+      postSender,
+      userData
     };
   }
 };

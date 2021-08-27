@@ -131,9 +131,9 @@
 
   <title-bar :title-stack="titleStack" />
 
-  <hero-bar class="mb-5" v-if="operators.value">Settings</hero-bar>
+  <hero-bar class="mb-5" v-if="$store.state.errorAccess==false">Settings</hero-bar>
 
-  <div id="operator" v-if="operators.value">
+  <div id="operator" v-if="$store.state.errorAccess==false">
     <hero-bar param :paramFunction="openParamWindow" search>Operator</hero-bar>
 
     <main-section>
@@ -221,7 +221,8 @@ export default {
     });
 
     const operators = computed(() => store.state.operator);
-
+    const errorAccess = computed(()=> store.state.errorAccess)
+    console.log(errorAccess.value, "fieho")
     const titleStack = ref(["Operator", "Settings"]);
 
     const chartData = ref(null);

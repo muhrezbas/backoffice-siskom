@@ -37,7 +37,9 @@ export default createStore({
     topUp: [],
     sms: [],
     senderid: [],
+    errorAccess: false,
     // transaction: [],
+    protocol:[],
     topup: [],
     packages: [],
     admin: [],
@@ -228,7 +230,11 @@ export default createStore({
           if (r.data) {
             commit("basic", {
               key: "sms",
-              value: r.data
+              value: r.data.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
             });
             commit("basic", {
               key: "blastAll",
@@ -329,7 +335,11 @@ export default createStore({
           if (r.data) {
             commit("basic", {
               key: "admin",
-              value: r.data
+              value: r.data.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
             });
           }
         })
@@ -350,13 +360,29 @@ export default createStore({
         .then(r => {
           if (r.data) {
             commit("basic", {
-              key: "operator",
-              value: r.data
+              key: "errorAccess",
+              value: false
             });
+            commit("basic", {
+              key: "operator",
+              value: r.data.newOperator.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
+            });
+
           }
         })
         .catch(error => {
-          console.log(error, "operator")
+          console.log(error.message, "operator errorr")
+          if (error.message == 'Request failed with status code 403') {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
+          // if(erro)
           // alert(error.message);
         });
     },
@@ -375,7 +401,11 @@ export default createStore({
             console.log(r.data.Country, "tesss")
             commit("basic", {
               key: "country",
-              value: r.data.Country
+              value: r.data.Country.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
             });
           }
         })
@@ -398,7 +428,11 @@ export default createStore({
             console.log(r.data, "senderid")
             commit("basic", {
               key: "senderid",
-              value: r.data
+              value: r.data.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
             });
           }
         })
@@ -421,7 +455,11 @@ export default createStore({
             console.log(r.data, "whitelist content")
             commit("basic", {
               key: "whitelistContent",
-              value: r.data
+              value: r.data.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
             });
           }
         })
@@ -444,7 +482,11 @@ export default createStore({
             console.log(r.data, "whitelistPhoneNumber")
             commit("basic", {
               key: "whitelistPhoneNumber",
-              value: r.data
+              value: r.data.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
             });
           }
         })
@@ -467,7 +509,11 @@ export default createStore({
             console.log(r.data, "prize")
             commit("basic", {
               key: "prize",
-              value: r.data
+              value: r.data.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
             });
           }
         })
@@ -490,7 +536,11 @@ export default createStore({
             console.log(r.data, "prefix")
             commit("basic", {
               key: "prefix",
-              value: r.data
+              value: r.data.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
             });
           }
         })
@@ -500,6 +550,7 @@ export default createStore({
         });
     },
     fetchKeyword({ commit }) {
+      console.log('keywordd')
       const countryUrl = process.env.VUE_APP_BASE_URL + "api/operators/keyword/";
       console.log('senderidss')
       axios
@@ -513,7 +564,38 @@ export default createStore({
             console.log(r.data, "keyword")
             commit("basic", {
               key: "keyword",
-              value: r.data
+              value: r.data.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          // alert(error.message);
+        });
+    },
+    fetchProtocol({ commit }) {
+      const countryUrl = process.env.VUE_APP_BASE_URL + "api/users/protocol/";
+      console.log('senderidss')
+      axios
+        .get(countryUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            console.log(r.data, "keyword")
+            commit("basic", {
+              key: "protocol",
+              value: r.data.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
             });
           }
         })
