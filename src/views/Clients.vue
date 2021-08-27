@@ -1,132 +1,77 @@
 <template>
-  <modal-box v-model="paramWindow" title="Set Parameter">
-    <field label="Group">
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
+  <modal-box v-model="paramWindow" title="Set Parameter" :submit="postClient">
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <field label="Username" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+      </field>
+
+      <field label="Company Name" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+      </field>
+    </div>
+
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <field label="Company Phone Number" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+      </field>
+
+      <field label="Company Address" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+      </field>
+    </div>
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <field label="Name PIC" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+      </field>
+
+      <field label="Contact PIC" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+      </field>
+    </div>
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <field label="Whitelist IP" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+      </field>
+
+      <field label="Finance Email" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+      </field>
+    </div>
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <field label="Notification Email" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+      </field>
+
+      <field label="Password" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+      </field>
+    </div>
+    <!-- <div class="flex flex-wrap -mx-3 mb-6"> -->
+    <field label="Priority Protocol">
+      <div>
+        <select
+          v-model="userData.priority[index]"
+          class="w-1/4 mb-2 ml-1"
+          v-for="(deta, index) in $store.state.protocol"
+          :key="index"
+        >
+          <option
+            v-for="option in $store.state.protocol"
+            :key="option._id ?? option"
+            :value="option._id"
+          >{{ option.supplier ?? option }}</option>
+        </select>
       </div>
     </field>
+
+    <!-- <field label="Prize" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+      </field>
+
+      <field label="Prize" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+    </field>-->
+    <!-- </div> -->
   </modal-box>
   <title-bar :title-stack="titleStack" />
   <hero-bar class="mb-5">Settings</hero-bar>
@@ -137,9 +82,9 @@
     <card-component has-table>
       <admin-table checkable />
     </card-component>
-  </main-section> -->
+  </main-section>-->
 
-  <hero-bar search>Users</hero-bar>
+  <hero-bar param :paramFunction="openParamWindow" search>Users</hero-bar>
 
   <main-section>
     <card-component has-table>
@@ -151,7 +96,10 @@
 <script>
 /* eslint-disable */
 // @ is an alias to /src
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
+import { useStore } from "vuex";
+import Swal from 'sweetalert2'
+import axios from 'axios'
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -209,15 +157,41 @@ export default {
     const openParamWindow = () => {
       paramWindow.value = !paramWindow.value;
     };
+    const userData = computed(() =>
+      reactive({
+        priority: []
+      })
+    )
 
     const fillChartData = () => {
       chartData.value = chartConfig.sampleChartData();
     };
+    const postClient = () => {
+      console.log(userData.value)
+      function hasDuplicates(arr) {
+        return arr.some(x => arr.indexOf(x) !== arr.lastIndexOf(x));
+      }
 
-    onMounted(() => {
+
+
+      if (hasDuplicates(userData.value.priority)) {
+        console.log("Duplicate elements found.");
+        Swal.fire({
+            title: "ADD Client!",
+            text: "Gagal",
+            icon: "warning",
+          });
+
+      }
+      else {
+        console.log("No Duplicates found.");
+      }
+    }
+    const store = useStore();
+    onMounted(async () => {
+      await store.dispatch("fetchProtocol");
       fillChartData();
     });
-
     return {
       titleStack,
       chartData,
@@ -229,20 +203,15 @@ export default {
       mdiCellphoneText,
       mdiCellphoneMessage,
       mdiChartTimelineVariant,
+      postClient,
       mdiPencilBoxOutline,
       mdiFinance,
       mdiMonitorCellphone,
       mdiReload,
+      userData,
       mdiTrashCan,
-      mdiGithub,
-      userData: {
-        name: "",
-        admin_id: "",
-        gender: "",
-        phone: "",
-        email: "",
-        division: ""
-      }
+      mdiGithub
+
     };
   }
 };
