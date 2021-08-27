@@ -1,29 +1,30 @@
 <template>
-  <modal-box v-model="isModalActive" title="User Setting">
+  <modal-box v-model="isModalActive" title="User Setting" :submit="putSender">
     <field label="Sender ID">
-      <control
-        v-model="userData.senderID"
-        name="senderID"
-        required
-        autocomplete="senderID"
-      />
+      <control v-model="userData.senderID" name="senderID" required autocomplete="senderID" />
     </field>
 
     <field label="Region">
-      <control
-        v-model="userData.region"
-        name="region"
-        required
-        autocomplete="region"
-      />
+      <select v-model="userData.region" class="w-full">
+        <option
+          v-for="option in ['local', 'international']"
+          :key="option._id ?? option"
+          :value="option"
+        >{{ option.nickname ?? option }}</option>
+      </select>
+    </field>
+    <field label="Operator">
+      <select v-model="userData.operator" class="w-full">
+        <option
+          v-for="option in $store.state.operator"
+          :key="option._id ?? option"
+          :value="option._id"
+        >{{ option.nickname ?? option }}</option>
+      </select>
     </field>
   </modal-box>
 
-  <modal-box
-    v-model="isModalDeleteActive"
-    title="Please confirm action"
-    has-cancel
-  >
+  <modal-box v-model="isModalDeleteActive" title="Please confirm action" has-cancel>
     <p>Are you sure you want to delete this entry ?</p>
   </modal-box>
 
@@ -45,13 +46,7 @@
         <td data-label="Operator">{{ country.operator.nickname }}</td>
         <td class="actions-cell">
           <jb-buttons type="justify-start lg:justify-end" no-wrap>
-            <jb-button
-              class="mr-3"
-              color="info"
-              :icon="mdiEye"
-              small
-              @click="isModalActive = true"
-            />
+            <jb-button class="mr-3" color="info" :icon="mdiEye" small @click="clickEye(country)" />
             <jb-button
               class="mr-3"
               color="info"
@@ -83,8 +78,10 @@
 
 <script>
 /* eslint-disable */
-import { computed, ref, onMounted } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
 import { useStore } from "vuex";
+import Swal from 'sweetalert2'
+import axios from 'axios'
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import ModalBox from "@/components/ModalBox";
 import Field from "@/components/Field";
@@ -113,6 +110,71 @@ export default {
       // fillChartData();
       // console.log(this.$store.state.client, "tessc");
     });
+    const userData = computed(() =>
+      reactive({
+        senderID: "",
+        region: "",
+        operator: "",
+        _id: ""
+      })
+    )
+    const clickEye = (payload) => {
+      console.log(payload, "tesr")
+      userData.value.senderID = payload.senderID
+      userData.value.operator = payload.operator._id
+      userData.value.region = payload.region
+      userData.value._id = payload._id
+
+      isModalActive.value = true
+    }
+    const putSender = () => {
+      console.log(userData.value)
+      let keyword = {
+        senderID: userData.value.senderID,
+        region:  userData.value.region,
+        operator: userData.value.operator
+      }
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/operators/editSenderid/" + userData.value._id + "/";
+      // commit("auth_request");
+      axios
+        .put(loginUrl, keyword, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+          userData.value.senderID = ""
+          userData.value.operator = ""
+          userData.value.region = ""
+          userData.value._id = ""
+
+          if (r.data) {
+            Swal.fire({
+              title: "EDIT Sender ID!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchSenderIDs");
+          isModalActive.value = false
+
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "EDIT Sender ID!",
+            text: error.response.data.message,
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+
+
+    }
 
     const items = computed(() => store.state.senderid);
     console.log(store.state.senderid, "tesss");
@@ -160,11 +222,10 @@ export default {
       itemsPaginated,
       pagesList,
       mdiEye,
+      clickEye,
+      putSender,
       mdiTrashCan,
-      userData: {
-        senderID: "",
-        region: ""
-      }
+      userData
     };
   }
 };

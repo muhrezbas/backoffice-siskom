@@ -1,29 +1,15 @@
 <template>
-  <modal-box v-model="isModalActive" title="Edit Country">
+  <modal-box v-model="isModalActive" title="Edit Country" :submit="putCountry">
     <field label="Kode">
-      <control
-        v-model="userData.kode"
-        name="kode"
-        required
-        autocomplete="kode"
-      />
+      <control v-model="userData.kode" name="kode" required autocomplete="kode" />
     </field>
 
     <field label="Region">
-      <control
-        v-model="userData.region"
-        name="region"
-        required
-        autocomplete="region"
-      />
+      <control v-model="userData.region" name="region" required autocomplete="region" />
     </field>
   </modal-box>
 
-  <modal-box
-    v-model="isModalDeleteActive"
-    title="Please confirm action"
-    has-cancel
-  >
+  <modal-box v-model="isModalDeleteActive" title="Please confirm action" has-cancel>
     <p>Are you sure you want to delete this entry ?</p>
   </modal-box>
 
@@ -43,13 +29,7 @@
         <td data-label="Region">{{ country.region.toUpperCase() }}</td>
         <td class="actions-cell">
           <jb-buttons type="justify-start lg:justify-end" no-wrap>
-            <jb-button
-              class="mr-3"
-              color="info"
-              :icon="mdiEye"
-              small
-              @click="isModalActive = true"
-            />
+            <jb-button class="mr-3" color="info" :icon="mdiEye" small @click="clickEye(country)" />
             <jb-button
               class="mr-3"
               color="info"
@@ -81,8 +61,10 @@
 
 <script>
 /* eslint-disable */
-import { computed, ref, onMounted } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
 import { useStore } from "vuex";
+import Swal from 'sweetalert2'
+import axios from 'axios'
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import ModalBox from "@/components/ModalBox";
 import Field from "@/components/Field";
@@ -103,6 +85,13 @@ export default {
   },
   setup() {
     const store = useStore();
+    const userData = computed(() =>
+      reactive({
+        kode: "",
+        region: "",
+        _id: ""
+      })
+    )
     onMounted(async () => {
       const res = await store.dispatch("fetchCountrys");
 
@@ -111,6 +100,60 @@ export default {
       // fillChartData();
       // console.log(this.$store.state.client, "tessc");
     });
+    const clickEye = (payload) => {
+      console.log(payload, "tesr")
+      userData.value.kode = payload.kode
+      userData.value.region = payload.region
+      userData.value._id = payload._id
+
+      isModalActive.value = true
+    }
+    const putCountry = () => {
+      console.log(userData.value)
+      let keyword = {
+        kode: userData.value.kode,
+        region: userData.value.region
+      }
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/operators/editCountry/" + userData.value._id + "/";
+      // commit("auth_request");
+      axios
+        .put(loginUrl, keyword, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+          userData.value.kode = ""
+          userData.value.region = ""
+          userData.value._id = ""
+
+          if (r.data) {
+            Swal.fire({
+              title: "EDIT Country!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchCountrys");
+          isModalActive.value = false
+
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "EDIT Country!",
+            text: error.response.data.message,
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+
+
+    }
 
     const items = computed(() => store.state.country);
     console.log(items, "fna");
@@ -157,12 +200,11 @@ export default {
       checkedRows,
       itemsPaginated,
       pagesList,
+      clickEye,
       mdiEye,
       mdiTrashCan,
-      userData: {
-        kode: "",
-        region: ""
-      }
+      putCountry,
+      userData
     };
   }
 };

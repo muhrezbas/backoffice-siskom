@@ -1,15 +1,15 @@
 <template>
-  <modal-box v-model="isModalActive" title="User Setting">
+  <modal-box v-model="isModalActive" title="Admin Setting" :submit="putAdmin">
     <field label="Name">
       <control v-model="userData.name" name="name" required autocomplete="name" />
     </field>
 
-    <field label="Gender">
-      <control v-model="userData.gender" name="gender" required autocomplete="gender" />
+    <field label="Username">
+      <control v-model="userData.username" name="username" required autocomplete="username" />
     </field>
 
-    <field label="Phone">
-      <control v-model="userData.phone" name="phone" required autocomplete="phone" />
+    <field label="Admin Code">
+      <control v-model="userData.adminCode" name="adminCode" required autocomplete="adminCode" />
     </field>
 
     <field label="Email">
@@ -27,8 +27,8 @@
         <th></th>
         <th>Name</th>
         <th>ID Admin</th>
-        <th>Gender</th>
-        <th>Phone</th>
+        <th>Admin Code</th>
+        <!-- <th>Phone</th> -->
         <th>Email</th>
         <th></th>
       </tr>
@@ -38,18 +38,12 @@
         <td>{{ admins.id }}</td>
         <td data-label="Name">{{ admins.name }}</td>
         <td data-label="AdminId">{{ admins._id }}</td>
-        <td data-label="Gender">{{ admins.gender }}</td>
-        <td data-label="Phone">{{ admins.phone }}</td>
+        <td data-label="Admin Code">{{ admins.adminCode }}</td>
+        <!-- <td data-label="Phone">{{ admins.phone }}</td> -->
         <td data-label="Email">{{ admins.email }}</td>
         <td class="actions-cell">
           <jb-buttons type="justify-start lg:justify-end" no-wrap>
-            <jb-button
-              class="mr-3"
-              color="info"
-              :icon="mdiEye"
-              small
-              @click="isModalActive = true"
-            />
+            <jb-button class="mr-3" color="info" :icon="mdiEye" small @click="clickEye(admins)" />
             <jb-button
               class="mr-3"
               color="info"
@@ -81,8 +75,10 @@
 
 <script>
 /* eslint-disable */
-import { computed, ref, onMounted } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
 import { useStore } from "vuex";
+import Swal from 'sweetalert2'
+import axios from 'axios'
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import ModalBox from "@/components/ModalBox";
 import Field from "@/components/Field";
@@ -116,15 +112,94 @@ export default {
     const perPage = ref(10);
 
     const currentPage = ref(0);
-
+    // editAdmin
     const checkedRows = ref([]);
+    const userData = computed(() =>
+      reactive({
+        name: "",
+        username: "",
+        adminCode: "",
+        email: ""
+      })
+    )
+    const putAdmin = () => {
+      console.log(userData.value)
+      let keyword = {
+        name: userData.value.name,
+        username: userData.value.username,
+        adminCode: userData.value.adminCode,
+        email: userData.value.email
+      }
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/admins/editAdmin/" + userData.value._id + "/";
+      // commit("auth_request");
+      axios
+        .put(loginUrl, keyword, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+          userData.value.name = ""
+          userData.value.username = ""
+          userData.value.adminCode = ""
+          userData.value.email = ""
+          userData.value._id = ""
 
+          if (r.data) {
+            Swal.fire({
+              title: "EDIT Admin!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchAdmins");
+          isModalActive.value = false
+
+        })
+        .catch((error) => {
+          console.log(error.response)
+          let err
+
+          if (error.response.status == 403) {
+            err = "Not Authorize"
+          }
+          else if (error.response.data == undefined) {
+            err = error.response
+          }
+
+          else {
+            err = error.response.data.message
+          }
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+
+          Swal.fire({
+            title: "EDIT Admin!",
+            text: err,
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+    }
     const itemsPaginated = computed(() =>
       items.value.slice(
         perPage.value * currentPage.value,
         perPage.value * (currentPage.value + 1)
       )
     );
+    const clickEye = (payload) => {
+      console.log(payload, "tesr")
+      userData.value.name = payload.name
+      userData.value.username = payload.username
+      userData.value.adminCode = payload.adminCode
+      userData.value.email = payload.email
+      userData.value._id = payload._id
+
+
+      isModalActive.value = true
+    }
 
     const numPages = computed(() =>
       Math.ceil(items.value.length / perPage.value)
@@ -149,16 +224,13 @@ export default {
       currentPageHuman,
       numPages,
       checkedRows,
+      putAdmin,
       itemsPaginated,
+      clickEye,
       pagesList,
       mdiEye,
       mdiTrashCan,
-      userData: {
-        name: "",
-        gender: "",
-        phone: "",
-        email: ""
-      }
+      userData
     };
   }
 };

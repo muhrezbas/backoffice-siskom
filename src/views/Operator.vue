@@ -1,139 +1,29 @@
 <template>
-  <modal-box v-model="paramWindow" title="Set Parameter">
-    <field label="Group">
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
-      <div class="flex justify-center">
-        <control
-          class="w-full mr-4"
-          v-model="userData.name"
-          name="name"
-          required
-          autocomplete="name"
-        />
-        <jb-buttons type="justify-start lg:justify-end" no-wrap>
-          <jb-button
-            class="mr-3"
-            color="success"
-            :icon="mdiPencilBoxOutline"
-            small
-            @click="isModalActive = true"
-          />
-          <jb-button
-            class="mr-3"
-            color="danger"
-            :icon="mdiTrashCan"
-            small
-            @click="isModalDeleteActive = true"
-          />
-        </jb-buttons>
-      </div>
+  <modal-box v-model="paramWindow" title="Set Parameter" :submit="postOperator">
+    <field label="Company Name">
+      <control v-model="userData.name" name="Company Name" required autocomplete="Company Name" />
+    </field>
+
+    <field label="Nickname">
+      <control v-model="userData.nickname" name="prize" required autocomplete="prize" />
+    </field>
+
+    <field label="Country">
+      <select v-model="userData.country" class="w-full">
+        <option
+          v-for="option in $store.state.country"
+          :key="option._id ?? option"
+          :value="option._id"
+        >{{ option.region ?? option }}</option>
+      </select>
     </field>
   </modal-box>
 
   <title-bar :title-stack="titleStack" />
 
-  <hero-bar class="mb-5" v-if="$store.state.errorAccess==false">Settings</hero-bar>
+  <hero-bar class="mb-5" v-if="$store.state.errorAccess == false">Settings</hero-bar>
 
-  <div id="operator" v-if="$store.state.errorAccess==false">
+  <div id="operator" v-if="$store.state.errorAccess == false">
     <hero-bar param :paramFunction="openParamWindow" search>Operator</hero-bar>
 
     <main-section>
@@ -157,8 +47,10 @@
 <script>
 /* eslint-disable */
 // @ is an alias to /src
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
 import { useStore } from "vuex";
+import Swal from 'sweetalert2'
+import axios from 'axios'
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -213,19 +105,68 @@ export default {
     // 
     onMounted(async () => {
       const res = await store.dispatch("fetchOperators");
+      await store.dispatch("fetchCountrys");
 
       console.log(res, "tes");
       // console.log(this.$route, "test");
       // fillChartData();
       // console.log(this.$store.state.client, "tessc");
     });
+    const userData = computed(() =>
+      reactive({
+        name: "",
+        nickname: "",
+        country: ""
+      })
+    )
+
 
     const operators = computed(() => store.state.operator);
-    const errorAccess = computed(()=> store.state.errorAccess)
+    const errorAccess = computed(() => store.state.errorAccess)
     console.log(errorAccess.value, "fieho")
     const titleStack = ref(["Operator", "Settings"]);
 
     const chartData = ref(null);
+    const postOperator = () => {
+      console.log(userData.value)
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/operators/register/";
+      // commit("auth_request");
+      axios
+        .post(loginUrl, userData.value, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+          userData.value.country = "";
+          userData.value.name = "";
+          userData.value.nickname = "";
+
+          if (r.data) {
+            Swal.fire({
+              title: "ADD Operator!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchOperators");
+          paramWindow.value = false
+
+        })
+        .catch((error) => {
+          console.log(error)
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "ADD Operator!",
+            text: "Gagal",
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+    }
 
     const paramWindow = ref(false);
 
@@ -252,6 +193,7 @@ export default {
       mdiCashMultiple,
       mdiCellphoneText,
       mdiCellphoneMessage,
+      postOperator,
       mdiChartTimelineVariant,
       mdiPencilBoxOutline,
       mdiFinance,
@@ -259,14 +201,7 @@ export default {
       mdiReload,
       mdiTrashCan,
       mdiGithub,
-      userData: {
-        name: "",
-        admin_id: "",
-        gender: "",
-        phone: "",
-        email: "",
-        division: ""
-      }
+      userData
     };
   }
 };
