@@ -40,9 +40,9 @@
       class="mb-6"
       @header-icon-click="fillChartData"
     >
-      <div v-if="chartData">
-        <line-chart :data="chartData" class="h-96" />
-      </div>
+      <!-- <div v-if="chartData"> -->
+      <line-chart :data="chartData" class="h-96" />
+      <!-- </div> -->
     </card-component>
     <!-- <title-bar :title-stack="titleStack" /> -->
     <hero-bar :control="true">Customer SMS Details List</hero-bar>
@@ -114,15 +114,16 @@ export default {
   setup() {
     const store = useStore();
     onMounted(async () => {
-      const res = await store.dispatch("fetchSms");
+      await store.dispatch("fetchSms");
 
-      console.log(res, "tes");
+      // console.log(res, "tes");
       // console.log(this.$route, "test");
       fillChartData();
       tkn();
-      // console.log(this.$store.state.client, "tessc");
+      console.log(store.state.sms, "tessc");
+      console.log(store.state.smsAll, "sms All letes")
     });
-    console.log(store.state.sms)
+    console.log(store.state.sms, "dapetkan")
     console.log(store.state.smsAll, "sms All")
     const titleStack = ref(["Admin", "Dashboard"]);
 
@@ -247,6 +248,8 @@ export default {
       var base64Url = localStorage.getItem("token").split(".")[1];
       console.log(JSON.parse(window.atob(base64Url)));
     };
+    console.log(chartData, "chart");
+    console.log(fillChartData, "fill");
 
 
 
