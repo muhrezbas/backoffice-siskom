@@ -88,7 +88,7 @@
 
   <main-section>
     <card-component has-table>
-      <users-table checkable />
+      <users-table checkable :admin="true" />
     </card-component>
   </main-section>
 </template>

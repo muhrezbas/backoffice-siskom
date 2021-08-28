@@ -39,7 +39,7 @@ const routes = [
       title: "Dashboard",
       requiresAuth: true
     },
-    path: "/dashboard",
+    path: "/admin/dashboard",
     name: "dashboard",
     component: Dashboard
   },
@@ -271,8 +271,10 @@ router.beforeEach((to, from, next) => {
     next();
   } else if (to.name === "home" && !store.getters.isLoggedIn) {
     next();
+  } else if (to.name === "login_admin" && !store.getters.isLoggedIn) {
+    next();
   } else if (to.name !== "home" && !store.getters.isLoggedIn) {
-    next({ name: "login" });
+    next({ name: "home" });
   } else next();
 });
 

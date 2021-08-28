@@ -268,7 +268,7 @@ export default {
     goToInvoice() {
       console.log("hello");
       this.$router.push({
-        path: `/invoice/${this.idClient}`,
+        path: `/admin/invoice/${this.idClient}`,
       });
     },
   },

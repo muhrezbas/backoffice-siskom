@@ -86,10 +86,18 @@ export default createStore({
       state.saldo = saldo.jumlah;
     },
     transaction(state, saldo) {
-      state.transaction = saldo.history;
+      state.transaction = saldo.history.sort(function (a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
     },
     topup(state, saldo) {
-      state.topUp = saldo.history.filter(el => el.action == "topup");
+      state.topUp = saldo.history.sort(function (a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      }).filter(el => el.action == "topup");
     },
     otp(state, otp) {
       state.otp = otp.filter(el => el.prize.akun == "premium").length;
@@ -101,6 +109,7 @@ export default createStore({
     /* A fit-them-all commit */
     basic(state, payload) {
       console.log(payload.value, state[payload.key], "nana");
+      console.log(payload.key, "key");
       state[payload.key] = payload.value;
     },
 
@@ -149,6 +158,7 @@ export default createStore({
       });
     },
     formScreenToggle({ commit, state }, value) {
+      console.log(value, "value form screen")
       commit("basic", { key: "isFormScreen", value });
 
       document.documentElement.classList[value ? "add" : "remove"](
@@ -176,7 +186,7 @@ export default createStore({
               key: "token",
               value: r.data.access_token
             });
-            router.push("/dashboard");
+            router.push("/admin/dashboard");
           }
         })
         .catch(error => {
@@ -241,7 +251,11 @@ export default createStore({
         .then(r => {
           if (r.data) {
             console.log(r.data, "client tes da");
-            commit("clients", r.data);
+            commit("clients", r.data.sort(function (a, b) {
+              // Turn your strings into dates, and then subtract them
+              // to get a value that is either negative, positive, or zero.
+              return new Date(b.createdAt) - new Date(a.createdAt);
+            }));
           }
         })
         .catch(error => {
@@ -695,9 +709,21 @@ export default createStore({
         .then(r => {
           if (r.data) {
             console.log(r.data, "sms client tes");
-            commit("smsClient", r.data);
-            commit("blast", r.data);
-            commit("otp", r.data);
+            commit("smsClient", r.data.sort(function (a, b) {
+              // Turn your strings into dates, and then subtract them
+              // to get a value that is either negative, positive, or zero.
+              return new Date(b.createdAt) - new Date(a.createdAt);
+            }));
+            commit("blast", r.data.sort(function (a, b) {
+              // Turn your strings into dates, and then subtract them
+              // to get a value that is either negative, positive, or zero.
+              return new Date(b.createdAt) - new Date(a.createdAt);
+            }));
+            commit("otp", r.data.sort(function (a, b) {
+              // Turn your strings into dates, and then subtract them
+              // to get a value that is either negative, positive, or zero.
+              return new Date(b.createdAt) - new Date(a.createdAt);
+            }));
           }
         })
         .catch(error => {

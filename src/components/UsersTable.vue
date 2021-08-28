@@ -1,6 +1,9 @@
 <template>
   <modal-box v-model="isModalActive" title="Please confirm action" has-cancel>
-    <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
+    <p>
+      Lorem ipsum dolor sit amet
+      <b>adipiscing elit</b>
+    </p>
     <p>This is sample modal</p>
   </modal-box>
 
@@ -21,11 +24,7 @@
       </tr>
     </thead>
     <tbody class="font-semibold">
-      <tr
-        v-for="user in itemsPaginated"
-        :key="user._id"
-        @click="goTo(user._id)"
-      >
+      <tr v-for="user in itemsPaginated" :key="user._id" @click="goTo(user._id)">
         <!-- <router-link :to="'/client/' + user._id"> -->
         <!-- <td>{{ user._id }}</td> -->
         <td data-label="Company Name">{{ user.companyName }}</td>
@@ -44,7 +43,7 @@
           <p v-if="user.response == 2" class="text-blue-500">SMS Blast</p>
           <p v-if="user.response == 3" class="text-yellow-500">Pending</p>
           <p v-if="user.response == 4" class="text-red-500">Cancel</p>
-        </td> -->
+        </td>-->
       </tr>
     </tbody>
   </table>
@@ -83,12 +82,27 @@ export default {
     JbButtons,
     JbButton,
   },
+  props: {
+    admin: {
+      type: Boolean,
+      default: false
+    }
+  },
   methods: {
     goTo(payload) {
       //console.log("hello");
-      this.$router.push({
-        path: `/client/${payload}`,
-      });
+      console.log(this.admin, "test props")
+      if (this.admin == true) {
+        this.$router.push({
+          path: `/admin/client/${payload}`,
+        });
+      }
+      else {
+        this.$router.push({
+          path: `/client/${payload}`,
+        });
+      }
+
     },
   },
   setup() {
