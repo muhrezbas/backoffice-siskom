@@ -39,7 +39,7 @@ export default createStore({
     senderid: [],
     errorAccess: false,
     // transaction: [],
-    protocol:[],
+    protocol: [],
     topup: [],
     packages: [],
     admin: [],
@@ -92,16 +92,15 @@ export default createStore({
       state.topUp = saldo.history.filter(el => el.action == "topup");
     },
     otp(state, otp) {
-      state.otp = otp.filter(el => el.prize.akun == "premium").length
+      state.otp = otp.filter(el => el.prize.akun == "premium").length;
       // state.topUp = saldo.history.filter(el => el.action == "topup");
     },
     blast(state, blast) {
-      state.blast = blast.filter(el => el.prize.akun == "reguler").length
-
+      state.blast = blast.filter(el => el.prize.akun == "reguler").length;
     },
     /* A fit-them-all commit */
     basic(state, payload) {
-      console.log(payload.value, state[payload.key], "nana")
+      console.log(payload.value, state[payload.key], "nana");
       state[payload.key] = payload.value;
     },
 
@@ -183,6 +182,7 @@ export default createStore({
         .catch(error => {
           commit("auth_error");
           localStorage.removeItem("token");
+          localStorage.removeItem("user");
           // alert(error.message);
         });
     },
@@ -190,6 +190,7 @@ export default createStore({
       return new Promise((resolve, reject) => {
         commit("logout");
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         delete axios.defaults.headers.common["Authorization"];
         resolve();
         router.push("/");
@@ -212,7 +213,7 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     },
@@ -230,7 +231,7 @@ export default createStore({
           if (r.data) {
             commit("basic", {
               key: "sms",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -238,11 +239,13 @@ export default createStore({
             });
             commit("basic", {
               key: "blastAll",
-              value: r.data.filter(el => el.prize.akun == 'reguler' && el.statusSms.code == 0).length
+              value: r.data.filter(
+                el => el.prize.akun == "reguler" && el.statusSms.code == 0
+              ).length
             });
             commit("basic", {
               key: "otpAll",
-              value: r.data.filter(el => el.prize.akun == 'premium').length
+              value: r.data.filter(el => el.prize.akun == "premium").length
             });
             commit("basic", {
               key: "smsAll",
@@ -265,7 +268,7 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     },
@@ -301,7 +304,7 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     },
@@ -319,7 +322,7 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     },
@@ -335,7 +338,7 @@ export default createStore({
           if (r.data) {
             commit("basic", {
               key: "admin",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -344,7 +347,7 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     },
@@ -365,18 +368,17 @@ export default createStore({
             });
             commit("basic", {
               key: "operator",
-              value: r.data.newOperator.sort(function (a, b) {
+              value: r.data.newOperator.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
               })
             });
-
           }
         })
         .catch(error => {
-          console.log(error.message, "operator errorr")
-          if (error.message == 'Request failed with status code 403') {
+          console.log(error.message, "operator errorr");
+          if (error.message == "Request failed with status code 403") {
             commit("basic", {
               key: "errorAccess",
               value: true
@@ -387,7 +389,7 @@ export default createStore({
         });
     },
     fetchCountrys({ commit }) {
-      console.log('conutr')
+      console.log("conutr");
       const countryUrl =
         process.env.VUE_APP_BASE_URL + "api/operators/findCountryAll/";
       axios
@@ -398,10 +400,10 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
-            console.log(r.data.Country, "tesss")
+            console.log(r.data.Country, "tesss");
             commit("basic", {
               key: "country",
-              value: r.data.Country.sort(function (a, b) {
+              value: r.data.Country.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -410,13 +412,14 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     },
     fetchSenderIDs({ commit }) {
-      const countryUrl = process.env.VUE_APP_BASE_URL + "api/operators/senderid/";
-      console.log('senderidss')
+      const countryUrl =
+        process.env.VUE_APP_BASE_URL + "api/operators/senderid/";
+      console.log("senderidss");
       axios
         .get(countryUrl, {
           headers: {
@@ -425,10 +428,10 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
-            console.log(r.data, "senderid")
+            console.log(r.data, "senderid");
             commit("basic", {
               key: "senderid",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -437,13 +440,14 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     },
     fetchWhitelistContent({ commit }) {
-      const countryUrl = process.env.VUE_APP_BASE_URL + "api/operators/whitelistContent/";
-      console.log('senderidss')
+      const countryUrl =
+        process.env.VUE_APP_BASE_URL + "api/operators/whitelistContent/";
+      console.log("senderidss");
       axios
         .get(countryUrl, {
           headers: {
@@ -452,10 +456,10 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
-            console.log(r.data, "whitelist content")
+            console.log(r.data, "whitelist content");
             commit("basic", {
               key: "whitelistContent",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -464,13 +468,14 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     },
     fetchWhitelistPhoneNumber({ commit }) {
-      const countryUrl = process.env.VUE_APP_BASE_URL + "api/operators/whitelistPhoneNumber/";
-      console.log('senderidss')
+      const countryUrl =
+        process.env.VUE_APP_BASE_URL + "api/operators/whitelistPhoneNumber/";
+      console.log("senderidss");
       axios
         .get(countryUrl, {
           headers: {
@@ -479,10 +484,10 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
-            console.log(r.data, "whitelistPhoneNumber")
+            console.log(r.data, "whitelistPhoneNumber");
             commit("basic", {
               key: "whitelistPhoneNumber",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -491,13 +496,13 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     },
     fetchPrize({ commit }) {
       const countryUrl = process.env.VUE_APP_BASE_URL + "api/operators/prize/";
-      console.log('senderidss')
+      console.log("senderidss");
       axios
         .get(countryUrl, {
           headers: {
@@ -506,10 +511,10 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
-            console.log(r.data, "prize")
+            console.log(r.data, "prize");
             commit("basic", {
               key: "prize",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -518,13 +523,13 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     },
     fetchPrefix({ commit }) {
       const countryUrl = process.env.VUE_APP_BASE_URL + "api/operators/prefix/";
-      console.log('prefix')
+      console.log("prefix");
       axios
         .get(countryUrl, {
           headers: {
@@ -533,10 +538,10 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
-            console.log(r.data, "prefix")
+            console.log(r.data, "prefix");
             commit("basic", {
               key: "prefix",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -545,14 +550,15 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     },
     fetchKeyword({ commit }) {
-      console.log('keywordd')
-      const countryUrl = process.env.VUE_APP_BASE_URL + "api/operators/keyword/";
-      console.log('senderidss')
+      console.log("keywordd");
+      const countryUrl =
+        process.env.VUE_APP_BASE_URL + "api/operators/keyword/";
+      console.log("senderidss");
       axios
         .get(countryUrl, {
           headers: {
@@ -561,10 +567,10 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
-            console.log(r.data, "keyword")
+            console.log(r.data, "keyword");
             commit("basic", {
               key: "keyword",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -573,13 +579,13 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     },
     fetchProtocol({ commit }) {
       const countryUrl = process.env.VUE_APP_BASE_URL + "api/users/protocol/";
-      console.log('senderidss')
+      console.log("senderidss");
       axios
         .get(countryUrl, {
           headers: {
@@ -588,10 +594,10 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
-            console.log(r.data, "keyword")
+            console.log(r.data, "keyword");
             commit("basic", {
               key: "protocol",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -600,7 +606,7 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     },
@@ -618,7 +624,7 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     },
@@ -636,18 +642,18 @@ export default createStore({
           if (r.data) {
             console.log(r.data, "client tes");
             commit("client", r.data);
-
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     },
     fetchSmsClient({ commit }, id) {
       console.log(id, "tes");
       const findClientAllUrl =
-        process.env.VUE_APP_BASE_URL + `api/operators/findAllSmsByClient/${id.id}`;
+        process.env.VUE_APP_BASE_URL +
+        `api/operators/findAllSmsByClient/${id.id}`;
       return axios
         .get(findClientAllUrl, {
           headers: {
@@ -658,12 +664,12 @@ export default createStore({
           if (r.data) {
             console.log(r.data, "sms client tes");
             commit("smsClient", r.data);
-            commit("blast", r.data)
-            commit("otp", r.data)
+            commit("blast", r.data);
+            commit("otp", r.data);
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     },
@@ -687,7 +693,7 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           // alert(error.message);
         });
     }
