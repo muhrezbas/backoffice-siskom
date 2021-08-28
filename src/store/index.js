@@ -221,7 +221,7 @@ export default createStore({
       console.log("sms");
       const findSmsAllUrl =
         process.env.VUE_APP_BASE_URL + "api/operators/findAllSms/";
-      axios
+      return axios
         .get(findSmsAllUrl, {
           headers: {
             token: localStorage.getItem("token")
@@ -231,7 +231,7 @@ export default createStore({
           if (r.data) {
             commit("basic", {
               key: "sms",
-              value: r.data.sort(function(a, b) {
+              value: r.data.sort(function (a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -338,7 +338,7 @@ export default createStore({
           if (r.data) {
             commit("basic", {
               key: "admin",
-              value: r.data.sort(function(a, b) {
+              value: r.data.sort(function (a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -368,7 +368,7 @@ export default createStore({
             });
             commit("basic", {
               key: "operator",
-              value: r.data.newOperator.sort(function(a, b) {
+              value: r.data.newOperator.sort(function (a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -403,7 +403,7 @@ export default createStore({
             console.log(r.data.Country, "tesss");
             commit("basic", {
               key: "country",
-              value: r.data.Country.sort(function(a, b) {
+              value: r.data.Country.sort(function (a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -431,7 +431,7 @@ export default createStore({
             console.log(r.data, "senderid");
             commit("basic", {
               key: "senderid",
-              value: r.data.sort(function(a, b) {
+              value: r.data.sort(function (a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -459,7 +459,7 @@ export default createStore({
             console.log(r.data, "whitelist content");
             commit("basic", {
               key: "whitelistContent",
-              value: r.data.sort(function(a, b) {
+              value: r.data.sort(function (a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -487,7 +487,7 @@ export default createStore({
             console.log(r.data, "whitelistPhoneNumber");
             commit("basic", {
               key: "whitelistPhoneNumber",
-              value: r.data.sort(function(a, b) {
+              value: r.data.sort(function (a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -514,7 +514,7 @@ export default createStore({
             console.log(r.data, "prize");
             commit("basic", {
               key: "prize",
-              value: r.data.sort(function(a, b) {
+              value: r.data.sort(function (a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -541,7 +541,7 @@ export default createStore({
             console.log(r.data, "prefix");
             commit("basic", {
               key: "prefix",
-              value: r.data.sort(function(a, b) {
+              value: r.data.sort(function (a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -570,7 +570,7 @@ export default createStore({
             console.log(r.data, "keyword");
             commit("basic", {
               key: "keyword",
-              value: r.data.sort(function(a, b) {
+              value: r.data.sort(function (a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -597,7 +597,7 @@ export default createStore({
             console.log(r.data, "keyword");
             commit("basic", {
               key: "protocol",
-              value: r.data.sort(function(a, b) {
+              value: r.data.sort(function (a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);

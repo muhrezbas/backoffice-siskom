@@ -1,4 +1,78 @@
 <template>
+  <modal-box v-model="paramWindow" title="Set Parameter" :submit="putClient">
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <field label="Username" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.username" name="prize" required autocomplete="prize" />
+      </field>
+
+      <field label="Company Name" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.companyName" name="prize" required autocomplete="prize" />
+      </field>
+    </div>
+
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <field label="Company Phone Number" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.companyNumber" name="prize" required autocomplete="prize" />
+      </field>
+
+      <field label="Company Address" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.companyAddress" name="prize" required autocomplete="prize" />
+      </field>
+    </div>
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <field label="Name PIC" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.namePic" name="prize" required autocomplete="prize" />
+      </field>
+
+      <field label="Contact PIC" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.contactPic" name="prize" required autocomplete="prize" />
+      </field>
+    </div>
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <field label="Whitelist IP" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.whiteListIp" name="prize" required autocomplete="prize" />
+      </field>
+
+      <field label="Finance Email" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.financeEmail" name="prize" required autocomplete="prize" />
+      </field>
+    </div>
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <field label="Notification Email" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.notifEmail" name="prize" required autocomplete="prize" />
+      </field>
+
+      <!-- <field label="Password" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.password" name="prize" required autocomplete="prize" />
+      </field>-->
+    </div>
+    <!-- <div class="flex flex-wrap -mx-3 mb-6"> -->
+    <field label="Priority Protocol">
+      <div>
+        <select
+          v-model="userData.priority[index]"
+          class="w-1/4 mb-2 ml-1"
+          v-for="(deta, index) in $store.state.protocol"
+          :key="index"
+        >
+          <option
+            v-for="option in $store.state.protocol"
+            :key="option._id ?? option"
+            :value="option._id"
+          >{{ option.supplier ?? option }}</option>
+        </select>
+      </div>
+    </field>
+
+    <!-- <field label="Prize" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+      </field>
+
+      <field label="Prize" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+    </field>-->
+    <!-- </div> -->
+  </modal-box>
   <title-bar :title-stack="titleStack" />
   <hero-bar>Profile</hero-bar>
   <main-section>
@@ -8,83 +82,69 @@
           <tbody class="text-xl" v-if="this.client.companyName !== undefined">
             <tr>
               <td>Company Name</td>
-              <td>
-                {{ this.client.companyName }}
-              </td>
+              <td>{{ this.client.companyName }}</td>
             </tr>
             <tr></tr>
             <tr>
-              <td class="">Username</td>
-              <td>
-                {{ this.client.companyName }}
-              </td>
+              <td class>Username</td>
+              <td>{{ this.client.companyName }}</td>
             </tr>
             <tr></tr>
             <tr>
-              <td class="">Company Address</td>
-              <td>
-                {{ this.client.companyAddress }}
-              </td>
+              <td class>Company Address</td>
+              <td>{{ this.client.companyAddress }}</td>
             </tr>
             <tr></tr>
             <tr>
-              <td class="">First Priority Supplier</td>
-              <td>
-                {{ this.client.priority[0].supplier }}
-              </td>
+              <td class>First Priority Supplier</td>
+              <td>{{ this.client.priority[0].supplier }}</td>
             </tr>
             <tr></tr>
             <tr>
-              <td class="">Priority</td>
+              <td class>Priority</td>
               <td>
                 <div
                   v-for="priority in this.client.priority"
                   v-bind:key="priority._id"
-                >
-                  {{ priority.supplier }}
-                </div>
+                >{{ priority.supplier }}</div>
               </td>
             </tr>
             <tr></tr>
             <tr>
-              <td class="">Name PIC</td>
-              <td>
-                {{ this.client.namePic }}
-              </td>
+              <td class>Name PIC</td>
+              <td>{{ this.client.namePic }}</td>
             </tr>
             <tr></tr>
             <tr>
-              <td class="">Contact PIC</td>
-              <td>
-                {{ this.client.contactPic }}
-              </td>
+              <td class>Contact PIC</td>
+              <td>{{ this.client.contactPic }}</td>
             </tr>
             <tr></tr>
             <tr>
-              <td class="">Finance Email</td>
-              <td>
-                {{ this.client.financeEmail }}
-              </td>
+              <td class>Finance Email</td>
+              <td>{{ this.client.financeEmail }}</td>
             </tr>
             <tr></tr>
             <tr>
-              <td class="">Notification Email</td>
-              <td>
-                {{ this.client.notifEmail }}
-              </td>
+              <td class>Notification Email</td>
+              <td>{{ this.client.notifEmail }}</td>
             </tr>
             <tr></tr>
             <tr>
-              <td class="">WhiteListIp</td>
-              <td>
-                {{ this.client.whiteListIp }}
-              </td>
+              <td class>WhiteListIp</td>
+              <td>{{ this.client.whiteListIp }}</td>
             </tr>
           </tbody>
         </table>
-        <jb-buttons class="mt-5">
-          <jb-button @click="goToInvoice" color="info" label="Check Invoice" />
-        </jb-buttons>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <jb-buttons class="mt-5">
+            <jb-button @click="goToInvoice" color="info" label="Check Invoice" />
+          </jb-buttons>
+          <jb-buttons class="mt-5 ml-5">
+            <jb-button @click="openParamWindow" color="success" label="Edit Profile" />
+          </jb-buttons>
+        </div>
+
         <!-- <div class="mt-4 text-xl font-bold">
           {{ this.$store.state.client.companyName }}
         </div>
@@ -95,7 +155,7 @@
         <div class="mt-1 text-xl">
           Protocol first priority :
           {{ this.$store.state.client.protocol.supplier }}
-        </div> -->
+        </div>-->
       </card-component>
       <div>
         <card-component
@@ -141,9 +201,11 @@
 <script>
 /* eslint-disable */
 // @ is an alias to /src
-import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { mapState, useStore } from "vuex";
+import { ref, onMounted, computed, reactive } from "vue";
+import { useStore } from "vuex";
+import Swal from 'sweetalert2'
+import axios from 'axios'
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -160,7 +222,10 @@ import LineChart from "@/components/Charts/LineChart";
 import MainSection from "@/components/MainSection";
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
+import Field from "@/components/Field";
+import Control from "@/components/Control";
 import CardWidget from "@/components/CardWidget";
+import ModalBox from "@/components/ModalBox";
 import CardWidgetTwo from "@/components/CardWidgetTwo";
 import CardComponent from "@/components/CardComponent";
 import SmsTable from "@/components/SmsTable";
@@ -176,6 +241,9 @@ export default {
     SmsTable,
     LineChart,
     CardComponent,
+    ModalBox,
+    Field,
+    Control,
     CardWidget,
     CardWidgetTwo,
     HeroBar,
@@ -185,7 +253,6 @@ export default {
     JbButton,
   },
   computed: {
-    ...mapState(["clientOne"]),
     idClient() {
       // We will see what `params` is shortly
       return this.$route.params.id;
@@ -218,10 +285,84 @@ export default {
     const store = useStore();
     const route = useRoute();
     console.log(route.params.id);
+    const paramWindow = ref(false);
+
+    const openParamWindow = () => {
+      paramWindow.value = !paramWindow.value;
+      let test = []
+      store.state.client.priority.forEach(element => {
+        test.push(element._id)
+      });
+      console.log(test, 'priotriy')
+      userData.value.priority = test;
+      userData.value.namePic = store.state.client.namePic;
+      userData.value.companyName = store.state.client.companyName;
+      userData.value.companyNumber = store.state.client.companyNumber;
+      userData.value.companyAddress = store.state.client.companyAddress;
+      userData.value.username = store.state.client.username;
+      userData.value.contactPic = store.state.client.contactPic;
+      userData.value.whiteListIp = store.state.client.whiteListIp;
+      userData.value.notifEmail = store.state.client.notifEmail;
+      userData.value.financeEmail = store.state.client.financeEmail;
+
+    };
+    const putClient = () => {
+      function hasDuplicates(arr) {
+        return arr.some(x => arr.indexOf(x) !== arr.lastIndexOf(x));
+      }
+      if (hasDuplicates(userData.value.priority)) {
+        console.log("Duplicate elements found.");
+        Swal.fire({
+          title: "ADD Client!",
+          text: "Terdapat duplikat di priority",
+          icon: "warning",
+        });
+
+      }
+      else {
+        const loginUrl =
+          process.env.VUE_APP_BASE_URL +
+          "api/users/editClient/" + route.params.id + "/";
+        // commit("auth_request");
+        console.log(userData.value)
+        axios
+          .put(loginUrl, userData.value, {
+            headers: {
+              token: localStorage.getItem("token"),
+            },
+          })
+          .then((r) => {
+
+            if (r.data) {
+              Swal.fire({
+                title: "EDIT Client!",
+                text: "Success",
+                icon: "success",
+              });
+            }
+            store.dispatch("fetchClient", { id: route.params.id })
+            paramWindow.value = false
+
+          })
+          .catch((error) => {
+            console.log(error.response.data.message)
+            // commit("auth_error");
+            // localStorage.removeItem("token");
+            Swal.fire({
+              title: "EDIT Client!",
+              text: error.response.data.message,
+              icon: "warning",
+            });
+            // alert(error.message);
+          });
+      }
+
+    }
     onMounted(async () => {
       const res = await store.dispatch("fetchSmsClient", {
         id: route.params.id,
       });
+      await store.dispatch("fetchProtocol");
 
       console.log(res, "tes");
       // console.log(this.$route, "test");
@@ -239,6 +380,40 @@ export default {
         // danger: '#FF3860'
       },
     };
+    const userData = computed(() =>
+      reactive({
+        priority: [],
+        username
+          :
+          "",
+        companyName
+          :
+          "",
+        companyNumber
+          :
+          "",
+        companyAddress
+          :
+          "",
+        namePic
+          :
+          "",
+        contactPic
+          :
+          "",
+        whiteListIp
+          :
+          "",
+        financeEmail
+          :
+          "",
+        notifEmail
+          :
+          ""
+
+      })
+    )
+
 
     const randomChartData = (n, l) => {
       const data = [];
@@ -349,9 +524,13 @@ export default {
       mdiCellphoneMessage,
       mdiChartTimelineVariant,
       mdiFinance,
+      paramWindow,
+      openParamWindow,
       mdiMonitorCellphone,
+      putClient,
       mdiReload,
       mdiGithub,
+      userData
     };
   },
 };
