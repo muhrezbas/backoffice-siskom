@@ -1,9 +1,11 @@
 <template>
-  <nav-bar v-if="$route.name !== 'login' && $route.name !== 'home'" />
+  <nav-bar
+    v-if="$route.name !== 'login' && $route.name !== 'home' && $route.name !== 'login_admin'"
+  />
   <home-bar v-if="$route.name === 'home'" />
   <aside-menu
     :menu="menu"
-    v-if="$route.name !== 'login' && $route.name !== 'home'"
+    v-if="$route.name !== 'login' && $route.name !== 'home' && $route.name !== 'login_admin' && $route.name !== 'dashboard_client' && $route.name !== 'invoice_client'"
   />
   <router-view />
 </template>
@@ -23,6 +25,9 @@ export default {
     AsideMenu,
     NavBar,
     HomeBar
+  },
+  created() {
+    // console.log(this.$route, "namee")
   },
   setup() {
     const store = useStore();

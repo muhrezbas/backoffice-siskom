@@ -1,6 +1,5 @@
 /* eslint-disable */
 import { createApp } from "vue";
-import axios from "axios";
 
 import App from "./App.vue";
 import router from "./router";
@@ -13,24 +12,13 @@ import "./css/main.css";
 // store.dispatch("fetchSms");
 // store.dispatch("fetchTransaction");
 // store.dispatch("fetchTopup");
-store.dispatch("fetchPackages");
-store.dispatch("fetchAdmin");
-// store.dispatch("fetchUsers");
-store.dispatch("fetchCountrys");
+// store.dispatch("fetchPackages");
 
-axios.interceptors.response.use(undefined, function(error) {
-  if (error) {
-    const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      store.dispatch("logout");
-      return router.push("/login");
-    }
-  }
-});
+// store.dispatch("fetchUsers");
+// store.dispatch("fetchCountrys");
 
 /* Default title tag */
-const defaultDocumentTitle = "TKDI SMS Dashboard";
+const defaultDocumentTitle = "Admin One Vue 3 Tailwind";
 
 /* Collapse mobile aside menu on route change & set document title from route meta */
 router.beforeEach(to => {

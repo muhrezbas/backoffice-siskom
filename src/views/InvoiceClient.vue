@@ -1,6 +1,6 @@
 <template>
-  <title-bar :title-stack="titleStack" />
-  <hero-bar>Invoice</hero-bar>
+  <title-bar :title-stack="titleStack"  />
+  <hero-bar back :backFunction="back">Invoice</hero-bar>
   <modal-box v-model="isModalActive" title="Top Up" :submit="postTopUp">
     <field label="Package">
       <control v-model="userData.packages" name="package" required autocomplete="package" />
@@ -39,7 +39,7 @@
           <div>
             <div class="py-5"></div>
             <div class="py-5"></div>
-            <jb-button @click="isModalActive = true" :icon="icon" color="success" label="Topup" />
+            <!-- <jb-button @click="isModalActive = true" :icon="icon" color="success" label="Topup" /> -->
           </div>
         </level>
       </card-component>
@@ -129,7 +129,7 @@ import TopupTable from "@/components/TopupTable";
 import PackageTable from "@/components/PackageTable";
 import BillTable from "@/components/BillTable";
 // import store from "../store";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import Notification from "@/components/Notification";
 import JbButton from "@/components/JbButton";
@@ -182,6 +182,7 @@ export default {
     const store = useStore();
     // console.log(this.$route, "tess")
     const route = useRoute();
+    const router = useRouter();
     // console.log(route, "fsa");
     const userData = computed(() =>
       reactive({
@@ -234,9 +235,13 @@ export default {
     const isModalDeleteActive = ref(false);
 
     // console.log(store.state.saldo, "saldo")
-    const titleStack = ref(["Admin", "Invoice"]);
+    const titleStack = ref(["User", "Invoice"]);
 
     const chartData = ref(null);
+    const back =() => {
+      console.log('test')
+      router.go(-1)
+    }
 
     const fillChartData = () => {
       chartData.value = chartConfig.sampleChartData();
@@ -262,6 +267,7 @@ export default {
       mdiChartTimelineVariant,
       mdiFinance,
       mdiMonitorCellphone,
+      back,
       userData,
       mdiReload,
       mdiGithub,

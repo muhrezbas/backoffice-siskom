@@ -186,6 +186,38 @@ export default createStore({
           // alert(error.message);
         });
     },
+    loginClient({ commit, state }, payload) {
+      const loginUrl = process.env.VUE_APP_BASE_URL + "api/users/credential/";
+      commit("auth_request");
+      axios
+        .post(loginUrl, payload)
+        .then(r => {
+          if (r.data) {
+            const token = r.data.access_token;
+            localStorage.setItem("token", token);
+            axios.defaults.headers.common[
+              "Authorization"
+            ] = localStorage.getItem("token");
+            commit("auth_success", token);
+            const base64Url = localStorage.getItem("token").split(".")[1];
+            const decodedToken = JSON.parse(window.atob(base64Url));
+            localStorage.setItem("user", JSON.stringify(decodedToken));
+            commit("user_success", JSON.stringify(decodedToken));
+            // console.log(decodedToken, "loginnn")
+            commit("basic", {
+              key: "token",
+              value: r.data.access_token
+            });
+            router.push(`/dashboard/${decodedToken._id}`);
+          }
+        })
+        .catch(error => {
+          commit("auth_error");
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          // alert(error.message);
+        });
+    },
     logout({ commit, state }) {
       return new Promise((resolve, reject) => {
         commit("logout");
@@ -693,8 +725,8 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error);
-          // alert(error.message);
+          console.log(error.response, "erorr bro");
+          alert(error);
         });
     }
   },

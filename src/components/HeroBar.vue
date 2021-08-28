@@ -28,6 +28,15 @@
             @click="searchFunction"
           />
         </div>
+        <div class="flex flex-row justify-between mt-2 md:mt-0">
+          <jb-button
+            v-if="back"
+            class="ml-2 md:ml-0"
+            label="Back"
+            color="info"
+            @click="backFunction"
+          />
+        </div>
       </div>
     </level>
   </section>
@@ -54,6 +63,11 @@ export default {
       type: Boolean,
       default: null
     },
+    back: {
+      type: Boolean,
+      default: null
+    },
+    backFunction: Function,
     paramFunction: Function,
     searchFunction: Function
   },
