@@ -167,7 +167,7 @@ export default {
             });
           }
           store.dispatch("fetchOperators");
-          isModalActive.value = false
+          isModalDeleteActive.value = false
 
         })
         .catch((error) => {

@@ -15,7 +15,12 @@
     </field>
   </modal-box>
 
-  <modal-box v-model="isModalDeleteActive" title="Please confirm action" has-cancel>
+  <modal-box
+    v-model="isModalDeleteActive"
+    title="Please confirm action"
+    :submit="deleteWhitelistContent"
+    has-cancel
+  >
     <p>Are you sure you want to delete this entry ?</p>
   </modal-box>
 
@@ -41,7 +46,7 @@
               color="info"
               :icon="mdiTrashCan"
               small
-              @click="isModalDeleteActive = true"
+              @click="clickTrash(country)"
             />
           </jb-buttons>
         </td>
@@ -80,7 +85,7 @@ import JbButtons from "@/components/JbButtons";
 import JbButton from "@/components/JbButton";
 
 export default {
-  name: "SenderIDTable",
+  name: "WhitelistContentTable",
   components: {
     ModalBox,
     Field,
@@ -108,6 +113,53 @@ export default {
         _id: ""
       })
     )
+    const clickTrash = (payload) => {
+      console.log(payload, "tesr")
+
+      userData.value._id = payload._id
+
+
+      isModalDeleteActive.value = true
+    }
+    const deleteWhitelistContent = () => {
+      console.log(userData.value, "delete country")
+
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/operators/deleteWhitelistContent/" + userData.value._id + "/";
+      // commit("auth_request");
+      axios
+        .delete(loginUrl, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+
+
+          if (r.data) {
+            Swal.fire({
+              title: "Delete WhitelistContent!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchWhitelistContent");
+          isModalDeleteActive.value = false
+
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "Delete WhitelistContent!",
+            text: error.response.data.message,
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+    }
     const clickEye = (payload) => {
       console.log(payload, "tesr")
       userData.value.code = payload.code
@@ -206,6 +258,8 @@ export default {
       checkedRows,
       itemsPaginated,
       putWhitelistContent,
+      clickTrash,
+      deleteWhitelistContent,
       pagesList,
       clickEye,
       mdiEye,

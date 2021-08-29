@@ -3,7 +3,7 @@
     <field label="Tipe Account">
       <select v-model="userData.akun" class="w-full">
         <option
-          v-for="option in ['reguler','protocol']"
+          v-for="option in ['reguler','premium']"
           :key="option"
           :value="option"
         >{{  option }}</option>

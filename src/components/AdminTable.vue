@@ -17,7 +17,12 @@
     </field>
   </modal-box>
 
-  <modal-box v-model="isModalDeleteActive" title="Please confirm action" has-cancel>
+  <modal-box
+    v-model="isModalDeleteActive"
+    title="Please confirm action"
+    :submit="deleteAdmin"
+    has-cancel
+  >
     <p>Are you sure you want to delete this entry ?</p>
   </modal-box>
 
@@ -49,7 +54,7 @@
               color="info"
               :icon="mdiTrashCan"
               small
-              @click="isModalDeleteActive = true"
+              @click="clickTrash(admins)"
             />
           </jb-buttons>
         </td>
@@ -122,6 +127,14 @@ export default {
         email: ""
       })
     )
+    const clickTrash = (payload) => {
+      console.log(payload, "tesr")
+
+      userData.value._id = payload._id
+
+
+      isModalDeleteActive.value = true
+    }
     const putAdmin = () => {
       console.log(userData.value)
       let keyword = {
@@ -154,7 +167,7 @@ export default {
               icon: "success",
             });
           }
-          store.dispatch("fetchAdmins");
+          store.dispatch("fetchAdmin");
           isModalActive.value = false
 
         })
@@ -178,6 +191,45 @@ export default {
           Swal.fire({
             title: "EDIT Admin!",
             text: err,
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+    }
+    const deleteAdmin = () => {
+      console.log(userData.value)
+
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/admins/deleteAdmin/" + userData.value._id + "/";
+      // commit("auth_request");
+      axios
+        .delete(loginUrl, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+
+
+          if (r.data) {
+            Swal.fire({
+              title: "Delete Admin!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchAdmin");
+          isModalDeleteActive.value = false
+
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "Delete Admin!",
+            text: error.response.data.message,
             icon: "warning",
           });
           // alert(error.message);
@@ -225,9 +277,11 @@ export default {
       numPages,
       checkedRows,
       putAdmin,
+      deleteAdmin,
       itemsPaginated,
       clickEye,
       pagesList,
+      clickTrash,
       mdiEye,
       mdiTrashCan,
       userData

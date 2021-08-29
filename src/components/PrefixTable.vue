@@ -19,7 +19,12 @@
     </field>
   </modal-box>
 
-  <modal-box v-model="isModalDeleteActive" title="Please confirm action" has-cancel>
+  <modal-box
+    v-model="isModalDeleteActive"
+    :submit="deletePrefix"
+    title="Please confirm action"
+    has-cancel
+  >
     <p>Are you sure you want to delete this entry ?</p>
   </modal-box>
 
@@ -45,7 +50,7 @@
               color="info"
               :icon="mdiTrashCan"
               small
-              @click="isModalDeleteActive = true"
+              @click="clickTrash(prefix)"
             />
           </jb-buttons>
         </td>
@@ -124,6 +129,53 @@ export default {
         _id: ""
       })
     )
+    const clickTrash = (payload) => {
+      console.log(payload, "tesr")
+
+      userData.value._id = payload._id
+
+
+      isModalDeleteActive.value = true
+    }
+    const deletePrefix = () => {
+      console.log(userData.value, "delete country")
+
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/operators/deletePrefix/" + userData.value._id + "/";
+      // commit("auth_request");
+      axios
+        .delete(loginUrl, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+
+
+          if (r.data) {
+            Swal.fire({
+              title: "Delete Prefix!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchPrefix");
+          isModalDeleteActive.value = false
+
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "Delete Prefix!",
+            text: error.response.data.message,
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+    }
     const putPrefix = () => {
       console.log(userData.value)
       let keyword = {
@@ -218,6 +270,8 @@ export default {
       mdiEye,
       putPrefix,
       mdiTrashCan,
+      clickTrash,
+      deletePrefix,
       userData
     };
   }

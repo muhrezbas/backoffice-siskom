@@ -2,7 +2,7 @@
   <modal-box v-model="isModalActive" title="Prize Setting" :submit="putPrize">
     <field label="Tipe Account">
       <select v-model="userData.akun" class="w-full">
-        <option v-for="option in ['reguler', 'protocol']" :key="option" :value="option">{{ option }}</option>
+        <option v-for="option in ['reguler', 'premium']" :key="option" :value="option">{{ option }}</option>
       </select>
     </field>
 
@@ -38,7 +38,12 @@
     </field>
   </modal-box>
 
-  <modal-box v-model="isModalDeleteActive" title="Please confirm action" has-cancel>
+  <modal-box
+    v-model="isModalDeleteActive"
+    title="Please confirm action"
+    :submit="deletePrize"
+    has-cancel
+  >
     <p>Are you sure you want to delete this entry ?</p>
   </modal-box>
 
@@ -71,7 +76,7 @@
               color="info"
               :icon="mdiTrashCan"
               small
-              @click="isModalDeleteActive = true"
+              @click="clickTrash(country)"
             />
           </jb-buttons>
         </td>
@@ -110,7 +115,7 @@ import JbButtons from "@/components/JbButtons";
 import JbButton from "@/components/JbButton";
 
 export default {
-  name: "SenderIDTable",
+  name: "PrizeTable",
   components: {
     ModalBox,
     Field,
@@ -129,6 +134,53 @@ export default {
       // fillChartData();
       // console.log(this.$store.state.client, "tessc");
     });
+    const clickTrash = (payload) => {
+      console.log(payload, "tesr")
+
+      userData.value._id = payload._id
+
+
+      isModalDeleteActive.value = true
+    }
+    const deletePrize = () => {
+      console.log(userData.value, "delete country")
+
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/operators/deletePrize/" + userData.value._id + "/";
+      // commit("auth_request");
+      axios
+        .delete(loginUrl, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((r) => {
+
+
+          if (r.data) {
+            Swal.fire({
+              title: "Delete Prize!",
+              text: "Success",
+              icon: "success",
+            });
+          }
+          store.dispatch("fetchPrize");
+          isModalDeleteActive.value = false
+
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "Delete Prize!",
+            text: error.response.data.message,
+            icon: "warning",
+          });
+          // alert(error.message);
+        });
+    }
     const clickEye = (payload) => {
       console.log(payload, "tesr")
       userData.value.akun = payload.akun
@@ -250,6 +302,8 @@ export default {
       numPages,
       checkedRows,
       putPrize,
+      clickTrash,
+      deletePrize,
       itemsPaginated,
       pagesList,
       mdiEye,
