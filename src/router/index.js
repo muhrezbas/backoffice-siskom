@@ -190,6 +190,15 @@ const routes = [
   },
   {
     meta: {
+      title: "Admin Roles Setting",
+      requiresAuth: true
+    },
+    path: "/admin/adminRoles",
+    name: "adminRoles",
+    component: () => import(/* webpackChunkName: "profile" */ "../views/AdminRoles")
+  },
+  {
+    meta: {
       title: "Operator Setting",
       requiresAuth: true
     },

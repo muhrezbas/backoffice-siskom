@@ -132,11 +132,11 @@ export default {
           console.log(error)
           // commit("auth_error");
           // localStorage.removeItem("token");
-          Swal.fire({
-            title: "TOP UP!",
-            text: "Gagal",
-            icon: "warning",
-          });
+          // Swal.fire({
+          //   title: "TOP UP!",
+          //   text: "Gagal",
+          //   icon: "warning",
+          // });
           // alert(error.message);
         });
     }

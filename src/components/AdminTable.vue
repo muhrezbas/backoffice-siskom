@@ -178,13 +178,13 @@ export default {
           if (error.response.status == 403) {
             err = "Not Authorize"
           }
-          else if (error.response.data == undefined) {
-            err = error.response
-          }
+          // else if (error.response.data == undefined) {
+          //   err = error.response
+          // }
 
-          else {
-            err = error.response.data.message
-          }
+          // else {
+          //   err = error.response.data.message
+          // }
           // commit("auth_error");
           // localStorage.removeItem("token");
 

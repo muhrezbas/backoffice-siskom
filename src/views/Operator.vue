@@ -161,7 +161,7 @@ export default {
           // localStorage.removeItem("token");
           Swal.fire({
             title: "ADD Operator!",
-            text: "Gagal",
+            text: error.response.data.message,
             icon: "warning",
           });
           // alert(error.message);

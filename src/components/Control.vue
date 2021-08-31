@@ -18,6 +18,18 @@
       :required="required"
     ></textarea>
     <input
+    style="height: 29px;"
+      v-else-if="computedType === 'checkbox'"
+      v-model="computedValue"
+      :name="name"
+      :autocomplete="autocomplete"
+      :required="required"
+      :id="id"
+      :placeholder="placeholder"
+      :type="computedType"
+      :class="inputElClass"
+    />
+    <input
       v-else
       v-model="computedValue"
       :name="name"

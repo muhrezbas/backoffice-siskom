@@ -5,6 +5,7 @@ import axios from "axios";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import Swal from 'sweetalert2'
 
 import "./css/main.css";
 
@@ -18,7 +19,7 @@ import "./css/main.css";
 // store.dispatch("fetchUsers");
 // store.dispatch("fetchCountrys");
 
-axios.interceptors.response.use(undefined, function(error) {
+axios.interceptors.response.use(undefined, function (error) {
   if (error) {
     console.log(error, "error ni")
     const originalRequest = error.config;
@@ -27,6 +28,28 @@ axios.interceptors.response.use(undefined, function(error) {
       store.dispatch("logout");
       console.log('intercept')
       return router.push("/");
+    }
+    else {
+      let err
+      if (error.response.status == 403) {
+        err = "Not Authorize"
+      }
+      else if (error.response.data == undefined) {
+        err = error.response
+      }
+
+      else {
+        err = error.response.data.message
+      }
+      console.log(err, "cas")
+      // commit("auth_error");
+      // localStorage.removeItem("token");
+
+      Swal.fire({
+        title: "ERROR!",
+        text: err,
+        icon: "warning",
+      });
     }
   }
 });

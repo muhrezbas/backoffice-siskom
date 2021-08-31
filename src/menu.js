@@ -76,6 +76,11 @@ export default [
           label: "Admin"
         },
         {
+          to: "/admin/adminRoles",
+          icon: mdiAccountGroup,
+          label: "Admin Roles"
+        },
+        {
           to: "/admin/operator",
           icon: mdiAccountBoxMultiple,
           label: "Operator"

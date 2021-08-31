@@ -28,12 +28,16 @@ export default createStore({
     client: {},
     saldo: 0,
     blast: 0,
+    adminRoles:[],
+    AdminUnsel: [],
+    AdminWithRoles: [],
     otp: 0,
     blastAll: 0,
     otpAll: 0,
     smsAll: 0,
     deliveredAll: 0,
     transaction: [],
+    AdminPermissions : [],
     topUp: [],
     sms: [],
     senderid: [],
@@ -397,6 +401,96 @@ export default createStore({
           // alert(error.message);
         });
     },
+    fetchAdminRoles({ commit }) {
+      const adminUrl = process.env.VUE_APP_BASE_URL + "api/admins/getAdminRoles/";
+      axios
+        .get(adminUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            commit("basic", {
+              key: "adminRoles",
+              value: r.data.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          // alert(error.message);
+        });
+    },
+    fetchAdminPermissionWithRoles({ commit }, id) {
+      const adminUrl = process.env.VUE_APP_BASE_URL + "api/admins/getAdminWithRoles/" + id + "/";
+      return axios
+        .get(adminUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            commit("basic", {
+              key: "AdminWithRoles",
+              value: r.data
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          // alert(error.message);
+        });
+    },
+    fetchAdminUnsel({ commit }) {
+      const adminUrl = process.env.VUE_APP_BASE_URL + "api/admins/getAdminUnsel/";
+      return axios
+        .get(adminUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            commit("basic", {
+              key: "AdminUnsel",
+              value: r.data
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          // alert(error.message);
+        });
+    },
+    fetchAdminPermissions({ commit }) {
+      const adminUrl = process.env.VUE_APP_BASE_URL + "api/admins/getAdminPermissions/";
+      return axios
+        .get(adminUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            console.log(r.data, 'test')
+            commit("basic", {
+              key: "AdminPermissions",
+              value: r.data
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          // alert(error.message);
+        });
+    },
+    // getAdminPermissions
     fetchOperators({ commit }) {
       const operatorUrl =
         process.env.VUE_APP_BASE_URL + "api/operators/findOperatorAll/";
