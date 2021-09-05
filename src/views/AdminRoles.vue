@@ -31,10 +31,20 @@
       </div>
       </field>-->
       <field label="Name">
-        <control v-model="userData.name" name="name" required autocomplete="name" />
+        <control
+          v-model="userData.name"
+          name="name"
+          required
+          autocomplete="name"
+        />
       </field>
       <field label="Code">
-        <control v-model="userData.code" name="code" required autocomplete="code" />
+        <control
+          v-model="userData.code"
+          name="code"
+          required
+          autocomplete="code"
+        />
       </field>
 
       <field label="Description">
@@ -51,21 +61,57 @@
       <!-- <field label="Admin Code">
       <control v-model="userData.adminCode" name="adminCode" required autocomplete="adminCode" />
       </field>-->
-      <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="flex flex-wrap mb-6">
         <field label="AVAILABLE USER" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <div
+          <button
+            type="button"
             v-for="admins in userData.unselect"
             :key="admins._id"
             @click="clickAdmin(admins)"
-          >{{ admins.name }}</div>
+            class="px-4 py-3 bg-blue-600 rounded-md text-white outline-none hover:bg-blue-700 hover:shadow-lg focus:ring-4 shadow-lg transform active:scale-x-75 transition-transform flex flex-row justify-center"
+          >
+            <span class="mr-3">{{ admins.name }}</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 5l7 7-7 7M5 5l7 7-7 7"
+              />
+            </svg>
+          </button>
           <!-- <control v-model="userData.email" name="email" required autocomplete="email" /> -->
         </field>
         <field label="SELECTED USER" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <div
+          <button
+            type="button"
             v-for="admins in userData.select"
             :key="admins._id"
             @click="clickAdminSelect(admins)"
-          >{{ admins.name }}</div>
+            class="px-4 py-3 border border-blue-600 rounded-md text-blue-600 focus:outline-none hover:bg-blue-50 hover:shadow-lg focus:ring-4 shadow-lg transform active:scale-x-75 transition-transform flex flex-row justify-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+              />
+            </svg>
+            <span class="ml-3">{{ admins.name }}</span>
+          </button>
           <!-- <control v-model="userData.email" name="email" required autocomplete="email" /> -->
         </field>
       </div>
@@ -108,7 +154,9 @@
   <hero-bar class="mb-5">Settings</hero-bar>
 
   <div id="adminRoles">
-    <hero-bar param :paramFunction="openParamWindow" search>Admin Roles</hero-bar>
+    <hero-bar param :paramFunction="openParamWindow" search
+      >Admin Roles</hero-bar
+    >
 
     <main-section>
       <card-component has-table>
@@ -131,8 +179,8 @@
 // @ is an alias to /src
 import { ref, onMounted, computed, reactive } from "vue";
 import { useStore } from "vuex";
-import Swal from 'sweetalert2'
-import axios from 'axios'
+import Swal from "sweetalert2";
+import axios from "axios";
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -142,6 +190,8 @@ import {
   mdiFinance,
   mdiMonitorCellphone,
   mdiPencilBoxOutline,
+  mdiChevronLeft,
+  mdiChevronRight,
   mdiReload,
   mdiTrashCan,
   mdiGithub
@@ -186,14 +236,25 @@ export default {
 
     const chartData = ref(null);
 
+    const isUnselectedClicked = ref(false);
+
+    const isSelectedClicked = ref(false);
+
     const paramWindow = ref(false);
+
+    const adminUnselectedPayload = reactive({});
+
+    const setUnselectedPayload = payload => {
+      adminUnselectedPayload.value = payload;
+      isUnselectedClicked.value = true;
+    };
 
     const openParamWindow = async () => {
       await store.dispatch("fetchAdminUnsel");
 
-      userData.value.unselect = []
+      userData.value.unselect = [];
       //  console.log(store.state.Adminunsel, "posisi skrg")
-      userData.value.unselect = store.state.AdminUnsel.unselect
+      userData.value.unselect = store.state.AdminUnsel.unselect;
 
       paramWindow.value = !paramWindow.value;
     };
@@ -206,59 +267,64 @@ export default {
         select: [],
         password: ""
       })
-    )
-    const clickAdmin = (payload) => {
-      let findThe = userData.value.unselect.findIndex(el => el._id == payload._id)
-      userData.value.unselect.splice(findThe, 1)
-      userData.value.select.push(payload)
-      console.log(findThe)
-    }
-    const clickAdminSelect = (payload) => {
-      let findThe = userData.value.select.findIndex(el => el._id == payload._id)
-      userData.value.select.splice(findThe, 1)
-      userData.value.unselect.push(payload)
-      console.log(findThe)
-    }
+    );
+    const clickAdmin = payload => {
+      adminUnselectedPayload.value = {};
+      console.log(payload, "test");
+      let findThe = userData.value.unselect.findIndex(
+        el => el._id == payload._id
+      );
+      userData.value.unselect.splice(findThe, 1);
+      userData.value.select.push(payload);
+      console.log(findThe);
+    };
+    const clickAdminSelect = payload => {
+      let findThe = userData.value.select.findIndex(
+        el => el._id == payload._id
+      );
+      userData.value.select.splice(findThe, 1);
+      userData.value.unselect.push(payload);
+      console.log(findThe);
+    };
     const postAdmin = () => {
       let post = {
-        "adminRolesName": userData.value.name,
-        "adminRolesCode": userData.value.code,
-        "adminSelected": [],
-        "adminUnselected": [],
-        "adminPermissionSelect": [],
-        "adminPermissionUnselect": []
-      }
+        adminRolesName: userData.value.name,
+        adminRolesCode: userData.value.code,
+        adminSelected: [],
+        adminUnselected: [],
+        adminPermissionSelect: [],
+        adminPermissionUnselect: []
+      };
       // userData.value.unselect.forEach(element => {
       //   post.adminUnselected.push(element._d)
       // });
       userData.value.select.forEach(element => {
-        post.adminSelected.push(element._id)
+        post.adminSelected.push(element._id);
       });
       userData.value.permission.forEach(element => {
         if (element.check == true) {
-          post.adminPermissionSelect.push(element._id)
+          post.adminPermissionSelect.push(element._id);
         }
       });
-      console.log(post)
+      console.log(post);
       console.log({
-        "adminRolesName": "Super-Root",
-        "adminRolesCode": "SR",
-        "adminSelected": [],
-        "adminUnselected": [],
-        "adminPermissionSelect": ["612256f892109f04618b6bc3"],
-        "adminPermissionUnselect": []
-      })
+        adminRolesName: "Super-Root",
+        adminRolesCode: "SR",
+        adminSelected: [],
+        adminUnselected: [],
+        adminPermissionSelect: ["612256f892109f04618b6bc3"],
+        adminPermissionUnselect: []
+      });
       const loginUrl =
-        process.env.VUE_APP_BASE_URL +
-        "api/admins/addEditAdminPermission/";
+        process.env.VUE_APP_BASE_URL + "api/admins/addEditAdminPermission/";
       // commit("auth_request");
       axios
         .post(loginUrl, post, {
           headers: {
-            token: localStorage.getItem("token"),
-          },
+            token: localStorage.getItem("token")
+          }
         })
-        .then((r) => {
+        .then(r => {
           // userData.value.name = ""
           // userData.value.description = ""
           // userData.value.unselect = []
@@ -269,38 +335,34 @@ export default {
             Swal.fire({
               title: "ADD Admin Roles!",
               text: "Success",
-              icon: "success",
+              icon: "success"
             });
           }
           store.dispatch("fetchAdminRoles");
-          paramWindow.value = false
-
+          paramWindow.value = false;
         })
-        .catch((error) => {
-          console.log(error, "halo errorrrr")
-          let err
+        .catch(error => {
+          console.log(error, "halo errorrrr");
+          let err;
           if (error.response.status == 403) {
-            err = "Not Authorize"
+            err = "Not Authorize";
+          } else if (error.response.data == undefined) {
+            err = error.response;
+          } else {
+            err = error.response.data.message;
           }
-          else if (error.response.data == undefined) {
-            err = error.response
-          }
-
-          else {
-            err = error.response.data.message
-          }
-          console.log(err, "cas")
+          console.log(err, "cas");
           // commit("auth_error");
           // localStorage.removeItem("token");
 
           Swal.fire({
             title: "ADD Admin Roles!",
             text: err,
-            icon: "warning",
+            icon: "warning"
           });
           // // alert(error.message);
         });
-    }
+    };
 
     const fillChartData = () => {
       chartData.value = chartConfig.sampleChartData();
@@ -309,22 +371,27 @@ export default {
     onMounted(async () => {
       await store.dispatch("fetchAdminPermissions");
       store.state.AdminPermissions.forEach(element => {
-        element.check = false
-        userData.value.permission.push(element)
+        element.check = false;
+        userData.value.permission.push(element);
       });
-      console.log(userData.value.permission, "tessss")
+      console.log(userData.value.permission, "tessss");
       fillChartData();
-
     });
 
     return {
       titleStack,
       chartData,
+      isUnselectedClicked,
+      isSelectedClicked,
+      setUnselectedPayload,
+      adminUnselectedPayload,
       fillChartData,
       paramWindow,
       openParamWindow,
       mdiAccountMultiple,
       mdiCashMultiple,
+      mdiChevronLeft,
+      mdiChevronRight,
       mdiChartTimelineVariant,
       clickAdmin,
       mdiPencilBoxOutline,
