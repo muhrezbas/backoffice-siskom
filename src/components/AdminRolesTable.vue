@@ -54,19 +54,55 @@
       <!-- {{ userData.select}} -->
       <div class="flex flex-wrap -mx-3 mb-6">
         <field label="AVAILABLE USER" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <div
+          <button
+            type="button"
             v-for="admins in userData.unselect"
             :key="admins._id"
             @click="clickAdmin(admins)"
-          >{{ admins.name }}</div>
+            class="px-4 py-3 bg-blue-600 rounded-md text-white outline-none hover:bg-blue-700 hover:shadow-lg focus:ring-4 shadow-lg transform active:scale-x-75 transition-transform flex flex-row justify-center"
+          >
+            <span class="mr-3">{{ admins.name }}</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 5l7 7-7 7M5 5l7 7-7 7"
+              />
+            </svg>
+          </button>
           <!-- <control v-model="userData.email" name="email" required autocomplete="email" /> -->
         </field>
         <field label="SELECTED USER" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <div
+          <button
+            type="button"
             v-for="admins in userData.select"
             :key="admins._id"
             @click="clickAdminSelect(admins)"
-          >{{ admins.name }}</div>
+            class="px-4 py-3 border border-blue-600 rounded-md text-blue-600 focus:outline-none hover:bg-blue-50 hover:shadow-lg focus:ring-4 shadow-lg transform active:scale-x-75 transition-transform flex flex-row justify-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+              />
+            </svg>
+            <span class="ml-3">{{ admins.name }}</span>
+          </button>
           <!-- <control v-model="userData.email" name="email" required autocomplete="email" /> -->
         </field>
       </div>
@@ -211,7 +247,7 @@ export default {
       reactive({
         name: "",
         description: "",
-        idRole : "",
+        idRole: "",
         unselect: [],
         permission: [],
         permissionOld: [],
@@ -233,11 +269,11 @@ export default {
 
       isModalDeleteActive.value = true
     }
-    const  putAdmin =  async() => {
+    const putAdmin = async () => {
       let post = {
         "adminRolesName": userData.value.name,
         "adminRolesCode": userData.value.code,
-        "idRole" : userData.value.idRole,
+        "idRole": userData.value.idRole,
         "adminSelected": [],
         "adminUnselected": [],
         "adminPermissionSelect": [],
@@ -252,7 +288,7 @@ export default {
       userData.value.unselect.forEach(element => {
         post.adminUnselected.push(element._id)
       });
-      
+
       console.log(post.adminUnselected, "before", userData.value.unselect)
       // userData.value.unselect.forEach(element => {
       //   post.adminUnselected.push(element._d)
@@ -423,13 +459,13 @@ export default {
           if (error.response.status == 403) {
             err = "Not Authorize"
           }
-          // else if (error.response.data == undefined) {
-          //   err = error.response
-          // }
+          else if (error.response.data == undefined) {
+            err = error.response
+          }
 
-          // else {
-          //   err = error.response.data.message
-          // }
+          else {
+            err = error.response.data.message
+          }
           console.log(err, "cas")
           // commit("auth_error");
           // localStorage.removeItem("token");
