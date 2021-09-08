@@ -153,7 +153,7 @@
   <title-bar :title-stack="titleStack" />
   <hero-bar class="mb-5">Settings</hero-bar>
 
-  <div id="adminRoles">
+  <div id="adminRoles" v-if="$store.state.errorAccess == false">
     <hero-bar param :paramFunction="openParamWindow" search
       >Admin Roles</hero-bar
     >
@@ -164,6 +164,8 @@
       </card-component>
     </main-section>
   </div>
+
+  <error-access v-else />
 
   <!-- <hero-bar search>Users</hero-bar>
 
@@ -211,6 +213,7 @@ import UsersTable from "@/components/UsersTable";
 import Notification from "@/components/Notification";
 import JbButtons from "@/components/JbButtons";
 import JbButton from "@/components/JbButton";
+import ErrorAccess from "../components/ErrorAccess.vue";
 
 export default {
   name: "Setting",
@@ -228,11 +231,12 @@ export default {
     TitleBar,
     Notification,
     JbButtons,
-    JbButton
+    JbButton,
+    ErrorAccess
   },
   setup() {
     const store = useStore();
-    const titleStack = ref(["Admin", "Settings"]);
+    const titleStack = ref(["Admin", "Settings", "Admin Roles"]);
 
     const chartData = ref(null);
 

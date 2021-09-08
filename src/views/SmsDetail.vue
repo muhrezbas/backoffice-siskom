@@ -1,11 +1,14 @@
 <template>
   <title-bar :title-stack="titleStack" />
-  <hero-bar search>SMS Detail List</hero-bar>
-  <main-section>
+  <hero-bar v-if="$store.state.errorAccess == false" search
+    >SMS Detail List</hero-bar
+  >
+  <main-section v-if="$store.state.errorAccess == false">
     <card-component has-table>
       <sms-table v-if="this.sms" :sms="this.sms" checkable />
     </card-component>
   </main-section>
+  <error-access v-else />
 </template>
 
 <script>
@@ -16,13 +19,14 @@ import {
   mdiMonitorCellphone,
   mdiAccountMultiple,
   mdiTableBorder,
-  mdiTableOff,
+  mdiTableOff
 } from "@mdi/js";
 import MainSection from "@/components/MainSection";
 import SmsTable from "@/components/SmsTable";
 import CardComponent from "@/components/CardComponent";
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
+import ErrorAccess from "../components/ErrorAccess.vue";
 
 export default {
   name: "SMS Detail",
@@ -32,6 +36,7 @@ export default {
     TitleBar,
     CardComponent,
     SmsTable,
+    ErrorAccess
   },
   setup() {
     const store = useStore();
@@ -50,8 +55,8 @@ export default {
       sms,
       mdiAccountMultiple,
       mdiTableBorder,
-      mdiTableOff,
+      mdiTableOff
     };
-  },
+  }
 };
 </script>

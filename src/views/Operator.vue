@@ -1,11 +1,21 @@
 <template>
   <modal-box v-model="paramWindow" title="Set Parameter" :submit="postOperator">
     <field label="Company Name">
-      <control v-model="userData.name" name="Company Name" required autocomplete="Company Name" />
+      <control
+        v-model="userData.name"
+        name="Company Name"
+        required
+        autocomplete="Company Name"
+      />
     </field>
 
     <field label="Nickname">
-      <control v-model="userData.nickname" name="prize" required autocomplete="prize" />
+      <control
+        v-model="userData.nickname"
+        name="prize"
+        required
+        autocomplete="prize"
+      />
     </field>
 
     <field label="Country">
@@ -14,14 +24,17 @@
           v-for="option in $store.state.country"
           :key="option._id ?? option"
           :value="option._id"
-        >{{ option.region ?? option }}</option>
+          >{{ option.region ?? option }}</option
+        >
       </select>
     </field>
   </modal-box>
 
   <title-bar :title-stack="titleStack" />
 
-  <hero-bar class="mb-5" v-if="$store.state.errorAccess == false">Settings</hero-bar>
+  <hero-bar class="mb-5" v-if="$store.state.errorAccess == false"
+    >Settings</hero-bar
+  >
 
   <div id="operator" v-if="$store.state.errorAccess == false">
     <hero-bar param :paramFunction="openParamWindow" search>Operator</hero-bar>
@@ -49,8 +62,8 @@
 // @ is an alias to /src
 import { ref, onMounted, computed, reactive } from "vue";
 import { useStore } from "vuex";
-import Swal from 'sweetalert2'
-import axios from 'axios'
+import Swal from "sweetalert2";
+import axios from "axios";
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -102,7 +115,7 @@ export default {
   },
   setup() {
     const store = useStore();
-    // 
+    //
     onMounted(async () => {
       const res = await store.dispatch("fetchOperators");
       await store.dispatch("fetchCountrys");
@@ -118,28 +131,25 @@ export default {
         nickname: "",
         country: ""
       })
-    )
-
+    );
 
     const operators = computed(() => store.state.operator);
-    const errorAccess = computed(() => store.state.errorAccess)
-    console.log(errorAccess.value, "fieho")
-    const titleStack = ref(["Operator", "Settings"]);
+    const errorAccess = computed(() => store.state.errorAccess);
+    console.log(errorAccess.value, "fieho");
+    const titleStack = ref(["Admin", "Settings", "Operator"]);
 
     const chartData = ref(null);
     const postOperator = () => {
-      console.log(userData.value)
-      const loginUrl =
-        process.env.VUE_APP_BASE_URL +
-        "api/operators/register/";
+      console.log(userData.value);
+      const loginUrl = process.env.VUE_APP_BASE_URL + "api/operators/register/";
       // commit("auth_request");
       axios
         .post(loginUrl, userData.value, {
           headers: {
-            token: localStorage.getItem("token"),
-          },
+            token: localStorage.getItem("token")
+          }
         })
-        .then((r) => {
+        .then(r => {
           userData.value.country = "";
           userData.value.name = "";
           userData.value.nickname = "";
@@ -148,25 +158,24 @@ export default {
             Swal.fire({
               title: "ADD Operator!",
               text: "Success",
-              icon: "success",
+              icon: "success"
             });
           }
           store.dispatch("fetchOperators");
-          paramWindow.value = false
-
+          paramWindow.value = false;
         })
-        .catch((error) => {
-          console.log(error)
+        .catch(error => {
+          console.log(error);
           // commit("auth_error");
           // localStorage.removeItem("token");
           Swal.fire({
             title: "ADD Operator!",
             text: error.response.data.message,
-            icon: "warning",
+            icon: "warning"
           });
           // alert(error.message);
         });
-    }
+    };
 
     const paramWindow = ref(false);
 

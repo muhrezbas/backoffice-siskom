@@ -45,12 +45,17 @@
       <!-- </div> -->
     </card-component>
     <!-- <title-bar :title-stack="titleStack" /> -->
-    <hero-bar :control="true">Customer SMS Details List</hero-bar>
-    <main-section>
+
+    <hero-bar v-if="$store.state.errorAccess == false" :control="true"
+      >Customer SMS Details List</hero-bar
+    >
+    <main-section v-if="$store.state.errorAccess == false">
       <card-component has-table>
         <sms-table v-if="this.sms" :sms="this.sms" checkable />
       </card-component>
     </main-section>
+
+    <error-access v-else />
 
     <!-- <notification color="info" :icon="mdiMonitorCellphone">
       <b>Responsive table.</b> Collapses on mobile
@@ -89,6 +94,7 @@ import SmsTable from "@/components/SmsTable";
 import HeroBar from "@/components/HeroBar";
 import CardWidget from "@/components/CardWidget";
 import CardComponent from "@/components/CardComponent";
+import ErrorAccess from "../components/ErrorAccess.vue";
 
 // import ClientsTable from '@/components/ClientsTable'
 // import JbButton from '@/components/JbButton'
@@ -103,13 +109,14 @@ export default {
     CardComponent,
     CardWidget,
     HeroBar,
-    TitleBar
+    TitleBar,
+    ErrorAccess
     // JbButton
   },
   computed: {
     sms() {
       return this.$store.state.sms;
-    },
+    }
   },
   setup() {
     const store = useStore();
@@ -121,10 +128,10 @@ export default {
       fillChartData();
       tkn();
       console.log(store.state.sms, "tessc");
-      console.log(store.state.smsAll, "sms All letes")
+      console.log(store.state.smsAll, "sms All letes");
     });
-    console.log(store.state.sms, "dapetkan")
-    console.log(store.state.smsAll, "sms All")
+    console.log(store.state.sms, "dapetkan");
+    console.log(store.state.smsAll, "sms All");
     const titleStack = ref(["Admin", "Dashboard"]);
 
     const chartData = ref(null);
@@ -133,9 +140,9 @@ export default {
         primary: "#00D1B2",
         info: "purple",
         yellow: "yellow",
-        blue: 'blue'
+        blue: "blue"
         // danger: '#FF3860'
-      },
+      }
     };
 
     const randomChartData = (n, l) => {
@@ -147,7 +154,7 @@ export default {
       for (let i = 0; i < l.length; i++) {
         console.log(
           n.filter(
-            (el) =>
+            el =>
               new Date(el.createdAt).getMonth() == i &&
               new Date(el.createdAt).getYear() == thisYear
           )
@@ -155,7 +162,7 @@ export default {
           "AH";
         data.push(
           n.filter(
-            (el) =>
+            el =>
               new Date(el.createdAt).getMonth() == i &&
               new Date(el.createdAt).getYear() == thisYear
           ).length
@@ -182,15 +189,15 @@ export default {
         pointRadius: 4,
         data: randomChartData(points, labels),
         tension: 0.5,
-        cubicInterpolationMode: "default",
+        cubicInterpolationMode: "default"
       };
     };
     console.log(
-      store.state.smsClient.filter((el) => el.prize.akun == "premium"),
+      store.state.smsClient.filter(el => el.prize.akun == "premium"),
       "client prem"
     );
     console.log(
-      store.state.smsClient.filter((el) => el.prize.akun == "reguler"),
+      store.state.smsClient.filter(el => el.prize.akun == "reguler"),
       "client reg"
     );
     const sampleChartData = (points = 12) => {
@@ -206,7 +213,7 @@ export default {
         "September",
         "Oktober",
         "Novermber",
-        "Desember",
+        "Desember"
       ];
 
       // for (let i = 1; i <= points; i++) {
@@ -218,26 +225,24 @@ export default {
         datasets: [
           datasetObject(
             "primary",
-            store.state.sms.filter((el) => el.prize.akun == "premium"),
+            store.state.sms.filter(el => el.prize.akun == "premium"),
             labels
           ),
           datasetObject(
             "info",
-            store.state.sms.filter((el => el.prize.akun == 'reguler' && el.statusSms.code == 0)),
+            store.state.sms.filter(
+              el => el.prize.akun == "reguler" && el.statusSms.code == 0
+            ),
             labels
           ),
-          datasetObject(
-            "blue",
-            store.state.sms,
-            labels
-          ),
+          datasetObject("blue", store.state.sms, labels),
           datasetObject(
             "yellow",
             store.state.sms.filter(el => el.statusSms.code == 0),
             labels
-          ),
+          )
           // datasetObject('danger', points)
-        ],
+        ]
       };
     };
 
@@ -250,8 +255,6 @@ export default {
     };
     console.log(chartData, "chart");
     console.log(fillChartData, "fill");
-
-
 
     return {
       titleStack,

@@ -1,5 +1,9 @@
 <template>
-  <modal-box v-model="paramWindow" :submit="postWhitelist" title="Set Parameter">
+  <modal-box
+    v-model="paramWindow"
+    :submit="postWhitelist"
+    title="Set Parameter"
+  >
     <field label="Phone Number">
       <control
         v-model="userData.phoneNumber"
@@ -15,7 +19,8 @@
           v-for="option in $store.state.clients"
           :key="option._id ?? option"
           :value="option._id"
-        >{{ option.companyName ?? option }}</option>
+          >{{ option.companyName ?? option }}</option
+        >
       </select>
     </field>
   </modal-box>
@@ -23,8 +28,10 @@
   <title-bar :title-stack="titleStack" />
   <hero-bar class="mb-5">Settings</hero-bar>
 
-  <div id="senderID">
-    <hero-bar param :paramFunction="openParamWindow" search>Whitelist Phone Number</hero-bar>
+  <div id="senderID" v-if="$store.state.errorAccess == false">
+    <hero-bar param :paramFunction="openParamWindow" search
+      >Whitelist Phone Number</hero-bar
+    >
 
     <main-section>
       <card-component has-table>
@@ -32,6 +39,8 @@
       </card-component>
     </main-section>
   </div>
+
+  <error-access v-else />
 
   <!-- <hero-bar search>Users</hero-bar>
 
@@ -47,8 +56,8 @@
 // @ is an alias to /src
 import { ref, onMounted, computed, reactive } from "vue";
 import { useStore } from "vuex";
-import Swal from 'sweetalert2'
-import axios from 'axios'
+import Swal from "sweetalert2";
+import axios from "axios";
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -77,6 +86,7 @@ import UsersTable from "@/components/UsersTable";
 import Notification from "@/components/Notification";
 import JbButtons from "@/components/JbButtons";
 import JbButton from "@/components/JbButton";
+import ErrorAccess from "../components/ErrorAccess.vue";
 
 export default {
   name: "Setting",
@@ -94,10 +104,11 @@ export default {
     TitleBar,
     Notification,
     JbButtons,
-    JbButton
+    JbButton,
+    ErrorAccess
   },
   setup() {
-    const titleStack = ref(["Country", "Settings"]);
+    const titleStack = ref(["Admin", "Settings", "Whitelist Phone Number"]);
     const store = useStore();
     onMounted(async () => {
       await store.dispatch("fetchClients");
@@ -108,20 +119,19 @@ export default {
         phoneNumber: "",
         client: ""
       })
-    )
+    );
     const postWhitelist = () => {
-      console.log(userData.value)
+      console.log(userData.value);
       const loginUrl =
-        process.env.VUE_APP_BASE_URL +
-        "api/operators/createWhitelistNumber/";
+        process.env.VUE_APP_BASE_URL + "api/operators/createWhitelistNumber/";
       // commit("auth_request");
       axios
         .post(loginUrl, userData.value, {
           headers: {
-            token: localStorage.getItem("token"),
-          },
+            token: localStorage.getItem("token")
+          }
         })
-        .then((r) => {
+        .then(r => {
           userData.value.phoneNumber = "";
           userData.value.client = "";
 
@@ -129,25 +139,24 @@ export default {
             Swal.fire({
               title: "ADD Whitelist Phone Number!",
               text: "Success",
-              icon: "success",
+              icon: "success"
             });
           }
           store.dispatch("fetchWhitelistPhoneNumber");
-          paramWindow.value = false
-
+          paramWindow.value = false;
         })
-        .catch((error) => {
-          console.log(error.response.data.message)
+        .catch(error => {
+          console.log(error.response.data.message);
           // commit("auth_error");
           // localStorage.removeItem("token");
           Swal.fire({
             title: "ADD Whitelist Phone Number!",
             text: error.response.data.message,
-            icon: "warning",
+            icon: "warning"
           });
           // alert(error.message);
         });
-    }
+    };
 
     const chartData = ref(null);
 
