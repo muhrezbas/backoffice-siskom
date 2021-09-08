@@ -81,7 +81,8 @@ export default {
   setup() {
     const store = useStore();
 
-    const items = computed(() => store.state.packages);
+    store.commit("search", "")
+const items = computed(() => store.state.packages);
 
     const isModalActive = ref(false);
 

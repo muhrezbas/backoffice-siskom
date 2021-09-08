@@ -69,7 +69,12 @@ export default {
   setup() {
     const store = useStore();
 
-    const items = computed(() => store.state.transaction);
+    store.commit("search", "")
+const items = computed(() => store.state.transaction.filter((admin) => {
+      return  String(admin.jumlah).toLowerCase().includes(store.state.search) ||
+        String(admin.action).toLowerCase().includes(store.state.search) ||
+        admin._id.toLowerCase().includes(store.state.search)
+    }));
     console.log(store.state.transaction, "nana");
     const isModalActive = ref(false);
 

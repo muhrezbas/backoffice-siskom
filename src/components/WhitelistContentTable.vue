@@ -105,7 +105,12 @@ export default {
       // console.log(this.$store.state.client, "tessc");
     });
 
-    const items = computed(() => store.state.whitelistContent);
+    store.commit("search", "")
+const items = computed(() => store.state.whitelistContent.filter((admin) => {
+      return String(admin.client.companyName).toLowerCase().includes(store.state.search) ||
+        admin.code.toLowerCase().includes(store.state.search) ||
+        admin._id.toLowerCase().includes(store.state.search)
+    }));
     const userData = computed(() =>
       reactive({
         code: "",

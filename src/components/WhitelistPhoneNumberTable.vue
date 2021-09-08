@@ -115,7 +115,13 @@ export default {
       // console.log(this.$store.state.client, "tessc");
     });
 
-    const items = computed(() => store.state.whitelistPhoneNumber);
+    store.commit("search", "")
+const items = computed(() => store.state.whitelistPhoneNumber.filter((admin) => {
+      return String(admin.client.companyName).toLowerCase().includes(store.state.search) ||
+        admin.phoneNumber.toLowerCase().includes(store.state.search) ||
+        // admin.adminCode.toLowerCase().includes(store.state.search) ||
+        admin._id.toLowerCase().includes(store.state.search)
+    }));
     console.log(store.state.whitelistPhoneNumber, "tesss");
 
     const isModalActive = ref(false);

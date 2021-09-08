@@ -17,6 +17,7 @@
           <input
             v-if="search"
             type="text"
+            v-model="userData.search"
             class="px-3 mx-0 md:mx-2 focus:ring rounded"
             placeholder="Search"
           />
@@ -25,7 +26,7 @@
             class="ml-2 md:ml-0"
             label="Filter"
             color="info"
-            @click="searchFunction"
+            @click="mencari"
           />
         </div>
         <div class="flex flex-row justify-between mt-2 md:mt-0">
@@ -45,8 +46,10 @@
 <script>
 /* eslint-disable */
 import { mdiMonitorClean } from "@mdi/js";
+import { useStore } from "vuex";
 import Level from "@/components/Level";
 import JbButton from "@/components/JbButton";
+import { computed, reactive } from "vue";
 
 export default {
   name: "HeroBar",
@@ -71,9 +74,22 @@ export default {
     paramFunction: Function,
     searchFunction: Function
   },
-  setup() {
+  setup(props) {
+    const store = useStore();
+    const userData = computed(() =>
+      reactive({
+        search: ""
+      })
+    )
+    const mencari = () => {
+      console.log('search')
+      console.log(userData.value.search)
+      store.commit("search", userData.value.search.toLowerCase())
+    }
     return {
-      mdiMonitorClean
+      mdiMonitorClean,
+      userData,
+      mencari
     };
   }
 };

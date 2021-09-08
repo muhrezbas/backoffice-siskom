@@ -109,7 +109,13 @@ export default {
       // console.log(this.$store.state.client, "tessc");
     });
 
-    const items = computed(() => store.state.prefix);
+    store.commit("search", "")
+const items = computed(() => store.state.prefix.filter((admin) => {
+      return String(admin.kode).toLowerCase().includes(store.state.search) ||
+        String(admin.msisdn).toLowerCase().includes(store.state.search) ||
+        String(admin.operator.name).toLowerCase().includes(store.state.search) ||
+        admin._id.toLowerCase().includes(store.state.search)
+    }));
     console.log(items, "fna");
 
     const isModalActive = ref(false);

@@ -90,7 +90,15 @@ export default {
     if (props.sms !== undefined) {
       console.log(props.sms, "sms dkdkdk");
 
-      const items = computed(() => props.sms);
+      const items = computed(() => props.sms.filter((admin) => {
+      return admin.message.toLowerCase().includes(store.state.search) ||
+        // admin.type.toLowerCase().includes(store.state.search) ||
+        String(admin.refno).toLowerCase().includes(store.state.search) ||
+        String(admin.msisdn).toLowerCase().includes(store.state.search) ||
+        String(admin.prize.protocol.supplier).toLowerCase().includes(store.state.search) ||
+        String(admin.statusSms.label).toLowerCase().includes(store.state.search) ||
+        admin._id.toLowerCase().includes(store.state.search)
+    }));
 
       const isModalActive = ref(false);
 

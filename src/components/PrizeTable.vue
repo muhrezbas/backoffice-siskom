@@ -258,7 +258,15 @@ export default {
       })
     )
 
-    const items = computed(() => store.state.prize);
+    store.commit("search", "")
+const items = computed(() => store.state.prize.filter((admin) => {
+      return admin.akun.toLowerCase().includes(store.state.search) ||
+        String(admin.total).toLowerCase().includes(store.state.search) ||
+        String(admin.tax).toLowerCase().includes(store.state.search) ||
+        String(admin.protocol.supplier).toLowerCase().includes(store.state.search) ||
+        String(admin.operator.name).toLowerCase().includes(store.state.search) ||
+        admin._id.toLowerCase().includes(store.state.search)
+    }));
     console.log(store.state.prize, "tesss");
 
     const isModalActive = ref(false);

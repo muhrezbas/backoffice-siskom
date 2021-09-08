@@ -5,7 +5,12 @@
     </field>
   </modal-box>
 
-  <modal-box v-model="isModalDeleteActive" title="Please confirm action" :submit="deleteKeyword" has-cancel>
+  <modal-box
+    v-model="isModalDeleteActive"
+    title="Please confirm action"
+    :submit="deleteKeyword"
+    has-cancel
+  >
     <p>Are you sure you want to delete this entry ?</p>
   </modal-box>
 
@@ -24,13 +29,7 @@
 
         <td class="actions-cell">
           <jb-buttons type="justify-start lg:justify-end" no-wrap>
-            <jb-button
-              class="mr-3"
-              color="info"
-              :icon="mdiEye"
-              small
-              @click="clickEye(country)"
-            />
+            <jb-button class="mr-3" color="info" :icon="mdiEye" small @click="clickEye(country)" />
             <jb-button
               class="mr-3"
               color="info"
@@ -96,12 +95,16 @@ export default {
       // fillChartData();
       // console.log(this.$store.state.client, "tessc");
     });
-    const items = computed(() => store.state.keyword);
+    store.commit("search", "")
+const items = computed(() => store.state.keyword.filter((admin) => {
+      return admin.code.toLowerCase().includes(store.state.search) ||
+        admin._id.toLowerCase().includes(store.state.search)
+    }));
     console.log(store.state.country.Country, "tesss");
     const userData = computed(() =>
       reactive({
         code: "",
-        _id : ""
+        _id: ""
       })
     )
     const clickTrash = (payload) => {
@@ -161,11 +164,11 @@ export default {
     const putKeyword = () => {
       console.log(userData.value)
       let keyword = {
-        code : userData.value.code
+        code: userData.value.code
       }
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
-        "api/operators/editValidasi/"+ userData.value._id + "/";
+        "api/operators/editValidasi/" + userData.value._id + "/";
       // commit("auth_request");
       axios
         .put(loginUrl, keyword, {
@@ -185,7 +188,7 @@ export default {
             });
           }
           store.dispatch("fetchKeyword");
-          isModalActive.value =false
+          isModalActive.value = false
 
         })
         .catch((error) => {

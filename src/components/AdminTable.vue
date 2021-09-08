@@ -108,7 +108,13 @@ export default {
     onMounted(async () => {
       await store.dispatch("fetchAdmin");
     })
-    const items = computed(() => store.state.admin);
+    store.commit("search", "")
+const items = computed(() => store.state.admin.filter((admin) => {
+      return admin.name.toLowerCase().includes(store.state.search) ||
+        admin.email.toLowerCase().includes(store.state.search) ||
+        admin.adminCode.toLowerCase().includes(store.state.search) ||
+        admin._id.toLowerCase().includes(store.state.search)
+    }));
 
     const isModalActive = ref(false);
 
@@ -178,13 +184,13 @@ export default {
           if (error.response.status == 403) {
             err = "Not Authorize"
           }
-          // else if (error.response.data == undefined) {
-          //   err = error.response
-          // }
+          else if (error.response.data == undefined) {
+            err = error.response
+          }
 
-          // else {
-          //   err = error.response.data.message
-          // }
+          else {
+            err = error.response.data.message
+          }
           // commit("auth_error");
           // localStorage.removeItem("token");
 

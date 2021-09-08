@@ -95,7 +95,8 @@ export default {
   setup() {
     const store = useStore();
 
-    const items = computed(() => store.state.topUp);
+    store.commit("search", "")
+const items = computed(() => store.state.topUp);
 
     const isModalActive = ref(false);
 

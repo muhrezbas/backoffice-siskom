@@ -32,6 +32,7 @@ export default createStore({
     AdminUnsel: [],
     AdminWithRoles: [],
     otp: 0,
+    searchMaterial : [],
     blastAll: 0,
     otpAll: 0,
     smsAll: 0,
@@ -41,6 +42,7 @@ export default createStore({
     topUp: [],
     sms: [],
     senderid: [],
+    search: "",
     errorAccess: false,
     // transaction: [],
     protocol: [],
@@ -58,6 +60,12 @@ export default createStore({
   },
   mutations: {
     /* Auth commit */
+    search(state, payload) {
+      state.search = payload
+    },
+    searchMaterial(state, payload) {
+      state.searchMaterial = payload
+    },
     auth_request(state) {
       state.status = "loading";
     },

@@ -106,7 +106,13 @@ export default {
   setup() {
     const store = useStore();
 
-    const items = computed(() => store.state.operator);
+    store.commit("search", "")
+const items = computed(() => store.state.operator.filter((admin) => {
+      return admin.name.toLowerCase().includes(store.state.search) ||
+        admin.nickname.toLowerCase().includes(store.state.search) ||
+        // String(admin.country.region).toLowerCase().includes(store.state.search) ||
+        admin._id.toLowerCase().includes(store.state.search)
+    }));
 
     const isModalActive = ref(false);
 
@@ -167,7 +173,7 @@ export default {
             });
           }
           store.dispatch("fetchOperators");
-          isModalDeleteActive.value = false
+          isModalDeleteActive.value.value = false
 
         })
         .catch((error) => {

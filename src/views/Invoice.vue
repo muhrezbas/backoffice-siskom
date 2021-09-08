@@ -68,7 +68,7 @@
     </card-component>
   </main-section>
 
-  <hero-bar search>Topup History</hero-bar>
+  <hero-bar>Topup History</hero-bar>
 
   <main-section>
     <card-component has-table>

@@ -232,7 +232,12 @@ export default {
       // await store.dispatch("fetchAdminPermissions");
 
     })
-    const items = computed(() => store.state.adminRoles);
+    store.commit("search", "")
+const items = computed(() => store.state.adminRoles.filter((admin) => {
+      return admin.name.toLowerCase().includes(store.state.search) ||
+        admin.code.toLowerCase().includes(store.state.search) ||
+        admin._id.toLowerCase().includes(store.state.search)
+    }));
 
     const isModalActive = ref(false);
 

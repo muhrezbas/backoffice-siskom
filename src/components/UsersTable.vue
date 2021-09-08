@@ -109,7 +109,21 @@ export default {
     const store = useStore();
     store.dispatch("fetchClients");
 
-    const items = computed(() => store.state.clients);
+    store.commit("search", "")
+const items = computed(() => store.state.clients.filter((admin) => {
+      return admin.username.toLowerCase().includes(store.state.search) ||
+        admin.companyName.toLowerCase().includes(store.state.search) ||
+        admin.username.toLowerCase().includes(store.state.search) ||
+        admin.companyNumber.toLowerCase().includes(store.state.search) ||
+        admin.companyAddress.toLowerCase().includes(store.state.search) ||
+        admin.namePic.toLowerCase().includes(store.state.search) ||
+        String(admin.contactPic).toLowerCase().includes(store.state.search) ||
+        admin.namePic.toLowerCase().includes(store.state.search) ||
+        String(admin.contactPic).toLowerCase().includes(store.state.search) ||
+        String(admin.whiteListIp).toLowerCase().includes(store.state.search) ||
+        admin.financeEmail.toLowerCase().includes(store.state.search) ||
+        admin._id.toLowerCase().includes(store.state.search)
+    }));
     //console.log(items, "tess");
 
     const isModalActive = ref(false);

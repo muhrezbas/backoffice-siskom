@@ -207,7 +207,13 @@ export default {
 
     }
 
-    const items = computed(() => store.state.country);
+    store.commit("search", "")
+const items = computed(() => store.state.country.filter((admin) => {
+      return String(admin.kode).toLowerCase().includes(store.state.search) ||
+        // admin.email.toLowerCase().includes(store.state.search) ||
+        admin.region.toLowerCase().includes(store.state.search) ||
+        admin._id.toLowerCase().includes(store.state.search)
+    }));
     console.log(items, "fna");
 
     const isModalActive = ref(false);

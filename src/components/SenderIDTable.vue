@@ -223,7 +223,13 @@ export default {
 
     }
 
-    const items = computed(() => store.state.senderid);
+    store.commit("search", "")
+const items = computed(() => store.state.senderid.filter((admin) => {
+      return  String(admin.senderID).toLowerCase().includes(store.state.search) ||
+        admin.region.toLowerCase().includes(store.state.search) ||
+        String(admin.operator.nickname).toLowerCase().includes(store.state.search) ||
+        admin._id.toLowerCase().includes(store.state.search)
+    }));
     console.log(store.state.senderid, "tesss");
 
     const isModalActive = ref(false);
