@@ -1,17 +1,27 @@
 <template>
   <modal-box v-model="paramWindow" title="Set Parameter" :submit="postCountry">
     <field label="Kode">
-      <control v-model="userData.kode" name="kode" required autocomplete="kode" />
+      <control
+        v-model="userData.kode"
+        name="kode"
+        required
+        autocomplete="kode"
+      />
     </field>
 
     <field label="Region">
-      <control v-model="userData.region" name="region" required autocomplete="region" />
+      <control
+        v-model="userData.region"
+        name="region"
+        required
+        autocomplete="region"
+      />
     </field>
   </modal-box>
   <title-bar :title-stack="titleStack" />
   <hero-bar class="mb-5">Settings</hero-bar>
 
-  <div id="country">
+  <div id="country" v-if="$store.state.errorAccess == false">
     <hero-bar param :paramFunction="openParamWindow" search>Country</hero-bar>
 
     <main-section>
@@ -21,6 +31,7 @@
     </main-section>
   </div>
 
+  <error-access v-else />
   <!-- <hero-bar search>Users</hero-bar>
 
   <main-section>
@@ -49,8 +60,9 @@ import {
   mdiGithub
 } from "@mdi/js";
 import * as chartConfig from "@/components/Charts/chart.config";
-import Swal from 'sweetalert2'
-import axios from 'axios'
+import Swal from "sweetalert2";
+import axios from "axios";
+import ErrorAccess from "@/components/ErrorAccess";
 import LineChart from "@/components/Charts/LineChart";
 import MainSection from "@/components/MainSection";
 import ModalBox from "@/components/ModalBox";
@@ -82,11 +94,12 @@ export default {
     TitleBar,
     Notification,
     JbButtons,
-    JbButton
+    JbButton,
+    ErrorAccess
   },
   setup() {
     const store = useStore();
-    const titleStack = ref(["Country", "Settings"]);
+    const titleStack = ref(["Admin", "Settings", "Country"]);
 
     const chartData = ref(null);
 
@@ -96,24 +109,22 @@ export default {
         kode: "",
         region: ""
       })
-    )
+    );
 
     const openParamWindow = () => {
       paramWindow.value = !paramWindow.value;
     };
     const postCountry = () => {
-      console.log(userData.value)
-      const loginUrl =
-        process.env.VUE_APP_BASE_URL +
-        "api/operators/country/";
+      console.log(userData.value);
+      const loginUrl = process.env.VUE_APP_BASE_URL + "api/operators/country/";
       // commit("auth_request");
       axios
         .post(loginUrl, userData.value, {
           headers: {
-            token: localStorage.getItem("token"),
-          },
+            token: localStorage.getItem("token")
+          }
         })
-        .then((r) => {
+        .then(r => {
           userData.value.region = "";
           userData.value.kode = "";
 
@@ -121,15 +132,14 @@ export default {
             Swal.fire({
               title: "ADD Country!",
               text: "Success",
-              icon: "success",
+              icon: "success"
             });
           }
           store.dispatch("fetchCountrys");
-          paramWindow.value = false
-         
+          paramWindow.value = false;
         })
-        .catch((error) => {
-          console.log(error)
+        .catch(error => {
+          console.log(error);
           // commit("auth_error");
           // localStorage.removeItem("token");
           // Swal.fire({
@@ -139,7 +149,7 @@ export default {
           // });
           // alert(error.message);
         });
-    }
+    };
     const fillChartData = () => {
       chartData.value = chartConfig.sampleChartData();
     };

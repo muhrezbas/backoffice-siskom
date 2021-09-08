@@ -148,13 +148,21 @@
     </card-component>
   </main-section>-->
 
-  <hero-bar param :paramFunction="openParamWindow" search>Users</hero-bar>
+  <hero-bar
+    v-if="$store.state.errorAccess == false"
+    param
+    :paramFunction="openParamWindow"
+    search
+    >Users</hero-bar
+  >
 
-  <main-section>
+  <main-section v-if="$store.state.errorAccess == false">
     <card-component has-table>
       <users-table checkable :admin="true" />
     </card-component>
   </main-section>
+
+  <error-access v-else />
 </template>
 
 <script>
@@ -182,6 +190,7 @@ import LineChart from "@/components/Charts/LineChart";
 import MainSection from "@/components/MainSection";
 import ModalBox from "@/components/ModalBox";
 import Level from "@/components/Level";
+import ErrorAccess from "@/components/ErrorAccess";
 import Field from "@/components/Field";
 import Control from "@/components/Control";
 import TitleBar from "@/components/TitleBar";
@@ -198,6 +207,7 @@ export default {
   components: {
     MainSection,
     ModalBox,
+    ErrorAccess,
     Level,
     Field,
     Control,

@@ -3,10 +3,11 @@
     <field label="Tipe Account">
       <select v-model="userData.akun" class="w-full">
         <option
-          v-for="option in ['reguler','premium']"
+          v-for="option in ['reguler', 'premium']"
           :key="option"
           :value="option"
-        >{{  option }}</option>
+          >{{ option }}</option
+        >
       </select>
     </field>
 
@@ -37,24 +38,26 @@
           v-for="option in $store.state.protocol"
           :key="option._id ?? option"
           :value="option._id"
-        >{{ option.supplier ?? option }}</option>
+          >{{ option.supplier ?? option }}</option
+        >
       </select>
     </field>
 
     <field label="Operator">
-      <select v-model="userData.operator"  class="w-full">
+      <select v-model="userData.operator" class="w-full">
         <option
           v-for="option in $store.state.operator"
           :key="option._id ?? option"
           :value="option._id"
-        >{{ option.nickname ?? option }}</option>
+          >{{ option.nickname ?? option }}</option
+        >
       </select>
     </field>
   </modal-box>
   <title-bar :title-stack="titleStack" />
   <hero-bar class="mb-5">Settings</hero-bar>
 
-  <div id="prize">
+  <div id="prize" v-if="$store.state.errorAccess == false">
     <hero-bar param :paramFunction="openParamWindow" search>Prize</hero-bar>
 
     <main-section>
@@ -63,6 +66,8 @@
       </card-component>
     </main-section>
   </div>
+
+  <error-access v-else />
 
   <!-- <hero-bar search>Users</hero-bar>
 
@@ -78,8 +83,8 @@
 // @ is an alias to /src
 import { ref, onMounted, computed, reactive } from "vue";
 import { useStore } from "vuex";
-import Swal from 'sweetalert2'
-import axios from 'axios'
+import Swal from "sweetalert2";
+import axios from "axios";
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -108,6 +113,7 @@ import UsersTable from "@/components/UsersTable";
 import Notification from "@/components/Notification";
 import JbButtons from "@/components/JbButtons";
 import JbButton from "@/components/JbButton";
+import ErrorAccess from "../components/ErrorAccess.vue";
 
 export default {
   name: "Setting",
@@ -125,10 +131,11 @@ export default {
     TitleBar,
     Notification,
     JbButtons,
-    JbButton
+    JbButton,
+    ErrorAccess
   },
   setup() {
-    const titleStack = ref(["Country", "Settings"]);
+    const titleStack = ref(["Admin", "Settings", "Prize"]);
     const store = useStore();
 
     const chartData = ref(null);
@@ -141,22 +148,21 @@ export default {
         tax: 0,
         protocol: "",
         operator: "",
-        kodePrize : ""
+        kodePrize: ""
       })
-    )
+    );
     const postPrize = () => {
-      console.log(userData.value)
+      console.log(userData.value);
       const loginUrl =
-        process.env.VUE_APP_BASE_URL +
-        "api/operators/registerPrizeByOperator/";
+        process.env.VUE_APP_BASE_URL + "api/operators/registerPrizeByOperator/";
       // commit("auth_request");
       axios
         .post(loginUrl, userData.value, {
           headers: {
-            token: localStorage.getItem("token"),
-          },
+            token: localStorage.getItem("token")
+          }
         })
-        .then((r) => {
+        .then(r => {
           userData.value.akun = "";
           userData.value.total = 0;
           userData.value.protocol = "";
@@ -168,25 +174,24 @@ export default {
             Swal.fire({
               title: "ADD Prize!",
               text: "Success",
-              icon: "success",
+              icon: "success"
             });
           }
           store.dispatch("fetchPrize");
-          paramWindow.value = false
-
+          paramWindow.value = false;
         })
-        .catch((error) => {
-          console.log(error.response.data.message)
+        .catch(error => {
+          console.log(error.response.data.message);
           // commit("auth_error");
           // localStorage.removeItem("token");
           Swal.fire({
             title: "ADD Prize!",
             text: "Gagal",
-            icon: "warning",
+            icon: "warning"
           });
           // alert(error.message);
         });
-    }
+    };
 
     const openParamWindow = () => {
       paramWindow.value = !paramWindow.value;
@@ -196,12 +201,12 @@ export default {
       chartData.value = chartConfig.sampleChartData();
     };
 
-    onMounted(async() => {
+    onMounted(async () => {
       await store.dispatch("fetchOperators");
       await store.dispatch("fetchProtocol");
       fillChartData();
     });
-    console.log(store.state.protocol, "tess pro")
+    console.log(store.state.protocol, "tess pro");
 
     return {
       titleStack,

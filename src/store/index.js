@@ -28,17 +28,17 @@ export default createStore({
     client: {},
     saldo: 0,
     blast: 0,
-    adminRoles:[],
+    adminRoles: [],
     AdminUnsel: [],
     AdminWithRoles: [],
     otp: 0,
-    searchMaterial : [],
+    searchMaterial: [],
     blastAll: 0,
     otpAll: 0,
     smsAll: 0,
     deliveredAll: 0,
     transaction: [],
-    AdminPermissions : [],
+    AdminPermissions: [],
     topUp: [],
     sms: [],
     senderid: [],
@@ -61,10 +61,10 @@ export default createStore({
   mutations: {
     /* Auth commit */
     search(state, payload) {
-      state.search = payload
+      state.search = payload;
     },
     searchMaterial(state, payload) {
-      state.searchMaterial = payload
+      state.searchMaterial = payload;
     },
     auth_request(state) {
       state.status = "loading";
@@ -98,18 +98,20 @@ export default createStore({
       state.saldo = saldo.jumlah;
     },
     transaction(state, saldo) {
-      state.transaction = saldo.history.sort(function (a, b) {
+      state.transaction = saldo.history.sort(function(a, b) {
         // Turn your strings into dates, and then subtract them
         // to get a value that is either negative, positive, or zero.
         return new Date(b.createdAt) - new Date(a.createdAt);
       });
     },
     topup(state, saldo) {
-      state.topUp = saldo.history.sort(function (a, b) {
-        // Turn your strings into dates, and then subtract them
-        // to get a value that is either negative, positive, or zero.
-        return new Date(b.createdAt) - new Date(a.createdAt);
-      }).filter(el => el.action == "topup");
+      state.topUp = saldo.history
+        .sort(function(a, b) {
+          // Turn your strings into dates, and then subtract them
+          // to get a value that is either negative, positive, or zero.
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        })
+        .filter(el => el.action == "topup");
     },
     otp(state, otp) {
       state.otp = otp.filter(el => el.prize.akun == "premium").length;
@@ -170,7 +172,7 @@ export default createStore({
       });
     },
     formScreenToggle({ commit, state }, value) {
-      console.log(value, "value form screen")
+      console.log(value, "value form screen");
       commit("basic", { key: "isFormScreen", value });
 
       document.documentElement.classList[value ? "add" : "remove"](
@@ -262,16 +264,29 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
             console.log(r.data, "client tes da");
-            commit("clients", r.data.sort(function (a, b) {
-              // Turn your strings into dates, and then subtract them
-              // to get a value that is either negative, positive, or zero.
-              return new Date(b.createdAt) - new Date(a.createdAt);
-            }));
+            commit(
+              "clients",
+              r.data.sort(function(a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
+            );
           }
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },
@@ -288,8 +303,12 @@ export default createStore({
         .then(r => {
           if (r.data) {
             commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
+            commit("basic", {
               key: "sms",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -327,6 +346,12 @@ export default createStore({
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },
@@ -395,8 +420,12 @@ export default createStore({
         .then(r => {
           if (r.data) {
             commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
+            commit("basic", {
               key: "admin",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -406,11 +435,18 @@ export default createStore({
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },
     fetchAdminRoles({ commit }) {
-      const adminUrl = process.env.VUE_APP_BASE_URL + "api/admins/getAdminRoles/";
+      const adminUrl =
+        process.env.VUE_APP_BASE_URL + "api/admins/getAdminRoles/";
       axios
         .get(adminUrl, {
           headers: {
@@ -420,8 +456,12 @@ export default createStore({
         .then(r => {
           if (r.data) {
             commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
+            commit("basic", {
               key: "adminRoles",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -431,11 +471,21 @@ export default createStore({
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },
     fetchAdminPermissionWithRoles({ commit }, id) {
-      const adminUrl = process.env.VUE_APP_BASE_URL + "api/admins/getAdminWithRoles/" + id + "/";
+      const adminUrl =
+        process.env.VUE_APP_BASE_URL +
+        "api/admins/getAdminWithRoles/" +
+        id +
+        "/";
       return axios
         .get(adminUrl, {
           headers: {
@@ -444,6 +494,10 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
             commit("basic", {
               key: "AdminWithRoles",
               value: r.data
@@ -452,11 +506,18 @@ export default createStore({
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },
     fetchAdminUnsel({ commit }) {
-      const adminUrl = process.env.VUE_APP_BASE_URL + "api/admins/getAdminUnsel/";
+      const adminUrl =
+        process.env.VUE_APP_BASE_URL + "api/admins/getAdminUnsel/";
       return axios
         .get(adminUrl, {
           headers: {
@@ -465,6 +526,10 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
             commit("basic", {
               key: "AdminUnsel",
               value: r.data
@@ -473,11 +538,18 @@ export default createStore({
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },
     fetchAdminPermissions({ commit }) {
-      const adminUrl = process.env.VUE_APP_BASE_URL + "api/admins/getAdminPermissions/";
+      const adminUrl =
+        process.env.VUE_APP_BASE_URL + "api/admins/getAdminPermissions/";
       return axios
         .get(adminUrl, {
           headers: {
@@ -486,7 +558,11 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
-            console.log(r.data, 'test')
+            console.log(r.data, "test");
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
             commit("basic", {
               key: "AdminPermissions",
               value: r.data
@@ -495,6 +571,12 @@ export default createStore({
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },
@@ -516,7 +598,7 @@ export default createStore({
             });
             commit("basic", {
               key: "operator",
-              value: r.data.newOperator.sort(function (a, b) {
+              value: r.data.newOperator.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -548,10 +630,14 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
             console.log(r.data.Country, "tesss");
             commit("basic", {
               key: "country",
-              value: r.data.Country.sort(function (a, b) {
+              value: r.data.Country.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -561,6 +647,12 @@ export default createStore({
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },
@@ -576,10 +668,14 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
             console.log(r.data, "senderid");
             commit("basic", {
               key: "senderid",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -589,6 +685,12 @@ export default createStore({
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },
@@ -604,10 +706,14 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
             console.log(r.data, "whitelist content");
             commit("basic", {
               key: "whitelistContent",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -617,6 +723,12 @@ export default createStore({
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },
@@ -632,10 +744,14 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
             console.log(r.data, "whitelistPhoneNumber");
             commit("basic", {
               key: "whitelistPhoneNumber",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -645,6 +761,12 @@ export default createStore({
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },
@@ -659,10 +781,14 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
             console.log(r.data, "prize");
             commit("basic", {
               key: "prize",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -672,6 +798,12 @@ export default createStore({
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },
@@ -686,10 +818,14 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
             console.log(r.data, "prefix");
             commit("basic", {
               key: "prefix",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -699,6 +835,12 @@ export default createStore({
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },
@@ -715,10 +857,14 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
             console.log(r.data, "keyword");
             commit("basic", {
               key: "keyword",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -728,6 +874,12 @@ export default createStore({
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },
@@ -742,10 +894,14 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
             console.log(r.data, "keyword");
             commit("basic", {
               key: "protocol",
-              value: r.data.sort(function (a, b) {
+              value: r.data.sort(function(a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
                 return new Date(b.createdAt) - new Date(a.createdAt);
@@ -755,6 +911,12 @@ export default createStore({
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },
@@ -788,12 +950,22 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
             console.log(r.data, "client tes");
             commit("client", r.data);
           }
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },
@@ -810,26 +982,45 @@ export default createStore({
         })
         .then(r => {
           if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
             console.log(r.data, "sms client tes");
-            commit("smsClient", r.data.sort(function (a, b) {
-              // Turn your strings into dates, and then subtract them
-              // to get a value that is either negative, positive, or zero.
-              return new Date(b.createdAt) - new Date(a.createdAt);
-            }));
-            commit("blast", r.data.sort(function (a, b) {
-              // Turn your strings into dates, and then subtract them
-              // to get a value that is either negative, positive, or zero.
-              return new Date(b.createdAt) - new Date(a.createdAt);
-            }));
-            commit("otp", r.data.sort(function (a, b) {
-              // Turn your strings into dates, and then subtract them
-              // to get a value that is either negative, positive, or zero.
-              return new Date(b.createdAt) - new Date(a.createdAt);
-            }));
+            commit(
+              "smsClient",
+              r.data.sort(function(a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
+            );
+            commit(
+              "blast",
+              r.data.sort(function(a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
+            );
+            commit(
+              "otp",
+              r.data.sort(function(a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
+            );
           }
         })
         .catch(error => {
           console.log(error);
+          if (error.message == "Request failed with status code 403") {
+            commit("basic", {
+              key: "errorAccess",
+              value: true
+            });
+          }
           // alert(error.message);
         });
     },

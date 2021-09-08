@@ -28,19 +28,39 @@
       </div>
     </field>-->
     <field label="Name">
-      <control v-model="userData.name" name="name" required autocomplete="name" />
+      <control
+        v-model="userData.name"
+        name="name"
+        required
+        autocomplete="name"
+      />
     </field>
 
     <field label="Username">
-      <control v-model="userData.username" name="username" required autocomplete="username" />
+      <control
+        v-model="userData.username"
+        name="username"
+        required
+        autocomplete="username"
+      />
     </field>
 
     <field label="Admin Code">
-      <control v-model="userData.adminCode" name="adminCode" required autocomplete="adminCode" />
+      <control
+        v-model="userData.adminCode"
+        name="adminCode"
+        required
+        autocomplete="adminCode"
+      />
     </field>
 
     <field label="Email">
-      <control v-model="userData.email" name="email" required autocomplete="email" />
+      <control
+        v-model="userData.email"
+        name="email"
+        required
+        autocomplete="email"
+      />
     </field>
     <field label="Password">
       <control
@@ -56,7 +76,7 @@
   <title-bar :title-stack="titleStack" />
   <hero-bar class="mb-5">Settings</hero-bar>
 
-  <div id="admin">
+  <div id="admin" v-if="$store.state.errorAccess == false">
     <hero-bar param :paramFunction="openParamWindow" search>Admin</hero-bar>
 
     <main-section>
@@ -65,6 +85,8 @@
       </card-component>
     </main-section>
   </div>
+
+  <error-access v-else />
 
   <!-- <hero-bar search>Users</hero-bar>
 
@@ -80,8 +102,8 @@
 // @ is an alias to /src
 import { ref, onMounted, computed, reactive } from "vue";
 import { useStore } from "vuex";
-import Swal from 'sweetalert2'
-import axios from 'axios'
+import Swal from "sweetalert2";
+import axios from "axios";
 import {
   mdiAccountMultiple,
   mdiCashMultiple,
@@ -95,6 +117,7 @@ import {
   mdiTrashCan,
   mdiGithub
 } from "@mdi/js";
+import ErrorAccess from "@/components/ErrorAccess";
 import * as chartConfig from "@/components/Charts/chart.config";
 import LineChart from "@/components/Charts/LineChart";
 import MainSection from "@/components/MainSection";
@@ -116,6 +139,7 @@ export default {
   components: {
     MainSection,
     ModalBox,
+    ErrorAccess,
     Level,
     Field,
     Control,
@@ -131,7 +155,7 @@ export default {
   },
   setup() {
     const store = useStore();
-    const titleStack = ref(["Admin", "Settings"]);
+    const titleStack = ref(["Admin", "Settings", "Admin"]);
 
     const chartData = ref(null);
 
@@ -148,62 +172,56 @@ export default {
         email: "",
         password: ""
       })
-    )
+    );
     const postAdmin = () => {
-      console.log(userData.value)
-      const loginUrl =
-        process.env.VUE_APP_BASE_URL +
-        "api/admins/register/";
+      console.log(userData.value);
+      const loginUrl = process.env.VUE_APP_BASE_URL + "api/admins/register/";
       // commit("auth_request");
       axios
         .post(loginUrl, userData.value, {
           headers: {
-            token: localStorage.getItem("token"),
-          },
+            token: localStorage.getItem("token")
+          }
         })
-        .then((r) => {
-          userData.value.name = ""
-          userData.value.username = ""
-          userData.value.adminCode = ""
-          userData.value.email = ""
-          userData.value.password = ""
+        .then(r => {
+          userData.value.name = "";
+          userData.value.username = "";
+          userData.value.adminCode = "";
+          userData.value.email = "";
+          userData.value.password = "";
 
           if (r.data) {
             Swal.fire({
               title: "ADD Admin!",
               text: "Success",
-              icon: "success",
+              icon: "success"
             });
           }
           store.dispatch("fetchAdmin");
-          paramWindow.value = false
-
+          paramWindow.value = false;
         })
-        .catch((error) => {
-          console.log(error.response)
-          let err
+        .catch(error => {
+          console.log(error.response);
+          let err;
           if (error.response.status == 403) {
-            err = "Not Authorize"
+            err = "Not Authorize";
+          } else if (error.response.data == undefined) {
+            err = error.response;
+          } else {
+            err = error.response.data.message;
           }
-          else if (error.response.data == undefined) {
-            err = error.response
-          }
-
-          else {
-            err = error.response.data.message
-          }
-          console.log(err, "cas")
+          console.log(err, "cas");
           // commit("auth_error");
           // localStorage.removeItem("token");
 
           Swal.fire({
             title: "ADD Admin!",
             text: err,
-            icon: "warning",
+            icon: "warning"
           });
           // alert(error.message);
         });
-    }
+    };
 
     const fillChartData = () => {
       chartData.value = chartConfig.sampleChartData();
