@@ -228,6 +228,17 @@ const routes = [
       import(/* webpackChunkName: "profile" */ "../views/Clients"),
     props: true
   },
+  ,
+  {
+    meta: {
+      title: "Dummy",
+      requiresAuth: true
+      
+    },
+    path: "/dummy/:id",
+    name: "dummy",
+    component: () => import(/* webpackChunkName: "login" */ "../views/inputDummy")
+  },
   {
     meta: {
       title: "Client Detail",
@@ -265,6 +276,7 @@ const routes = [
     name: "login",
     component: () => import(/* webpackChunkName: "login" */ "../views/LoginClient")
   }
+ 
 ];
 
 const router = createRouter({

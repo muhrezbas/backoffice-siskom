@@ -16,7 +16,8 @@
         $route.name !== 'home' &&
         $route.name !== 'login_admin' &&
         $route.name !== 'dashboard_client' &&
-        $route.name !== 'invoice_client'
+        $route.name !== 'invoice_client' &&
+        $route.name !== 'dummy'
     "
   />
   <router-view />
@@ -31,7 +32,6 @@ import NavBar from "@/components/NavBar";
 import HomeBar from "@/components/HomeBar";
 import ClientBar from "@/components/ClientBar";
 import AsideMenu from "@/components/AsideMenu";
-
 export default {
   name: "Home",
   components: {
@@ -45,13 +45,11 @@ export default {
   },
   setup() {
     const store = useStore();
-
     store.commit("user", {
       name: "John Doe",
       email: "john@example.com",
       avatar: "https://avatars.dicebear.com/v2/gridy/John-Doe.svg"
     });
-
     return {
       menu
     };

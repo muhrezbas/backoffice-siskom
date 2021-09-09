@@ -22,7 +22,7 @@ import "./css/main.css";
 axios.interceptors.response.use(undefined, function (error) {
   if (error) {
     let swall = true
-    console.log(error, "error ni")
+    console.log(error.response, "error ni")
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
@@ -46,6 +46,9 @@ axios.interceptors.response.use(undefined, function (error) {
       }
       else if (error.response.data == undefined) {
         err = error.response
+      }
+      else if (error.response.data.message == undefined) {
+        err = JSON.stringify(error.response.data)
       }
 
       else {
