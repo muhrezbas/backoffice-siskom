@@ -142,9 +142,9 @@ export default {
       console.log(form2, "tes")
       axios
         .post(loginUrl, form2, {
-          headers: {
-            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGYyODI4MDA0NGRmYjViODZjMDc0MzMiLCJ1c2VybmFtZSI6InRva29wZWRpYSIsInByaW9yaXR5IjpbIjYwZjI4MjFhMDQ0ZGZiNWI4NmMwNzQzMiIsIjYxMjIyOGE3YjA0OWY3NTEzZDdkNmIyYiIsIjYxMGQwMDJlNDkyOTRiNTM0NmZhMmE4NCJdLCJwcm90b2NvbCI6IjYwZjI4MjFhMDQ0ZGZiNWI4NmMwNzQzMiIsImlhdCI6MTYzMTE2NzY4MCwiZXhwIjoxNjMxMTg5MjgwfQ.DjKanpuudv8jDNQoIWT1s2-EIM4rYSBV7l_dbbRjMlk"
-          }
+           headers: {
+            token: localStorage.getItem("token"),
+          },
         })
         .then(r => {
           console.log(r.data, "hallooos")
@@ -170,9 +170,9 @@ export default {
       console.log(form, "tes form1")
       axios
         .post(loginUrl, form, {
-          headers: {
-            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGYyODI4MDA0NGRmYjViODZjMDc0MzMiLCJ1c2VybmFtZSI6InRva29wZWRpYSIsInByaW9yaXR5IjpbIjYwZjI4MjFhMDQ0ZGZiNWI4NmMwNzQzMiIsIjYxMjIyOGE3YjA0OWY3NTEzZDdkNmIyYiIsIjYxMGQwMDJlNDkyOTRiNTM0NmZhMmE4NCJdLCJwcm90b2NvbCI6IjYwZjI4MjFhMDQ0ZGZiNWI4NmMwNzQzMiIsImlhdCI6MTYzMTE2NzY4MCwiZXhwIjoxNjMxMTg5MjgwfQ.DjKanpuudv8jDNQoIWT1s2-EIM4rYSBV7l_dbbRjMlk"
-          }
+           headers: {
+            token: localStorage.getItem("token"),
+          },
         })
         .then(r => {
           console.log(r.data, "hallooos")
