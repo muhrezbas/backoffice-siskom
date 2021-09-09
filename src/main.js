@@ -21,6 +21,7 @@ import "./css/main.css";
 
 axios.interceptors.response.use(undefined, function (error) {
   if (error) {
+    let swall = true
     console.log(error, "error ni")
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
@@ -32,6 +33,15 @@ axios.interceptors.response.use(undefined, function (error) {
     else {
       let err
       if (error.response.status == 403) {
+        if (error.response.config.method == "get") {
+          swall = false
+          store.commit("basic", {
+            key: "errorAccess",
+            value: true
+          });
+
+
+        }
         err = "Not Authorize"
       }
       else if (error.response.data == undefined) {
@@ -44,12 +54,14 @@ axios.interceptors.response.use(undefined, function (error) {
       console.log(err, "cas")
       // commit("auth_error");
       // localStorage.removeItem("token");
+      if (swall == true) {
 
-      Swal.fire({
-        title: "ERROR!",
-        text: err,
-        icon: "warning",
-      });
+        Swal.fire({
+          title: "ERROR!",
+          text: err,
+          icon: "warning",
+        });
+      }
     }
   }
 });
