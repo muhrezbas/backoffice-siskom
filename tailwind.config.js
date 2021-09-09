@@ -1,29 +1,29 @@
 module.exports = {
-  purge: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
       zIndex: {
-        "-1": "-1"
+        '-1': '-1'
       },
       flexGrow: {
-        5: "5"
+        5: '5'
       },
       maxHeight: {
-        "screen-menu": "calc(100vh - 3.5rem)",
-        modal: "calc(100vh - 160px)",
-        paramDesktop: "32rem",
-        paramMobile: "30rem"
+        'screen-menu': 'calc(100vh - 3.5rem)',
+        modal: 'calc(100vh - 160px)',
+        paramDesktop: '32rem',
+        paramMobile: '30rem'
       },
       transitionProperty: {
-        position: "right, left, top, bottom, margin, padding"
+        position: 'right, left, top, bottom, margin, padding'
       }
     }
   },
   variants: {
     extend: {
-      margin: ["last"]
+      margin: ['last']
     }
   },
-  plugins: [require("@tailwindcss/forms"), require("tailwind-scrollbar")]
-};
+  plugins: [require('@tailwindcss/forms'), require('tailwind-scrollbar')]
+}

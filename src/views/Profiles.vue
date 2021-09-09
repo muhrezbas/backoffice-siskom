@@ -99,8 +99,8 @@
 </template>
 
 <script>
-import { ref, reactive } from "vue";
-import { useStore } from "vuex";
+import { ref, reactive } from 'vue'
+import { useStore } from 'vuex'
 import {
   mdiAccount,
   mdiAccountCircle,
@@ -108,21 +108,21 @@ import {
   mdiMail,
   mdiAsterisk,
   mdiFormTextboxPassword
-} from "@mdi/js";
-import MainSection from "@/components/MainSection";
-import CardComponent from "@/components/CardComponent";
-import TitleBar from "@/components/TitleBar";
-import HeroBar from "@/components/HeroBar";
-import Divider from "@/components/Divider";
-import Field from "@/components/Field";
-import Control from "@/components/Control";
-import FilePicker from "@/components/FilePicker";
-import JbButton from "@/components/JbButton";
-import BottomOtherPagesSection from "@/components/BottomOtherPagesSection";
-import JbButtons from "@/components/JbButtons";
+} from '@mdi/js'
+import MainSection from '@/components/MainSection'
+import CardComponent from '@/components/CardComponent'
+import TitleBar from '@/components/TitleBar'
+import HeroBar from '@/components/HeroBar'
+import Divider from '@/components/Divider'
+import Field from '@/components/Field'
+import Control from '@/components/Control'
+import FilePicker from '@/components/FilePicker'
+import JbButton from '@/components/JbButton'
+import BottomOtherPagesSection from '@/components/BottomOtherPagesSection'
+import JbButtons from '@/components/JbButtons'
 
 export default {
-  name: "Profiles",
+  name: 'Profiles',
   components: {
     JbButtons,
     MainSection,
@@ -136,29 +136,29 @@ export default {
     JbButton,
     BottomOtherPagesSection
   },
-  setup() {
-    const store = useStore();
+  setup () {
+    const store = useStore()
 
-    const titleStack = ref(["Admin", "Profile"]);
+    const titleStack = ref(['Admin', 'Profile'])
 
     const profileForm = reactive({
       name: store.state.userName,
       email: store.state.userEmail
-    });
+    })
 
     const passwordForm = reactive({
-      password_current: "",
-      password: "",
-      password_confirmation: ""
-    });
+      password_current: '',
+      password: '',
+      password_confirmation: ''
+    })
 
     const submitProfile = () => {
-      store.commit("user", profileForm);
-    };
+      store.commit('user', profileForm)
+    }
 
     const submitPass = () => {
       //
-    };
+    }
 
     return {
       titleStack,
@@ -172,7 +172,7 @@ export default {
       mdiMail,
       mdiAsterisk,
       mdiFormTextboxPassword
-    };
+    }
   }
-};
+}
 </script>

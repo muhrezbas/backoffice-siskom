@@ -8,6 +8,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 export default defineComponent({
 name: 'CheckboxCell',
 });
