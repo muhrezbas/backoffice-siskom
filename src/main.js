@@ -39,7 +39,7 @@ axios.interceptors.response.use(undefined, function (error) {
             key: "errorAccess",
             value: true
           });
-
+          console.log()
 
         }
         err = "Not Authorize"

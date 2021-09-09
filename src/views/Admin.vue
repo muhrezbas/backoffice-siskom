@@ -28,39 +28,19 @@
       </div>
     </field>-->
     <field label="Name">
-      <control
-        v-model="userData.name"
-        name="name"
-        required
-        autocomplete="name"
-      />
+      <control v-model="userData.name" name="name" required autocomplete="name" />
     </field>
 
     <field label="Username">
-      <control
-        v-model="userData.username"
-        name="username"
-        required
-        autocomplete="username"
-      />
+      <control v-model="userData.username" name="username" required autocomplete="username" />
     </field>
 
     <field label="Admin Code">
-      <control
-        v-model="userData.adminCode"
-        name="adminCode"
-        required
-        autocomplete="adminCode"
-      />
+      <control v-model="userData.adminCode" name="adminCode" required autocomplete="adminCode" />
     </field>
 
     <field label="Email">
-      <control
-        v-model="userData.email"
-        name="email"
-        required
-        autocomplete="email"
-      />
+      <control v-model="userData.email" name="email" required autocomplete="email" />
     </field>
     <field label="Password">
       <control
@@ -227,9 +207,11 @@ export default {
       chartData.value = chartConfig.sampleChartData();
     };
 
-    onMounted(() => {
+
+    onMounted(async () => {
+      await store.dispatch("fetchAdmin");
       fillChartData();
-    });
+    })
 
     return {
       titleStack,

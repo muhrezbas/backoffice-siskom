@@ -177,14 +177,14 @@ const items = computed(() => store.state.operator.filter((admin) => {
 
         })
         .catch((error) => {
-          console.log(error.response.data.message)
-          // commit("auth_error");
-          // localStorage.removeItem("token");
-          Swal.fire({
-            title: "Delete Operator!",
-            text: error.response.data.message,
-            icon: "warning",
-          });
+          // console.log(error.response.data.message)
+          // // commit("auth_error");
+          // // localStorage.removeItem("token");
+          // Swal.fire({
+          //   title: "Delete Operator!",
+          //   text: error.response.data.message,
+          //   icon: "warning",
+          // });
           // alert(error.message);
         });
     }
@@ -223,14 +223,14 @@ const items = computed(() => store.state.operator.filter((admin) => {
 
         })
         .catch((error) => {
-          console.log(error.response.data.message)
-          // commit("auth_error");
-          // localStorage.removeItem("token");
-          Swal.fire({
-            title: "EDIT Operator!",
-            text: error.response.data.message,
-            icon: "warning",
-          });
+          // console.log(error.response.data.message)
+          // // commit("auth_error");
+          // // localStorage.removeItem("token");
+          // Swal.fire({
+          //   title: "EDIT Operator!",
+          //   text: error.response.data.message,
+          //   icon: "warning",
+          // });
           // alert(error.message);
         });
     }

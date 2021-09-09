@@ -154,14 +154,14 @@ export default {
 
         })
         .catch((error) => {
-          console.log(error.response.data.message)
-          // commit("auth_error");
-          // localStorage.removeItem("token");
-          Swal.fire({
-            title: "Delete SenderID!",
-            text: error.response.data.message,
-            icon: "warning",
-          });
+          // console.log(error.response.data.message)
+          // // commit("auth_error");
+          // // localStorage.removeItem("token");
+          // Swal.fire({
+          //   title: "Delete SenderID!",
+          //   text: error.response.data.message,
+          //   icon: "warning",
+          // });
           // alert(error.message);
         });
     }
@@ -209,14 +209,14 @@ export default {
 
         })
         .catch((error) => {
-          console.log(error.response.data.message)
-          // commit("auth_error");
-          // localStorage.removeItem("token");
-          Swal.fire({
-            title: "EDIT Sender ID!",
-            text: error.response.data.message,
-            icon: "warning",
-          });
+          // console.log(error.response.data.message)
+          // // commit("auth_error");
+          // // localStorage.removeItem("token");
+          // Swal.fire({
+          //   title: "EDIT Sender ID!",
+          //   text: error.response.data.message,
+          //   icon: "warning",
+          // });
           // alert(error.message);
         });
 

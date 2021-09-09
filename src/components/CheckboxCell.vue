@@ -8,24 +8,24 @@
 </template>
 
 <script>
+export default defineComponent({
+name: 'CheckboxCell',
+});
+</script>
+
+<script setup>
 import { ref, watch } from 'vue'
 
-export default {
-  name: 'CheckboxCell',
-  props: {
+const props = defineProps({
     type: {
       type: String,
       default: 'td'
     }
-  },
-  setup (props, { emit }) {
-    const checked = ref(false)
+  });
+
+const checked = ref(false)
 
     watch(checked, newVal => {
       emit('checked', newVal)
     })
-
-    return { checked }
-  }
-}
 </script>

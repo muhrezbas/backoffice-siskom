@@ -435,12 +435,12 @@ export default createStore({
         })
         .catch(error => {
           console.log(error);
-          if (error.message == "Request failed with status code 403") {
-            commit("basic", {
-              key: "errorAccess",
-              value: true
-            });
-          }
+          // if (error.message == "Request failed with status code 403") {
+          //   commit("basic", {
+          //     key: "errorAccess",
+          //     value: true
+          //   });
+          // }
           // alert(error.message);
         });
     },
@@ -584,7 +584,7 @@ export default createStore({
     fetchOperators({ commit }) {
       const operatorUrl =
         process.env.VUE_APP_BASE_URL + "api/operators/findOperatorAll/";
-      axios
+      return axios
         .get(operatorUrl, {
           headers: {
             token: localStorage.getItem("token")
@@ -646,13 +646,13 @@ export default createStore({
           }
         })
         .catch(error => {
-          console.log(error);
-          if (error.message == "Request failed with status code 403") {
-            commit("basic", {
-              key: "errorAccess",
-              value: true
-            });
-          }
+          // console.log(error);
+          // if (error.message == "Request failed with status code 403") {
+          //   commit("basic", {
+          //     key: "errorAccess",
+          //     value: true
+          //   });
+          // }
           // alert(error.message);
         });
     },

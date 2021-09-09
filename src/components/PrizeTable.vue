@@ -170,14 +170,14 @@ export default {
 
         })
         .catch((error) => {
-          console.log(error.response.data.message)
-          // commit("auth_error");
-          // localStorage.removeItem("token");
-          Swal.fire({
-            title: "Delete Prize!",
-            text: error.response.data.message,
-            icon: "warning",
-          });
+          // console.log(error.response.data.message)
+          // // commit("auth_error");
+          // // localStorage.removeItem("token");
+          // Swal.fire({
+          //   title: "Delete Prize!",
+          //   text: error.response.data.message,
+          //   icon: "warning",
+          // });
           // alert(error.message);
         });
     }
@@ -236,14 +236,14 @@ export default {
 
         })
         .catch((error) => {
-          console.log(error.response.data.message)
-          // commit("auth_error");
-          // localStorage.removeItem("token");
-          Swal.fire({
-            title: "EDIT Prize!",
-            text: error.response.data.message,
-            icon: "warning",
-          });
+          // console.log(error.response.data.message)
+          // // commit("auth_error");
+          // // localStorage.removeItem("token");
+          // Swal.fire({
+          //   title: "EDIT Prize!",
+          //   text: error.response.data.message,
+          //   icon: "warning",
+          // });
           // alert(error.message);
         });
     }

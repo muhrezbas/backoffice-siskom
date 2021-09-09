@@ -512,14 +512,14 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
 
         })
         .catch((error) => {
-          console.log(error.response.data.message)
-          // commit("auth_error");
-          // localStorage.removeItem("token");
-          Swal.fire({
-            title: "Delete Admin!",
-            text: error.response.data.message,
-            icon: "warning",
-          });
+          // console.log(error.response.data.message)
+          // // commit("auth_error");
+          // // localStorage.removeItem("token");
+          // Swal.fire({
+          //   title: "Delete Admin!",
+          //   text: error.response.data.message,
+          //   icon: "warning",
+          // });
           // alert(error.message);
         });
     }

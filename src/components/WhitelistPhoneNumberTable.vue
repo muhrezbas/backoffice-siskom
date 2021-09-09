@@ -176,14 +176,14 @@ const items = computed(() => store.state.whitelistPhoneNumber.filter((admin) => 
 
         })
         .catch((error) => {
-          console.log(error.response.data.message)
-          // commit("auth_error");
-          // localStorage.removeItem("token");
-          Swal.fire({
-            title: "Delete WhitelistPhoneNumber!",
-            text: error.response.data.message,
-            icon: "warning",
-          });
+          // console.log(error.response.data.message)
+          // // commit("auth_error");
+          // // localStorage.removeItem("token");
+          // Swal.fire({
+          //   title: "Delete WhitelistPhoneNumber!",
+          //   text: error.response.data.message,
+          //   icon: "warning",
+          // });
           // alert(error.message);
         });
     }
@@ -229,14 +229,14 @@ const items = computed(() => store.state.whitelistPhoneNumber.filter((admin) => 
 
         })
         .catch((error) => {
-          console.log(error.response.data.message)
-          // commit("auth_error");
-          // localStorage.removeItem("token");
-          Swal.fire({
-            title: "EDIT Whitelist Phone Numbers!",
-            text: error.response.data.message,
-            icon: "warning",
-          });
+          // console.log(error.response.data.message)
+          // // commit("auth_error");
+          // // localStorage.removeItem("token");
+          // Swal.fire({
+          //   title: "EDIT Whitelist Phone Numbers!",
+          //   text: error.response.data.message,
+          //   icon: "warning",
+          // });
           // alert(error.message);
         });
     }

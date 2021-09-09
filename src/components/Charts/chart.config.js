@@ -10,7 +10,7 @@ const randomChartData = n => {
   const data = []
 
   for (let i = 0; i < n; i++) {
-    data.push(200)
+    data.push(Math.round(Math.random() * 200))
   }
 
   return data
