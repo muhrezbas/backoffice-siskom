@@ -111,6 +111,11 @@ export default [
           label: "Prize of SMS"
         },
         {
+          to: "/admin/credit",
+          icon: mdiLicense,
+          label: "Credit of Client"
+        },
+        {
           to: "/admin/prefix",
           icon: mdiFormatTextWrappingClip,
           label: "Prefix"

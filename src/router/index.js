@@ -123,6 +123,15 @@ const routes = [
   },
   {
     meta: {
+      title: "Credit",
+      requiresAuth: true
+    },
+    path: "/admin/credit",
+    name: "Credit",
+    component: () => import(/* webpackChunkName: "forms" */ "../views/Credit")
+  },
+  {
+    meta: {
       title: "Prefix",
       requiresAuth: true
     },
@@ -233,7 +242,7 @@ const routes = [
     meta: {
       title: "Dummy",
       requiresAuth: true
-      
+
     },
     path: "/dummy/:id",
     name: "dummy",
@@ -276,7 +285,7 @@ const routes = [
     name: "login",
     component: () => import(/* webpackChunkName: "login" */ "../views/LoginClient")
   }
- 
+
 ];
 
 const router = createRouter({

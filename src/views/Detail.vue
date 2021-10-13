@@ -48,7 +48,7 @@
         </field>-->
       </div>
       <!-- <div class="flex flex-wrap -mx-3 mb-6"> -->
-      <field label="Priority Protocol">
+      <!-- <field label="Priority Protocol">
         <div>
           <select
             v-model="userData.priority[index]"
@@ -63,7 +63,7 @@
             >{{ option.supplier ?? option }}</option>
           </select>
         </div>
-      </field>
+      </field>-->
 
       <!-- <field label="Prize" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
         <control v-model="userData.total" name="prize" required autocomplete="prize" />
@@ -97,19 +97,22 @@
               <td>{{ this.client.companyAddress }}</td>
             </tr>
             <tr></tr>
-            <tr>
+            <!-- <tr>
               <td class>First Priority Supplier</td>
               <td>{{ this.client.priority[0].supplier }}</td>
-            </tr>
+            </tr>-->
             <tr></tr>
             <tr>
-              <td class>Priority</td>
-              <td>
-                <div
-                  v-for="priority in this.client.priority"
-                  v-bind:key="priority._id"
-                >{{ priority.supplier }}</div>
-              </td>
+              <td class>Operators</td>
+              <div v-for="ope in this.$store.state.prio" v-bind:key="ope._id" class="d-flex justify-space-between">
+                <td>{{ ope.operator.name }}</td>
+                <td>
+                  <div
+                    v-for="priority in ope.protocol"
+                    v-bind:key="priority._id"
+                  >{{ priority.supplier }}</div>
+                </td>
+              </div>
             </tr>
             <tr></tr>
             <tr>
@@ -278,7 +281,7 @@ export default {
     // console.log(this.$store.state.client, "test");
     await store.dispatch("fetchClient", { id: this.idClient });
     // await store.dispatch("fetchSmsClient", { id: this.idClient });
-
+    await store.dispatch("fetchOperators")
     console.log(this.$store.state.client, "naan");
     // console.log(this.$store.state.smsClient, "naan");
   },
@@ -364,7 +367,11 @@ export default {
       const res = await store.dispatch("fetchSmsClient", {
         id: route.params.id,
       });
+      await store.dispatch("fetchPrio", {
+        id: route.params.id,
+      });
       await store.dispatch("fetchProtocol");
+      console.log(store.state.prio, "prio")
 
       console.log(res, "tes");
       // console.log(this.$route, "test");
