@@ -140,11 +140,7 @@ export default {
       formData.append('token', localStorage.getItem("token"))
       // commit("auth_request");
       axios
-        .post(loginUrl, formData, {
-          headers: {
-            token: localStorage.getItem("token")
-          }
-        })
+        .post(loginUrl, formData)
         .then(r => {
           csvData.value.file = null
 
@@ -155,7 +151,7 @@ export default {
               icon: "success"
             });
           }
-          store.dispatch("fetchCountrys");
+          // store.dispatch("fetchCountrys");
           paramWindow.value = false;
         })
         .catch(error => {
