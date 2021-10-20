@@ -1,21 +1,11 @@
 <template>
   <modal-box v-model="paramWindow" title="Set Parameter" :submit="postOperator">
     <field label="Company Name">
-      <control
-        v-model="userData.name"
-        name="Company Name"
-        required
-        autocomplete="Company Name"
-      />
+      <control v-model="userData.name" name="Company Name" required autocomplete="Company Name" />
     </field>
 
     <field label="Nickname">
-      <control
-        v-model="userData.nickname"
-        name="prize"
-        required
-        autocomplete="prize"
-      />
+      <control v-model="userData.nickname" name="prize" required autocomplete="prize" />
     </field>
 
     <field label="Country">
@@ -24,17 +14,22 @@
           v-for="option in $store.state.country"
           :key="option._id ?? option"
           :value="option._id"
-          >{{ option.region ?? option }}</option
-        >
+        >{{ option.region ?? option }}</option>
       </select>
     </field>
   </modal-box>
 
   <title-bar :title-stack="titleStack" />
 
-  <hero-bar class="mb-5" v-if="$store.state.errorAccess == false"
-    >Settings</hero-bar
-  >
+  <hero-bar
+    class="mb-5"
+    v-if="$store.state.errorAccess == false"
+    v-model="csvData.file"
+    csv
+    :confirm="csvData.file == null ? false : true"
+    :csvFunction="uploadCsv"
+  >Settings</hero-bar>
+  <!-- <file-picker v-model="csvData.file"></file-picker> -->
 
   <div id="operator" v-if="$store.state.errorAccess == false">
     <hero-bar param :paramFunction="openParamWindow" search>Operator</hero-bar>
@@ -93,6 +88,7 @@ import UsersTable from "@/components/UsersTable";
 import Notification from "@/components/Notification";
 import JbButtons from "@/components/JbButtons";
 import JbButton from "@/components/JbButton";
+import FilePicker from "@/components/FilePicker"
 
 export default {
   name: "Setting",
@@ -106,6 +102,7 @@ export default {
     UsersTable,
     LineChart,
     CardComponent,
+    FilePicker,
     HeroBar,
     TitleBar,
     Notification,
@@ -120,10 +117,10 @@ export default {
       const res = await store.dispatch("fetchOperators");
       await store.dispatch("fetchCountrys");
 
-      console.log(res, "tes");
-      // console.log(this.$route, "test");
+      //console.log(res, "tes");
+      // //console.log(this.$route, "test");
       // fillChartData();
-      // console.log(this.$store.state.client, "tessc");
+      // //console.log(this.$store.state.client, "tessc");
     });
     const userData = computed(() =>
       reactive({
@@ -132,15 +129,20 @@ export default {
         country: ""
       })
     );
+    const csvData = computed(() =>
+      reactive({
+        file: null
+      })
+    );
 
     const operators = computed(() => store.state.operator);
     const errorAccess = computed(() => store.state.errorAccess);
-    console.log(errorAccess.value, "fieho");
+    //console.log(errorAccess.value, "fieho");
     const titleStack = ref(["Admin", "Settings", "Operator"]);
 
     const chartData = ref(null);
     const postOperator = () => {
-      console.log(userData.value);
+      //console.log(userData.value);
       const loginUrl = process.env.VUE_APP_BASE_URL + "api/operators/register/";
       // commit("auth_request");
       axios
@@ -165,7 +167,7 @@ export default {
           paramWindow.value = false;
         })
         .catch(error => {
-          console.log(error);
+          //console.log(error);
           // commit("auth_error");
           // localStorage.removeItem("token");
           Swal.fire({
@@ -182,7 +184,44 @@ export default {
     const openParamWindow = () => {
       paramWindow.value = !paramWindow.value;
     };
+    const uploadCsv = () => {
+      //console.log('upload')
+      //console.log(csvData.value)
+      const loginUrl = process.env.VUE_APP_BASE_URL + "api/operators/bulkOperators/";
+      let formData = new FormData()
+      formData.append('file', csvData.value.file)
+      // commit("auth_request");
+      axios
+        .post(loginUrl, formData, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          csvData.value.file = null
 
+          if (r.data) {
+            Swal.fire({
+              title: "ADD Bulk Operator!",
+              text: "Success",
+              icon: "success"
+            });
+          }
+          store.dispatch("fetchOperators");
+          paramWindow.value = false;
+        })
+        .catch(error => {
+          //console.log(error);
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "ADD Bulk Operator!",
+            text: error.response.data.message,
+            icon: "warning"
+          });
+          // alert(error.message);
+        });
+    }
     const fillChartData = () => {
       chartData.value = chartConfig.sampleChartData();
     };
@@ -200,6 +239,7 @@ export default {
       openParamWindow,
       mdiAccountMultiple,
       mdiCashMultiple,
+      uploadCsv,
       mdiCellphoneText,
       mdiCellphoneMessage,
       postOperator,
@@ -208,6 +248,7 @@ export default {
       mdiFinance,
       mdiMonitorCellphone,
       mdiReload,
+      csvData,
       mdiTrashCan,
       mdiGithub,
       userData

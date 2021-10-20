@@ -132,7 +132,7 @@ const items = computed(() => store.state.operator.filter((admin) => {
       })
     )
     const clickEye = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
       userData.value.name = payload.name
       userData.value.nickname = payload.nickname
       userData.value.country = payload.country._id
@@ -142,7 +142,7 @@ const items = computed(() => store.state.operator.filter((admin) => {
       isModalActive.value = true
     }
     const clickTrash = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
 
       userData.value._id = payload._id
 
@@ -150,7 +150,7 @@ const items = computed(() => store.state.operator.filter((admin) => {
       isModalDeleteActive.value = true
     }
     const deleteOperator = () => {
-      console.log(userData.value)
+      //console.log(userData.value)
 
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
@@ -177,7 +177,7 @@ const items = computed(() => store.state.operator.filter((admin) => {
 
         })
         .catch((error) => {
-          // console.log(error.response.data.message)
+          // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
           // Swal.fire({
@@ -189,7 +189,7 @@ const items = computed(() => store.state.operator.filter((admin) => {
         });
     }
     const putOperator = () => {
-      console.log(userData.value)
+      //console.log(userData.value)
       let keyword = {
         name: userData.value.name,
         nickname: userData.value.nickname,
@@ -223,7 +223,7 @@ const items = computed(() => store.state.operator.filter((admin) => {
 
         })
         .catch((error) => {
-          // console.log(error.response.data.message)
+          // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
           // Swal.fire({

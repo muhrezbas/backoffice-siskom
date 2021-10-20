@@ -191,25 +191,25 @@ export default {
   },
   methods: {
     goToInvoice() {
-      console.log("hello");
+      //console.log("hello");
       this.$router.push({
         path: `/invoice/${this.idClient}`
       });
     }
   },
   async created() {
-    // console.log(this.$store.state.client, "test");
+    // //console.log(this.$store.state.client, "test");
     await store.dispatch("fetchClient", { id: this.idClient });
     // await store.dispatch("fetchSmsClient", { id: this.idClient });
 
-    console.log(this.$store.state.client, "naan");
-    // console.log(this.$store.state.smsClient, "naan");
+    //console.log(this.$store.state.client, "naan");
+    // //console.log(this.$store.state.smsClient, "naan");
   },
 
   setup() {
     const store = useStore();
     const route = useRoute();
-    console.log(route.params.id);
+    //console.log(route.params.id);
     const paramWindow = ref(false);
 
     const openParamWindow = () => {
@@ -218,7 +218,7 @@ export default {
       store.state.client.priority.forEach(element => {
         test.push(element._id);
       });
-      console.log(test, "priotriy");
+      //console.log(test, "priotriy");
       userData.value.priority = test;
       userData.value.namePic = store.state.client.namePic;
       userData.value.companyName = store.state.client.companyName;
@@ -235,7 +235,7 @@ export default {
         return arr.some(x => arr.indexOf(x) !== arr.lastIndexOf(x));
       }
       if (hasDuplicates(userData.value.priority)) {
-        console.log("Duplicate elements found.");
+        //console.log("Duplicate elements found.");
         Swal.fire({
           title: "ADD Client!",
           text: "Terdapat duplikat di priority",
@@ -248,7 +248,7 @@ export default {
           route.params.id +
           "/";
         // commit("auth_request");
-        console.log(userData.value);
+        //console.log(userData.value);
         axios
           .put(loginUrl, userData.value, {
             headers: {
@@ -267,7 +267,7 @@ export default {
             paramWindow.value = false;
           })
           .catch(error => {
-            console.log(error.response.data.message);
+            //console.log(error.response.data.message);
             // commit("auth_error");
             // localStorage.removeItem("token");
             Swal.fire({
@@ -285,10 +285,10 @@ export default {
       });
       await store.dispatch("fetchProtocol");
 
-      console.log(res, "tes");
-      // console.log(this.$route, "test");
+      //console.log(res, "tes");
+      // //console.log(this.$route, "test");
       fillChartData();
-      // console.log(this.$store.state.client, "tessc");
+      // //console.log(this.$store.state.client, "tessc");
     });
 
     const titleStack = ref(["User", "Detailed"]);
@@ -319,8 +319,8 @@ export default {
     const randomChartData = (n, l) => {
       const data = [];
       const thisYear = new Date().getYear();
-      console.log(thisYear, "tessss");
-      console.log(n, "nanfka");
+      //console.log(thisYear, "tessss");
+      //console.log(n, "nanfka");
 
       for (let i = 0; i < l.length; i++) {
         console.log(
@@ -412,8 +412,8 @@ export default {
     const fillChartData = () => {
       chartData.value = sampleChartData();
     };
-    console.log(chartData);
-    console.log(fillChartData);
+    //console.log(chartData);
+    //console.log(fillChartData);
 
     return {
       titleStack,

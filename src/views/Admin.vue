@@ -154,7 +154,7 @@ export default {
       })
     );
     const postAdmin = () => {
-      console.log(userData.value);
+      //console.log(userData.value);
       const loginUrl = process.env.VUE_APP_BASE_URL + "api/admins/register/";
       // commit("auth_request");
       axios
@@ -181,7 +181,7 @@ export default {
           paramWindow.value = false;
         })
         .catch(error => {
-          console.log(error.response);
+          //console.log(error.response);
           let err;
           if (error.response.status == 403) {
             err = "Not Authorize";
@@ -190,7 +190,7 @@ export default {
           } else {
             err = error.response.data.message;
           }
-          console.log(err, "cas");
+          //console.log(err, "cas");
           // commit("auth_error");
           // localStorage.removeItem("token");
 

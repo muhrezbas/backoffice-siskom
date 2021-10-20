@@ -99,10 +99,10 @@ export default {
     onMounted(async () => {
       const res = await store.dispatch("fetchWhitelistContent");
       const tes = await store.dispatch("fetchClients");
-      console.log(res, tes, "tes");
-      // console.log(this.$route, "test");
+      //console.log(res, tes, "tes");
+      // //console.log(this.$route, "test");
       // fillChartData();
-      // console.log(this.$store.state.client, "tessc");
+      // //console.log(this.$store.state.client, "tessc");
     });
 
     store.commit("search", "")
@@ -119,7 +119,7 @@ const items = computed(() => store.state.whitelistContent.filter((admin) => {
       })
     )
     const clickTrash = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
 
       userData.value._id = payload._id
 
@@ -127,7 +127,7 @@ const items = computed(() => store.state.whitelistContent.filter((admin) => {
       isModalDeleteActive.value = true
     }
     const deleteWhitelistContent = () => {
-      console.log(userData.value, "delete country")
+      //console.log(userData.value, "delete country")
 
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
@@ -154,7 +154,7 @@ const items = computed(() => store.state.whitelistContent.filter((admin) => {
 
         })
         .catch((error) => {
-          // console.log(error.response.data.message)
+          // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
           // Swal.fire({
@@ -166,7 +166,7 @@ const items = computed(() => store.state.whitelistContent.filter((admin) => {
         });
     }
     const clickEye = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
       userData.value.code = payload.code
       userData.value.client = payload.client._id
       userData.value._id = payload._id
@@ -175,7 +175,7 @@ const items = computed(() => store.state.whitelistContent.filter((admin) => {
       isModalActive.value = true
     }
     const putWhitelistContent = () => {
-      console.log(userData.value)
+      //console.log(userData.value)
       let keyword = {
         code: userData.value.code,
         client: userData.value.client
@@ -207,7 +207,7 @@ const items = computed(() => store.state.whitelistContent.filter((admin) => {
 
         })
         .catch((error) => {
-          // console.log(error.response.data.message)
+          // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
           // Swal.fire({
@@ -218,8 +218,8 @@ const items = computed(() => store.state.whitelistContent.filter((admin) => {
           // alert(error.message);
         });
     }
-    console.log(store.state.client, "tess nnannan")
-    console.log(store.state.country.Country, "tesss");
+    //console.log(store.state.client, "tess nnannan")
+    //console.log(store.state.country.Country, "tesss");
 
     const isModalActive = ref(false);
 

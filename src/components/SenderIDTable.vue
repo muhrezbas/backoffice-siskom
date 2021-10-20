@@ -105,10 +105,10 @@ export default {
     onMounted(async () => {
       const res = await store.dispatch("fetchSenderIDs");
 
-      console.log(res, "tes");
-      // console.log(this.$route, "test");
+      //console.log(res, "tes");
+      // //console.log(this.$route, "test");
       // fillChartData();
-      // console.log(this.$store.state.client, "tessc");
+      // //console.log(this.$store.state.client, "tessc");
     });
     const userData = computed(() =>
       reactive({
@@ -119,7 +119,7 @@ export default {
       })
     )
     const clickTrash = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
 
       userData.value._id = payload._id
 
@@ -127,7 +127,7 @@ export default {
       isModalDeleteActive.value = true
     }
     const deleteSenderID = () => {
-      console.log(userData.value, "delete country")
+      //console.log(userData.value, "delete country")
 
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
@@ -154,7 +154,7 @@ export default {
 
         })
         .catch((error) => {
-          // console.log(error.response.data.message)
+          // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
           // Swal.fire({
@@ -166,7 +166,7 @@ export default {
         });
     }
     const clickEye = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
       userData.value.senderID = payload.senderID
       userData.value.operator = payload.operator._id
       userData.value.region = payload.region
@@ -175,7 +175,7 @@ export default {
       isModalActive.value = true
     }
     const putSender = () => {
-      console.log(userData.value)
+      //console.log(userData.value)
       let keyword = {
         senderID: userData.value.senderID,
         region:  userData.value.region,
@@ -209,7 +209,7 @@ export default {
 
         })
         .catch((error) => {
-          // console.log(error.response.data.message)
+          // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
           // Swal.fire({
@@ -230,7 +230,7 @@ const items = computed(() => store.state.senderid.filter((admin) => {
         String(admin.operator.nickname).toLowerCase().includes(store.state.search) ||
         admin._id.toLowerCase().includes(store.state.search)
     }));
-    console.log(store.state.senderid, "tesss");
+    //console.log(store.state.senderid, "tesss");
 
     const isModalActive = ref(false);
 

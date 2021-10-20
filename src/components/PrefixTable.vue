@@ -103,10 +103,10 @@ export default {
     onMounted(async () => {
       const res = await store.dispatch("fetchPrefix");
       await store.dispatch("fetchOperators");
-      console.log(res, "tes");
-      // console.log(this.$route, "test");
+      //console.log(res, "tes");
+      // //console.log(this.$route, "test");
       // fillChartData();
-      // console.log(this.$store.state.client, "tessc");
+      // //console.log(this.$store.state.client, "tessc");
     });
 
     store.commit("search", "")
@@ -116,7 +116,7 @@ const items = computed(() => store.state.prefix.filter((admin) => {
         String(admin.operator.name).toLowerCase().includes(store.state.search) ||
         admin._id.toLowerCase().includes(store.state.search)
     }));
-    console.log(items, "fna");
+    //console.log(items, "fna");
 
     const isModalActive = ref(false);
 
@@ -136,7 +136,7 @@ const items = computed(() => store.state.prefix.filter((admin) => {
       })
     )
     const clickTrash = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
 
       userData.value._id = payload._id
 
@@ -144,7 +144,7 @@ const items = computed(() => store.state.prefix.filter((admin) => {
       isModalDeleteActive.value = true
     }
     const deletePrefix = () => {
-      console.log(userData.value, "delete country")
+      //console.log(userData.value, "delete country")
 
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
@@ -171,7 +171,7 @@ const items = computed(() => store.state.prefix.filter((admin) => {
 
         })
         .catch((error) => {
-          // console.log(error.response.data.message)
+          // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
           // Swal.fire({
@@ -183,7 +183,7 @@ const items = computed(() => store.state.prefix.filter((admin) => {
         });
     }
     const putPrefix = () => {
-      console.log(userData.value)
+      //console.log(userData.value)
       let keyword = {
         kode: userData.value.kode,
         msisdn: userData.value.msisdn,
@@ -218,7 +218,7 @@ const items = computed(() => store.state.prefix.filter((admin) => {
 
         })
         .catch((error) => {
-          // console.log(error.response.data.message)
+          // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
           // Swal.fire({
@@ -230,7 +230,7 @@ const items = computed(() => store.state.prefix.filter((admin) => {
         });
     }
     const clickEye = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
       userData.value.kode = payload.kode
       userData.value.msisdn = payload.msisdn
       userData.value.operator = payload.operator._id

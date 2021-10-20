@@ -267,7 +267,7 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
       selectOld: []
     }
     const clickTrash = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
 
       userData.value._id = payload._id
 
@@ -294,7 +294,7 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
         post.adminUnselected.push(element._id)
       });
 
-      console.log(post.adminUnselected, "before", userData.value.unselect)
+      //console.log(post.adminUnselected, "before", userData.value.unselect)
       // userData.value.unselect.forEach(element => {
       //   post.adminUnselected.push(element._d)
       // });
@@ -308,7 +308,7 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
       //   });
       // });
       // let dataDiremove = userData.value.select
-      console.log(dataOld.selectOld, 'old')
+      //console.log(dataOld.selectOld, 'old')
       function remove_duplicates(a, b) {
         let dataIndex = []
         for (var i = 0, len = a.length; i < len; i++) {
@@ -316,7 +316,7 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
             if (a[i]._id === b[j].admin._id) {
               // b.splice(j, 1);
               // userData.value.selectOld.splice(j,1)
-              console.log(a[i]._id, b[j].admin._id)
+              //console.log(a[i]._id, b[j].admin._id)
               dataIndex.push(j)
               // len2 = b.length;
             }
@@ -335,7 +335,7 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
             if (a[i]._id === b[j]._id) {
               // b.splice(j, 1);
               // userData.value.selectOld.splice(j,1)
-              console.log(a[i]._id, b[j]._id, "unselet")
+              //console.log(a[i]._id, b[j]._id, "unselet")
               dataIndex.push(j)
               // len2 = b.length;
             }
@@ -351,19 +351,19 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
       let index = remove_duplicates(userData.value.select, store.state.AdminWithRoles.admin)
       index.forEach((element, i) => {
         post.adminSelected.splice(element - i, 1)
-        // console.log(test2)
+        // //console.log(test2)
         // adminSelected.push(userData.adminSelected.slice)
 
       });
-      console.log(store.state.AdminUnsel.unselect, "emg ini ad")
+      //console.log(store.state.AdminUnsel.unselect, "emg ini ad")
       let indexUn = remove_duplicatess(userData.value.unselect, store.state.AdminUnsel.unselect)
       indexUn.forEach((element, i) => {
         post.adminUnselected.splice(element - i, 1)
-        // console.log(test1)
+        // //console.log(test1)
         // adminSelected.push(userData.adminSelected.slice)
 
       });
-      console.log(index, "idex", indexUn)
+      //console.log(index, "idex", indexUn)
       // userData.value.unselect.forEach(element => {
       //   userData.value.unselectOld.forEach(element2 => {
       //     if (String(element._id) == String(element2._id)) {
@@ -373,14 +373,14 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
       //   });
 
       // });
-      // console.log(dataOld.permissionOld, userData.value.permission)
+      // //console.log(dataOld.permissionOld, userData.value.permission)
       var props = ['name', '_id', 'code'];
 
       var result = userData.value.permission.filter(function (o1) {
         // filter out (!) items in result2
         return !store.state.AdminWithRoles.permission.some(function (o2) {
-          // console.log()
-          // console.log(String(o1._id),String(o2._id))
+          // //console.log()
+          // //console.log(String(o1._id),String(o2._id))
           return String(o1._id) == String(o2.adminPermission._id);          // assumes unique id
         });
       }).map(function (o) {
@@ -392,14 +392,14 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
         }, {});
       });
 
-      console.log(result, "stic after")
+      //console.log(result, "stic after")
       userData.value.permission.forEach(element => {
         result.forEach(element2 => {
           if (String(element._id) == String(element2._id)) {
             if (element.check == true) {
               post.adminPermissionSelect.push(element2._id)
 
-              // console.log(String(element2._id))
+              // //console.log(String(element2._id))
             }
 
           }
@@ -411,7 +411,7 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
           if (String(element._id) == String(element2.adminPermission._id)) {
             if (element.check == false) {
               post.adminPermissionUnselect.push(element._id)
-              console.log(element)
+              //console.log(element)
               // if (element.check !== element2.check) {
               //   post.adminPermissionUnselect.push(element._id)
               // }
@@ -421,7 +421,7 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
 
       });
 
-      console.log(post)
+      //console.log(post)
       // console.log({
       //   "adminRolesName": "Super-Root",
       //   "adminRolesCode": "SR",
@@ -459,7 +459,7 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
 
         })
         .catch((error) => {
-          console.log(error.message)
+          //console.log(error.message)
           let err
           if (error.response.status == 403) {
             err = "Not Authorize"
@@ -471,7 +471,7 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
           else {
             err = error.response.data.message
           }
-          console.log(err, "cas")
+          //console.log(err, "cas")
           // commit("auth_error");
           // localStorage.removeItem("token");
 
@@ -485,7 +485,7 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
     }
 
     const deleteAdmin = () => {
-      console.log(userData.value)
+      //console.log(userData.value)
 
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
@@ -512,7 +512,7 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
 
         })
         .catch((error) => {
-          // console.log(error.response.data.message)
+          // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
           // Swal.fire({
@@ -527,15 +527,15 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
       let findThe = userData.value.unselect.findIndex(el => el._id == payload._id)
       userData.value.unselect.splice(findThe, 1)
       userData.value.select.push(payload)
-      console.log(findThe)
-      console.log(store.state.AdminWithRoles)
+      //console.log(findThe)
+      //console.log(store.state.AdminWithRoles)
     }
     const clickAdminSelect = (payload) => {
       let findThe = userData.value.select.findIndex(el => el._id == payload._id)
       userData.value.select.splice(findThe, 1)
       userData.value.unselect.push(payload)
-      console.log(userData.value.unselect, "unselet bro")
-      console.log(findThe)
+      //console.log(userData.value.unselect, "unselet bro")
+      //console.log(findThe)
     }
     const itemsPaginated = computed(() =>
       items.value.slice(
@@ -544,7 +544,7 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
       )
     );
     const clickEye = async (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
       let dataStatic = []
       userData.value.idRole = payload._id
       userData.value.name = payload.name
@@ -559,8 +559,8 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
         userData.value.permission.push(element)
       });
 
-      console.log(userData.value.permission, "sbelum peerang")
-      console.log(store.state.AdminWithRoles, "admin all")
+      //console.log(userData.value.permission, "sbelum peerang")
+      //console.log(store.state.AdminWithRoles, "admin all")
       let dataSelect = []
       store.state.AdminWithRoles.admin.forEach(element => {
         dataSelect.push(element.admin)
@@ -569,39 +569,39 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
 
       userData.value.select = dataSelect
       userData.value.unselect = []
-      console.log(userData.value.select, "sekect")
+      //console.log(userData.value.select, "sekect")
       // userData.value
-      console.log(userData.value.permission, "sbelum")
-      console.log(store.state.AdminWithRoles.permission, "uwariad")
+      //console.log(userData.value.permission, "sbelum")
+      //console.log(store.state.AdminWithRoles.permission, "uwariad")
       userData.value.permission.forEach(element2 => {
         store.state.AdminWithRoles.permission.forEach(element => {
-          // console.log( String(element.adminPermission._id), "sblm if")
+          // //console.log( String(element.adminPermission._id), "sblm if")
           let userID = (element.adminPermission.code)
           let idUser = (element2.code)
-          // console.log(idUser, userID)
-          // console.log(userID == idUser)
+          // //console.log(idUser, userID)
+          // //console.log(userID == idUser)
           if (userID == idUser) {
             let findThe = userData.value.permission.findIndex(el => el._id == element2._id)
             // userData.value.permission.splice(findThe, 1)
             dataStatic[findThe].check = true
             userData.value.permission[findThe].check = true
-            console.log(findThe)
+            //console.log(findThe)
 
           }
           else {
-            console.log("else")
+            //console.log("else")
           }
 
         });
 
       });
-      //  console.log(store.state.Adminunsel, "posisi skrg")
+      //  //console.log(store.state.Adminunsel, "posisi skrg")
       userData.value.unselect = store.state.AdminUnsel.unselect
-      console.log(userData.value.unselect)
-      console.log(userData.value.select)
+      //console.log(userData.value.unselect)
+      //console.log(userData.value.select)
       dataOld.permissionOld = dataStatic
       // dataOld.selectOld = [...userData.value.permission]
-      console.log(dataStatic)
+      //console.log(dataStatic)
 
 
       isModalActive.value = true

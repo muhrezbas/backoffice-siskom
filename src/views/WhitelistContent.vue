@@ -128,7 +128,7 @@ export default {
       chartData.value = chartConfig.sampleChartData();
     };
     const postClient = () => {
-      // console.log(userData.value)
+      // //console.log(userData.value)
       const loginUrl =
         process.env.VUE_APP_BASE_URL + "api/operators/createWhitelistContent/";
       // commit("auth_request");
@@ -153,7 +153,7 @@ export default {
           paramWindow.value = false;
         })
         .catch(error => {
-          console.log(error.response.data.message);
+          //console.log(error.response.data.message);
           // commit("auth_error");
           // localStorage.removeItem("token");
           Swal.fire({

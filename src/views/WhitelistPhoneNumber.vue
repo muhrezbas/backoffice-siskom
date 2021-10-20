@@ -1,9 +1,5 @@
 <template>
-  <modal-box
-    v-model="paramWindow"
-    :submit="postWhitelist"
-    title="Set Parameter"
-  >
+  <modal-box v-model="paramWindow" :submit="postWhitelist" title="Set Parameter">
     <field label="Phone Number">
       <control
         v-model="userData.phoneNumber"
@@ -19,19 +15,23 @@
           v-for="option in $store.state.clients"
           :key="option._id ?? option"
           :value="option._id"
-          >{{ option.companyName ?? option }}</option
-        >
+        >{{ option.companyName ?? option }}</option>
       </select>
     </field>
   </modal-box>
 
   <title-bar :title-stack="titleStack" />
-  <hero-bar class="mb-5">Settings</hero-bar>
+  <hero-bar
+    class="mb-5"
+    v-if="$store.state.errorAccess == false"
+    v-model="csvData.file"
+    csv
+    :confirm="csvData.file == null ? false : true"
+    :csvFunction="uploadCsv"
+  >Settings</hero-bar>
 
   <div id="senderID" v-if="$store.state.errorAccess == false">
-    <hero-bar param :paramFunction="openParamWindow" search
-      >Whitelist Phone Number</hero-bar
-    >
+    <hero-bar param :paramFunction="openParamWindow" search>Whitelist Phone Number</hero-bar>
 
     <main-section>
       <card-component has-table>
@@ -120,8 +120,13 @@ export default {
         client: ""
       })
     );
+    const csvData = computed(() =>
+      reactive({
+        file: null
+      })
+    );
     const postWhitelist = () => {
-      console.log(userData.value);
+      //console.log(userData.value);
       const loginUrl =
         process.env.VUE_APP_BASE_URL + "api/operators/createWhitelistNumber/";
       // commit("auth_request");
@@ -146,7 +151,7 @@ export default {
           paramWindow.value = false;
         })
         .catch(error => {
-          console.log(error.response.data.message);
+          //console.log(error.response.data.message);
           // commit("auth_error");
           // localStorage.removeItem("token");
           Swal.fire({
@@ -157,6 +162,44 @@ export default {
           // alert(error.message);
         });
     };
+    const uploadCsv = () => {
+      //console.log('upload')
+      //console.log(csvData.value)
+      const loginUrl = process.env.VUE_APP_BASE_URL + "api/operators/bulkWhitelistNumbers/";
+      let formData = new FormData()
+      formData.append('file', csvData.value.file)
+      // commit("auth_request");
+      axios
+        .post(loginUrl, formData, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          csvData.value.file = null
+
+          if (r.data) {
+            Swal.fire({
+              title: "ADD Bulk Whitelist Phone Number!!",
+              text: "Success",
+              icon: "success"
+            });
+          }
+          store.dispatch("fetchWhitelistPhoneNumber");
+          paramWindow.value = false;
+        })
+        .catch(error => {
+          //console.log(error);
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "ADD Bulk Whitelist Phone Number!!",
+            text: error.response.data.message,
+            icon: "warning"
+          });
+          // alert(error.message);
+        });
+    }
 
     const chartData = ref(null);
 
@@ -192,6 +235,8 @@ export default {
       postWhitelist,
       mdiTrashCan,
       mdiGithub,
+      uploadCsv,
+      csvData,
       userData
     };
   }

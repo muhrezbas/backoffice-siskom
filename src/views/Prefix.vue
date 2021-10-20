@@ -138,7 +138,7 @@ export default {
     };
 
     const postSender = () => {
-      console.log(userData.value);
+      //console.log(userData.value);
       const loginUrl =
         process.env.VUE_APP_BASE_URL + "api/operators/registerPrefix/";
       // commit("auth_request");
@@ -164,7 +164,7 @@ export default {
           paramWindow.value = false;
         })
         .catch(error => {
-          console.log(error.response.data.message);
+          //console.log(error.response.data.message);
           // commit("auth_error");
           // localStorage.removeItem("token");
           Swal.fire({

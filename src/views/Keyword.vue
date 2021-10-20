@@ -1,16 +1,18 @@
 <template>
   <modal-box v-model="paramWindow" title="Set Parameter" :submit="postKeyword">
     <field label="Keyword">
-      <control
-        v-model="userData.code"
-        name="keyword"
-        required
-        autocomplete="keyword"
-      />
+      <control v-model="userData.code" name="keyword" required autocomplete="keyword" />
     </field>
   </modal-box>
   <title-bar :title-stack="titleStack" />
-  <hero-bar class="mb-5">Settings</hero-bar>
+  <hero-bar
+    class="mb-5"
+    v-if="$store.state.errorAccess == false"
+    v-model="csvData.file"
+    csv
+    :confirm="csvData.file == null ? false : true"
+    :csvFunction="uploadCsv"
+  >Settings</hero-bar>
 
   <div id="keyword" v-if="$store.state.errorAccess == false">
     <hero-bar param :paramFunction="openParamWindow" search>Keyword</hero-bar>
@@ -90,7 +92,7 @@ export default {
     ErrorAccess
   },
   setup() {
-    const titleStack = ref(["Country", "Settings"]);
+    const titleStack = ref(["Admin", "Settings", "Keyword Restriction on Regular"]);
 
     const chartData = ref(null);
     const store = useStore();
@@ -105,8 +107,13 @@ export default {
         code: ""
       })
     );
+    const csvData = computed(() =>
+      reactive({
+        file: null
+      })
+    );
     const postKeyword = () => {
-      console.log(userData.value);
+      //console.log(userData.value);
       const loginUrl =
         process.env.VUE_APP_BASE_URL + "api/operators/registerValidasi/";
       // commit("auth_request");
@@ -130,7 +137,7 @@ export default {
           paramWindow.value = false;
         })
         .catch(error => {
-          console.log(error.response.data.message);
+          //console.log(error.response.data.message);
           // commit("auth_error");
           // localStorage.removeItem("token");
           Swal.fire({
@@ -141,6 +148,44 @@ export default {
           // alert(error.message);
         });
     };
+     const uploadCsv = () => {
+      //console.log('upload')
+      //console.log(csvData.value)
+      const loginUrl = process.env.VUE_APP_BASE_URL + "api/operators/bulkKeywordReguler/";
+      let formData = new FormData()
+      formData.append('file', csvData.value.file)
+      // commit("auth_request");
+      axios
+        .post(loginUrl, formData, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          csvData.value.file = null
+
+          if (r.data) {
+            Swal.fire({
+              title: "ADD Bulk Keyword for validation!!",
+              text: "Success",
+              icon: "success"
+            });
+          }
+          store.dispatch("fetchKeyword");
+          paramWindow.value = false;
+        })
+        .catch(error => {
+          //console.log(error);
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "ADD Bulk Keyword for validation!!",
+            text: error.response.data.message,
+            icon: "warning"
+          });
+          // alert(error.message);
+        });
+    }
     const fillChartData = () => {
       chartData.value = chartConfig.sampleChartData();
     };
@@ -168,6 +213,8 @@ export default {
       mdiReload,
       mdiTrashCan,
       mdiGithub,
+      uploadCsv,
+      csvData,
       userData
     };
   }

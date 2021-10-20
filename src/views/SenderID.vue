@@ -1,12 +1,7 @@
 <template>
   <modal-box v-model="paramWindow" :submit="postSender" title="Set Parameter">
     <field label="Sender ID">
-      <control
-        v-model="userData.senderID"
-        name="senderID"
-        required
-        autocomplete="senderID"
-      />
+      <control v-model="userData.senderID" name="senderID" required autocomplete="senderID" />
     </field>
 
     <field label="Region">
@@ -15,8 +10,7 @@
           v-for="option in ['local', 'international']"
           :key="option._id ?? option"
           :value="option"
-          >{{ option.nickname ?? option }}</option
-        >
+        >{{ option.nickname ?? option }}</option>
       </select>
     </field>
     <field label="Operator">
@@ -25,14 +19,20 @@
           v-for="option in $store.state.operator"
           :key="option._id ?? option"
           :value="option._id"
-          >{{ option.nickname ?? option }}</option
-        >
+        >{{ option.nickname ?? option }}</option>
       </select>
     </field>
   </modal-box>
 
   <title-bar :title-stack="titleStack" />
-  <hero-bar class="mb-5">Settings</hero-bar>
+  <hero-bar
+    class="mb-5"
+    v-if="$store.state.errorAccess == false"
+    v-model="csvData.file"
+    csv
+    :confirm="csvData.file == null ? false : true"
+    :csvFunction="uploadCsv"
+  >Settings</hero-bar>
 
   <div id="senderID" v-if="$store.state.errorAccess == false">
     <hero-bar param :paramFunction="openParamWindow" search>Sender ID</hero-bar>
@@ -127,9 +127,14 @@ export default {
         operator: ""
       })
     );
+    const csvData = computed(() =>
+      reactive({
+        file: null
+      })
+    );
     const operators = computed(() => store.state.operator);
     const postSender = () => {
-      console.log(userData.value);
+      //console.log(userData.value);
       const loginUrl = process.env.VUE_APP_BASE_URL + "api/operators/senderid/";
       // commit("auth_request");
       axios
@@ -154,7 +159,7 @@ export default {
           paramWindow.value = false;
         })
         .catch(error => {
-          console.log(error.response.data.message);
+          //console.log(error.response.data.message);
           // commit("auth_error");
           // localStorage.removeItem("token");
           Swal.fire({
@@ -165,6 +170,44 @@ export default {
           // alert(error.message);
         });
     };
+    const uploadCsv = () => {
+      //console.log('upload')
+      //console.log(csvData.value)
+      const loginUrl = process.env.VUE_APP_BASE_URL + "api/operators/bulkSenderID/";
+      let formData = new FormData()
+      formData.append('file', csvData.value.file)
+      // commit("auth_request");
+      axios
+        .post(loginUrl, formData, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          csvData.value.file = null
+
+          if (r.data) {
+            Swal.fire({
+              title: "ADD Bulk SenderID!",
+              text: "Success",
+              icon: "success"
+            });
+          }
+          store.dispatch("fetchSenderIDs");
+          paramWindow.value = false;
+        })
+        .catch(error => {
+          //console.log(error);
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "ADD Bulk SenderID!",
+            text: error.response.data.message,
+            icon: "warning"
+          });
+          // alert(error.message);
+        });
+    }
 
     const openParamWindow = () => {
       paramWindow.value = !paramWindow.value;
@@ -190,6 +233,9 @@ export default {
       mdiMonitorCellphone,
       mdiReload,
       mdiTrashCan,
+      uploadCsv,
+      mdiReload,
+      csvData,
       mdiGithub,
       postSender,
       userData

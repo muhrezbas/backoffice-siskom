@@ -109,7 +109,7 @@ export default {
   setup(props) {
     const store = useStore();
     if (props.sms !== undefined) {
-      console.log(props.sms, "sms dkdkdk");
+      //console.log(props.sms, "sms dkdkdk");
 
       const items = computed(() => props.sms.filter((admin) => {
         return admin.message.toLowerCase().includes(store.state.search) ||

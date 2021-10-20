@@ -42,7 +42,7 @@ export default {
     const store = useStore();
 
     const sms = computed(() => store.state.sms);
-    console.log(sms, "smssss");
+    //console.log(sms, "smssss");
     const titleStack = ref(["Admin", "SMS Detail"]);
     onMounted(async () => {
       // fillChartData();

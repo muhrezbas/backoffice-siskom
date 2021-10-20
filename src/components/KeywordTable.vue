@@ -90,7 +90,7 @@ export default {
     onMounted(async () => {
       const res = await store.dispatch("fetchKeyword");
 
-      console.log(res, "tes");
+      // console.log(res, "tes");
       // console.log(this.$route, "test");
       // fillChartData();
       // console.log(this.$store.state.client, "tessc");

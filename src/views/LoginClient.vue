@@ -72,7 +72,7 @@ export default {
     JbButtons
   },
   setup() {
-    console.log('enfoanfoianfio')
+    //console.log('enfoanfoianfio')
     const form = reactive({
       username: "tokopedia",
       password: "EltianaGalak2021"

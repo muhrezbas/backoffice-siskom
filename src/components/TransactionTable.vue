@@ -75,7 +75,7 @@ const items = computed(() => store.state.transaction.filter((admin) => {
         String(admin.action).toLowerCase().includes(store.state.search) ||
         admin._id.toLowerCase().includes(store.state.search)
     }));
-    console.log(store.state.transaction, "nana");
+    //console.log(store.state.transaction, "nana");
     const isModalActive = ref(false);
 
     const perPage = ref(10);

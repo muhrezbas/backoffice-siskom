@@ -2,6 +2,18 @@
   <main-section class="login">
     <img class="pl-40 max-h-14" src="../assets/logo160.png" />
     <div class="grid grid-cols-1 gap-6 mt-20 xl:grid-cols-2">
+      <div class="mb-20 mt-6 text-center">
+        <h1 class="text-3xl xl:text-4xl font-normal leading-tight">BULK WITH CSV</h1>
+      </div>
+      <hero-bar
+        class="mb-5"
+        v-if="$store.state.errorAccess == false"
+        v-model="csvData.file"
+        csv
+        :confirm="csvData.file == null ? false : true"
+        :csvFunction="uploadCsv"
+      >CSV</hero-bar>
+
       <div class="px-12 md:px-24 lg:px-36 xl:px-40" form>
         <div class="mb-20 mt-6 text-center">
           <h1 class="text-3xl xl:text-4xl font-normal leading-tight">HTTP</h1>
@@ -88,7 +100,7 @@
 /* eslint-disable */
 import store from "../store/index";
 import Swal from "sweetalert2";
-import { reactive } from "vue";
+import { computed, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { mdiAccount, mdiAsterisk } from "@mdi/js";
 import MainSection from "@/components/MainSection";
@@ -97,6 +109,7 @@ import Field from "@/components/Field";
 import Control from "@/components/Control";
 import Divider from "@/components/Divider.vue";
 import JbButton from "@/components/JbButton";
+import HeroBar from "@/components/HeroBar";
 import axios from "axios";
 import JbButtons from "@/components/JbButtons";
 
@@ -106,13 +119,58 @@ export default {
     MainSection,
     CardComponent,
     Field,
+    HeroBar,
     Control,
     Divider,
     JbButton,
     JbButtons
   },
   setup() {
-    console.log('enfoanfoianfio')
+    const csvData = computed(() =>
+      reactive({
+        file: null
+      })
+    );
+    const uploadCsv = () => {
+      //console.log('upload')
+      //console.log(csvData.value)
+      const loginUrl = process.env.VUE_APP_BASE_URL + "api/operators/bulkSms/";
+      let formData = new FormData()
+      formData.append('file', csvData.value.file)
+      formData.append('token', localStorage.getItem("token"))
+      // commit("auth_request");
+      axios
+        .post(loginUrl, formData, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          csvData.value.file = null
+
+          if (r.data) {
+            Swal.fire({
+              title: "SEND Bulk SMS!!",
+              text: "Success",
+              icon: "success"
+            });
+          }
+          store.dispatch("fetchCountrys");
+          paramWindow.value = false;
+        })
+        .catch(error => {
+          //console.log(error);
+          // commit("auth_error");
+          // localStorage.removeItem("token");
+          Swal.fire({
+            title: "SEND Bulk SMS!!",
+            text: error.response.data.message,
+            icon: "warning"
+          });
+          // alert(error.message);
+        });
+    }
+    //console.log('enfoanfoianfio')
     const form = reactive({
       message: "Tokopedia - Anda mendapatkan 9 Komplain dari Pembeli. Cek segera detailnya disini  staging.tkp.me/rc/3301",
       akun: "reguler",
@@ -139,15 +197,15 @@ export default {
     const submit2 = () => {
       const loginUrl = "https://sg.160k.id/api/smppTest/";
       // commit("auth_request");
-      console.log(form2, "tes")
+      //console.log(form2, "tes")
       axios
         .post(loginUrl, form2, {
-           headers: {
+          headers: {
             token: localStorage.getItem("token"),
           },
         })
         .then(r => {
-          console.log(r.data, "hallooos")
+          //console.log(r.data, "hallooos")
           if (r.data) {
             Swal.fire({
               title: "Sent",
@@ -167,15 +225,15 @@ export default {
     const submit = () => {
       const loginUrl = "https://sg.160k.id/api/gateway/";
       // commit("auth_request");
-      console.log(form, "tes form1")
+      //console.log(form, "tes form1")
       axios
         .post(loginUrl, form, {
-           headers: {
+          headers: {
             token: localStorage.getItem("token"),
           },
         })
         .then(r => {
-          console.log(r.data, "hallooos")
+          //console.log(r.data, "hallooos")
           if (r.data) {
             Swal.fire({
               text: JSON.stringify(r.data)
@@ -184,7 +242,7 @@ export default {
 
         })
         .catch(error => {
-          console.log(error);
+          //console.log(error);
           Swal.fire({
             title: "Not Sent",
             text: error,
@@ -202,6 +260,8 @@ export default {
       mdiAccount,
       form2,
       submit2,
+      uploadCsv,
+      csvData,
       mdiAsterisk
     };
   }

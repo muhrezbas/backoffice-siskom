@@ -133,7 +133,7 @@ import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import Notification from "@/components/Notification";
 import JbButton from "@/components/JbButton";
-// console.log(this.$route)
+// //console.log(this.$route)
 // store.dispatch("fetchSaldo", { id: $route });
 
 export default {
@@ -166,13 +166,13 @@ export default {
     },
   },
   async created() {
-    // console.log(this.$store.state.client, "test");
-    // console.log(this.$store.state.client, "naan");
+    // //console.log(this.$store.state.client, "test");
+    // //console.log(this.$store.state.client, "naan");
   },
   // method : {
   //   postTopUp() {
-  //     console.log(this.userData)
-  //     console.log('fafa')
+  //     //console.log(this.userData)
+  //     //console.log('fafa')
   //   }
   // },
   setup() {
@@ -180,9 +180,9 @@ export default {
 
     // this.$swal("Hello Vue world!!!");
     const store = useStore();
-    // console.log(this.$route, "tess")
+    // //console.log(this.$route, "tess")
     const route = useRoute();
-    // console.log(route, "fsa");
+    // //console.log(route, "fsa");
     const userData = computed(() =>
       reactive({
         packages: "",
@@ -191,7 +191,7 @@ export default {
       })
     );
     const postTopUp = () => {
-      console.log(userData.packages);
+      //console.log(userData.packages);
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
         `api/admins/topup/${route.params.id}/`;
@@ -233,7 +233,7 @@ export default {
 
     const isModalDeleteActive = ref(false);
 
-    // console.log(store.state.saldo, "saldo")
+    // //console.log(store.state.saldo, "saldo")
     const titleStack = ref(["Admin", "Invoice"]);
 
     const chartData = ref(null);

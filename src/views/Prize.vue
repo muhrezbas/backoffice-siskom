@@ -11,7 +11,7 @@
       </select>
     </field>
 
-    <field label="Prize">
+    <field label="Price">
       <control
         v-model="userData.total"
         name="prize"
@@ -19,7 +19,7 @@
         autocomplete="prize"
       />
     </field>
-    <field label="Code Prize">
+    <field label="Code Price">
       <control
         v-model="userData.kodePrize"
         name="prize"
@@ -58,7 +58,7 @@
   <hero-bar class="mb-5">Settings</hero-bar>
 
   <div id="prize" v-if="$store.state.errorAccess == false">
-    <hero-bar param :paramFunction="openParamWindow" search>Prize</hero-bar>
+    <hero-bar param :paramFunction="openParamWindow" search>Price</hero-bar>
 
     <main-section>
       <card-component has-table>
@@ -152,7 +152,7 @@ export default {
       })
     );
     const postPrize = () => {
-      console.log(userData.value);
+      //console.log(userData.value);
       const loginUrl =
         process.env.VUE_APP_BASE_URL + "api/operators/registerPrizeByOperator/";
       // commit("auth_request");
@@ -181,7 +181,7 @@ export default {
           paramWindow.value = false;
         })
         .catch(error => {
-          console.log(error.response.data.message);
+          //console.log(error.response.data.message);
           // commit("auth_error");
           // localStorage.removeItem("token");
           Swal.fire({
@@ -206,7 +206,7 @@ export default {
       await store.dispatch("fetchProtocol");
       fillChartData();
     });
-    console.log(store.state.protocol, "tess pro");
+    //console.log(store.state.protocol, "tess pro");
 
     return {
       titleStack,

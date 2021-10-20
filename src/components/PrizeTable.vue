@@ -6,11 +6,11 @@
       </select>
     </field>
 
-    <field label="Prize">
-      <control v-model="userData.total" name="prize" required autocomplete="prize" />
+    <field label="Price">
+      <control v-model="userData.total" name="price" required autocomplete="price" />
     </field>
-    <field label="Code Prize">
-      <control v-model="userData.kodePrize" name="prize" required autocomplete="prize" />
+    <field label="Code Price">
+      <control v-model="userData.kodePrize" name="[rice" required autocomplete="price" />
     </field>
 
     <field label="Tax">
@@ -52,7 +52,7 @@
       <tr>
         <th>ID</th>
         <th>Tipe Account</th>
-        <th>Prize</th>
+        <th>Price</th>
         <th>Tax</th>
         <th>Supplier</th>
         <th>Operator</th>
@@ -63,7 +63,7 @@
       <tr v-for="country in itemsPaginated" :key="country.id">
         <td>{{ country._id }}</td>
         <td data-label="Tipe Account">{{ country.akun }}</td>
-        <td data-label="Prize">{{ country.total }}</td>
+        <td data-label="Price">{{ country.total }}</td>
         <td data-label="Tax">{{ country.tax }}</td>
         <td data-label="Supplier">{{ country.protocol.supplier }}</td>
         <!-- <td data-label="Kode">{{ country.akun }}</td> -->
@@ -129,13 +129,13 @@ export default {
     onMounted(async () => {
       const res = await store.dispatch("fetchPrize");
 
-      console.log(res, "tes");
-      // console.log(this.$route, "test");
+      //console.log(res, "tes");
+      // //console.log(this.$route, "test");
       // fillChartData();
-      // console.log(this.$store.state.client, "tessc");
+      // //console.log(this.$store.state.client, "tessc");
     });
     const clickTrash = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
 
       userData.value._id = payload._id
 
@@ -143,7 +143,7 @@ export default {
       isModalDeleteActive.value = true
     }
     const deletePrize = () => {
-      console.log(userData.value, "delete country")
+      //console.log(userData.value, "delete country")
 
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
@@ -170,7 +170,7 @@ export default {
 
         })
         .catch((error) => {
-          // console.log(error.response.data.message)
+          // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
           // Swal.fire({
@@ -182,7 +182,7 @@ export default {
         });
     }
     const clickEye = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
       userData.value.akun = payload.akun
       userData.value.total = payload.total
       userData.value.operator = payload.operator._id
@@ -195,7 +195,7 @@ export default {
       isModalActive.value = true
     }
     const putPrize = () => {
-      console.log(userData.value)
+      //console.log(userData.value)
       let keyword = {
         akun: userData.value.akun,
         total: userData.value.total,
@@ -236,7 +236,7 @@ export default {
 
         })
         .catch((error) => {
-          // console.log(error.response.data.message)
+          // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
           // Swal.fire({
@@ -267,7 +267,7 @@ const items = computed(() => store.state.prize.filter((admin) => {
         String(admin.operator.name).toLowerCase().includes(store.state.search) ||
         admin._id.toLowerCase().includes(store.state.search)
     }));
-    console.log(store.state.prize, "tesss");
+    //console.log(store.state.prize, "tesss");
 
     const isModalActive = ref(false);
 

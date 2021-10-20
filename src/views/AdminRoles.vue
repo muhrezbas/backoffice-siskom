@@ -257,7 +257,7 @@ export default {
       await store.dispatch("fetchAdminUnsel");
 
       userData.value.unselect = [];
-      //  console.log(store.state.Adminunsel, "posisi skrg")
+      //  //console.log(store.state.Adminunsel, "posisi skrg")
       userData.value.unselect = store.state.AdminUnsel.unselect;
 
       paramWindow.value = !paramWindow.value;
@@ -274,13 +274,13 @@ export default {
     );
     const clickAdmin = payload => {
       adminUnselectedPayload.value = {};
-      console.log(payload, "test");
+      //console.log(payload, "test");
       let findThe = userData.value.unselect.findIndex(
         el => el._id == payload._id
       );
       userData.value.unselect.splice(findThe, 1);
       userData.value.select.push(payload);
-      console.log(findThe);
+      //console.log(findThe);
     };
     const clickAdminSelect = payload => {
       let findThe = userData.value.select.findIndex(
@@ -288,7 +288,7 @@ export default {
       );
       userData.value.select.splice(findThe, 1);
       userData.value.unselect.push(payload);
-      console.log(findThe);
+      //console.log(findThe);
     };
     const postAdmin = () => {
       let post = {
@@ -310,7 +310,7 @@ export default {
           post.adminPermissionSelect.push(element._id);
         }
       });
-      console.log(post);
+      //console.log(post);
       console.log({
         adminRolesName: "Super-Root",
         adminRolesCode: "SR",
@@ -346,7 +346,7 @@ export default {
           paramWindow.value = false;
         })
         .catch(error => {
-          console.log(error, "halo errorrrr");
+          //console.log(error, "halo errorrrr");
           let err;
           if (error.response.status == 403) {
             err = "Not Authorize";
@@ -355,7 +355,7 @@ export default {
           } else {
             err = error.response.data.message;
           }
-          console.log(err, "cas");
+          //console.log(err, "cas");
           // commit("auth_error");
           // localStorage.removeItem("token");
 
@@ -378,7 +378,7 @@ export default {
         element.check = false;
         userData.value.permission.push(element);
       });
-      console.log(userData.value.permission, "tessss");
+      //console.log(userData.value.permission, "tessss");
       fillChartData();
     });
 

@@ -100,13 +100,13 @@ export default {
     onMounted(async () => {
       const res = await store.dispatch("fetchCountrys");
 
-      console.log(res, "tes");
-      // console.log(this.$route, "test");
+      //console.log(res, "tes");
+      // //console.log(this.$route, "test");
       // fillChartData();
-      // console.log(this.$store.state.client, "tessc");
+      // //console.log(this.$store.state.client, "tessc");
     });
     const clickEye = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
       userData.value.kode = payload.kode
       userData.value.region = payload.region
       userData.value._id = payload._id
@@ -114,7 +114,7 @@ export default {
       isModalActive.value = true
     }
     const clickTrash = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
 
       userData.value._id = payload._id
 
@@ -122,7 +122,7 @@ export default {
       isModalDeleteActive.value = true
     }
     const deleteCountry = () => {
-      console.log(userData.value, "delete country")
+      //console.log(userData.value, "delete country")
 
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
@@ -149,7 +149,7 @@ export default {
 
         })
         .catch((error) => {
-          // console.log(error.response.data.message)
+          // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
           // Swal.fire({
@@ -161,7 +161,7 @@ export default {
         });
     }
     const putCountry = () => {
-      console.log(userData.value)
+      //console.log(userData.value)
       let keyword = {
         kode: userData.value.kode,
         region: userData.value.region
@@ -193,7 +193,7 @@ export default {
 
         })
         .catch((error) => {
-          // console.log(error.response.data.message)
+          // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
           // Swal.fire({
@@ -214,7 +214,7 @@ const items = computed(() => store.state.country.filter((admin) => {
         admin.region.toLowerCase().includes(store.state.search) ||
         admin._id.toLowerCase().includes(store.state.search)
     }));
-    console.log(items, "fna");
+    //console.log(items, "fna");
 
     const isModalActive = ref(false);
 

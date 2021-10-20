@@ -144,7 +144,7 @@ export default {
       })
     );
     const postPrize = () => {
-      console.log(userData.value, "teesss");
+      //console.log(userData.value, "teesss");
       const loginUrl =
         process.env.VUE_APP_BASE_URL + "api/operators/registerCreditByClient/";
       // commit("auth_request");
@@ -174,7 +174,7 @@ export default {
           paramWindow.value = false;
         })
         .catch(error => {
-          console.log(error.response.data.message);
+          //console.log(error.response.data.message);
           // commit("auth_error");
           // localStorage.removeItem("token");
           Swal.fire({
@@ -201,7 +201,7 @@ export default {
       await store.dispatch("fetchClients");
       fillChartData();
     });
-    console.log(store.state.protocol, "tess pro");
+    //console.log(store.state.protocol, "tess pro");
 
     return {
       titleStack,

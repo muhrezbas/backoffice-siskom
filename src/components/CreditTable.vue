@@ -152,13 +152,13 @@ export default {
       await store.dispatch("fetchPrize");
       await store.dispatch("fetchOperators");
       await store.dispatch("fetchClients");
-      console.log(res, "tes");
-      // console.log(this.$route, "test");
+      //console.log(res, "tes");
+      // //console.log(this.$route, "test");
       // fillChartData();
-      // console.log(this.$store.state.client, "tessc");
+      // //console.log(this.$store.state.client, "tessc");
     });
     const clickTrash = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
 
       userData.value._id = payload._id
 
@@ -166,7 +166,7 @@ export default {
       isModalDeleteActive.value = true
     }
     const deleteCredit = () => {
-      console.log(userData.value, "delete country")
+      //console.log(userData.value, "delete country")
 
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
@@ -193,7 +193,7 @@ export default {
 
         })
         .catch((error) => {
-          // console.log(error.response.data.message)
+          // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
           // Swal.fire({
@@ -205,7 +205,7 @@ export default {
         });
     }
     const clickEye = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
       userData.value.akun = payload.akun
       userData.value.total = payload.total
       userData.value.operator = payload.operator._id
@@ -219,7 +219,7 @@ export default {
       isModalActive.value = true
     }
     const putCredit = () => {
-      console.log(userData.value)
+      //console.log(userData.value)
       let keyword = {
         akun: userData.value.akun,
         total: userData.value.total,
@@ -249,6 +249,7 @@ export default {
           userData.value.tax = ""
           userData.value.protocol = ""
           userData.value._id = ""
+          userData.value.client = ""
 
           if (r.data) {
             Swal.fire({
@@ -262,7 +263,7 @@ export default {
 
         })
         .catch((error) => {
-          // console.log(error.response.data.message)
+          // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
           // Swal.fire({
@@ -296,7 +297,7 @@ export default {
         String(admin.operator.name).toLowerCase().includes(store.state.search) ||
         admin._id.toLowerCase().includes(store.state.search)
     }));
-    console.log(store.state.credit, "tesss");
+    //console.log(store.state.credit, "tesss");
 
     const isModalActive = ref(false);
 

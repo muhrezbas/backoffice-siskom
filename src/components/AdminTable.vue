@@ -105,9 +105,7 @@ export default {
   setup() {
     const store = useStore();
 
-    onMounted(async () => {
-      await store.dispatch("fetchAdmin");
-    })
+   
     store.commit("search", "")
 const items = computed(() => store.state.admin.filter((admin) => {
       return admin.name.toLowerCase().includes(store.state.search) ||
@@ -134,7 +132,7 @@ const items = computed(() => store.state.admin.filter((admin) => {
       })
     )
     const clickTrash = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
 
       userData.value._id = payload._id
 
@@ -142,7 +140,7 @@ const items = computed(() => store.state.admin.filter((admin) => {
       isModalDeleteActive.value = true
     }
     const putAdmin = () => {
-      console.log(userData.value)
+      //console.log(userData.value)
       let keyword = {
         name: userData.value.name,
         username: userData.value.username,
@@ -178,7 +176,7 @@ const items = computed(() => store.state.admin.filter((admin) => {
 
         })
         .catch((error) => {
-          console.log(error.response)
+          //console.log(error.response)
           let err
 
           if (error.response.status == 403) {
@@ -203,7 +201,7 @@ const items = computed(() => store.state.admin.filter((admin) => {
         });
     }
     const deleteAdmin = () => {
-      console.log(userData.value)
+      //console.log(userData.value)
 
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
@@ -230,7 +228,7 @@ const items = computed(() => store.state.admin.filter((admin) => {
 
         })
         .catch((error) => {
-          // console.log(error.response.data.message)
+          // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
           // Swal.fire({
@@ -248,7 +246,7 @@ const items = computed(() => store.state.admin.filter((admin) => {
       )
     );
     const clickEye = (payload) => {
-      console.log(payload, "tesr")
+      //console.log(payload, "tesr")
       userData.value.name = payload.name
       userData.value.username = payload.username
       userData.value.adminCode = payload.adminCode

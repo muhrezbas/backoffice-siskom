@@ -108,7 +108,7 @@ export default [
         {
           to: "/admin/prize",
           icon: mdiLicense,
-          label: "Prize of SMS"
+          label: "Price of SMS"
         },
         {
           to: "/admin/credit",
@@ -123,7 +123,7 @@ export default [
         {
           to: "/admin/keywordReguler",
           icon: mdiFormatText,
-          label: "Keyword For Reguler"
+          label: "Keyword Restriction on Regular"
         }
       ]
     },

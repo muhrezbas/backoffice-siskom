@@ -115,6 +115,13 @@
       >
         <control v-model="userData.drop" name="drop" required autocomplete="drop" />
       </field>
+      <field
+        v-if="userData.blending == 'true' && userData.droping == 'true'"
+        label="Start Drop"
+        class="w-full md:w-1/2 px-3 mb-6 md:mb-0"
+      >
+        <control v-model="userData.startDrop" name="start drop" required autocomplete="start drop" />
+      </field>
       <div v-if="userData.blending == 'true'">
         <jb-buttons type="justify-start lg:justify-end" no-wrap>
           <jb-button class="mr-3" color="info" label="ADD" @click="blendingAdd" />
@@ -127,6 +134,14 @@
               v-model="userData.batchesPrioties[index].quota"
               required
               autocomplete="quota"
+            />
+          </field>
+          <field label="Start" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <control
+              name="start"
+              v-model="userData.batchesPrioties[index].start"
+              required
+              autocomplete="start"
             />
           </field>
           <field label="Priority of Protocol by Operators" style="margin-top: 20px;">
@@ -295,11 +310,13 @@ export default {
         financeEmail: "",
         notifEmail: "",
         password: "",
+        startDrop: 0,
         "blending": "false",
         "drop": 0,
         "droping": "false",
         batchesPrioties: [{
           "quota": 0,
+          start: 0,
           "prio": {
             "60dad3e9ac63c76bdaf6e263": [
 
@@ -341,6 +358,7 @@ export default {
       userData.value.jumlahBatch++
       userData.value.batchesPrioties.push({
         "quota": 0,
+        start: 0,
         "prio": {
           "60dad3e9ac63c76bdaf6e263": [
 
@@ -381,9 +399,9 @@ export default {
       chartData.value = chartConfig.sampleChartData();
     };
     const postClient = () => {
-      console.log(userData.value.blending);
+      //console.log(userData.value.blending);
 
-      console.log(userData.value, "test")
+      //console.log(userData.value, "test")
       if (userData.value.blending == "true") {
         function hasDuplicates(arr) {
           return arr.some(x => arr.indexOf(x) !== arr.lastIndexOf(x));
@@ -393,7 +411,7 @@ export default {
           userData.value.batchesPrioties.forEach(element2 => {
 
             if (hasDuplicates(element2.prio[element._id])) {
-              console.log("Duplicate elements found.");
+              //console.log("Duplicate elements found.");
               Swal.fire({
                 title: "ADD Client!",
                 text: "Gagal terdapat duplikasi di protocol",
@@ -403,7 +421,7 @@ export default {
               return
             }
           });
-          // console.log(userData.value.operators[element._id])
+          // //console.log(userData.value.operators[element._id])
         });
         let requestData = {
           username: userData.value.username,
@@ -416,6 +434,7 @@ export default {
           financeEmail: userData.value.financeEmail,
           notifEmail: userData.value.notifEmail,
           password: userData.value.password,
+          startDrop: userData.value.startDrop,
           blending: true,
           drop: 0,
           batchesPrioties: userData.value.batchesPrioties
@@ -423,9 +442,9 @@ export default {
         if (userData.value.droping == "true") {
           requestData.drop = userData.value.drop
         }
-        console.log(requestData)
+        //console.log(requestData)
         if (duplicate == false) {
-          // console.log(userData.value);
+          // //console.log(userData.value);
           // let userDataAdd = userData.value;
           // userDataAdd.protocol = userData.value.priority[0];
           const loginUrl = process.env.VUE_APP_BASE_URL + "api/users/client/";
@@ -460,7 +479,7 @@ export default {
               paramWindow.value = false;
             })
             .catch(error => {
-              console.log(error.response.data.message);
+              //console.log(error.response.data.message);
               // commit("auth_error");
               // localStorage.removeItem("token");
               Swal.fire({
@@ -470,7 +489,7 @@ export default {
               });
               // alert(error.message);
             });
-          console.log("No Duplicates found.");
+          //console.log("No Duplicates found.");
         }
       }
       else {
@@ -480,9 +499,9 @@ export default {
         }
         let duplicate = false
         store.state.operator.forEach(element => {
-          console.log(userData.value.operators[element._id])
+          //console.log(userData.value.operators[element._id])
           if (hasDuplicates(userData.value.operators[element._id])) {
-            console.log("Duplicate elements found.");
+            //console.log("Duplicate elements found.");
             Swal.fire({
               title: "ADD Client!",
               text: "Gagal terdapat duplikasi di protocol",
@@ -492,10 +511,10 @@ export default {
             return
           }
         });
-        console.log('helllloo')
+        //console.log('helllloo')
 
         if (duplicate == false) {
-          console.log(userData.value);
+          //console.log(userData.value);
           let userDataAdd = userData.value;
           // userDataAdd.protocol = userData.value.priority[0];
           const loginUrl = process.env.VUE_APP_BASE_URL + "api/users/client/";
@@ -530,7 +549,7 @@ export default {
               paramWindow.value = false;
             })
             .catch(error => {
-              console.log(error.response.data.message);
+              //console.log(error.response.data.message);
               // commit("auth_error");
               // localStorage.removeItem("token");
               Swal.fire({
@@ -540,7 +559,7 @@ export default {
               });
               // alert(error.message);
             });
-          console.log("No Duplicates found.");
+          //console.log("No Duplicates found.");
         }
       }
     };
@@ -549,9 +568,9 @@ export default {
       await store.dispatch("fetchProtocol");
       await store.dispatch("fetchOperators")
       const operator = store.state.operator
-      console.log(operator, "tes")
+      //console.log(operator, "tes")
       userData.value.operators = operator.reduce((acc, curr) => (acc[curr._id] = [], acc), {});
-      console.log(userData.value)
+      //console.log(userData.value)
       fillChartData();
     });
     return {

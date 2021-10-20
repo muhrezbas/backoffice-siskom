@@ -123,15 +123,15 @@ export default {
     onMounted(async () => {
       await store.dispatch("fetchSms");
 
-      // console.log(res, "tes");
-      // console.log(this.$route, "test");
+      // //console.log(res, "tes");
+      // //console.log(this.$route, "test");
       fillChartData();
       tkn();
-      console.log(store.state.sms, "tessc");
-      console.log(store.state.smsAll, "sms All letes");
+      //console.log(store.state.sms, "tessc");
+      //console.log(store.state.smsAll, "sms All letes");
     });
-    console.log(store.state.sms, "dapetkan");
-    console.log(store.state.smsAll, "sms All");
+    //console.log(store.state.sms, "dapetkan");
+    //console.log(store.state.smsAll, "sms All");
     const titleStack = ref(["Admin", "Dashboard"]);
 
     const chartData = ref(null);
@@ -148,8 +148,8 @@ export default {
     const randomChartData = (n, l) => {
       const data = [];
       const thisYear = new Date().getYear();
-      console.log(thisYear, "tessss");
-      console.log(n, "nanfka");
+      //console.log(thisYear, "tessss");
+      //console.log(n, "nanfka");
 
       for (let i = 0; i < l.length; i++) {
         console.log(
@@ -251,10 +251,10 @@ export default {
     };
     const tkn = () => {
       var base64Url = localStorage.getItem("token").split(".")[1];
-      console.log(JSON.parse(window.atob(base64Url)));
+      //console.log(JSON.parse(window.atob(base64Url)));
     };
-    console.log(chartData, "chart");
-    console.log(fillChartData, "fill");
+    //console.log(chartData, "chart");
+    //console.log(fillChartData, "fill");
 
     return {
       titleStack,
