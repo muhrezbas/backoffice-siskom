@@ -83,7 +83,7 @@ export default createStore({
       state.token = "";
     },
     client(state, client) {
-      console.log(client, "res");
+      // console.log(client, "res");
       state.client = client;
     },
     clients(state, client) {
@@ -983,7 +983,7 @@ export default createStore({
         });
     },
     fetchClient({ commit }, id) {
-      console.log(id, "tes");
+      // console.log(id, "tes");
       const findClientAllUrl =
         process.env.VUE_APP_BASE_URL + `api/admins/client/${id.id}`;
       return axios
@@ -1014,7 +1014,7 @@ export default createStore({
         });
     },
     fetchPrio({ commit }, id) {
-      console.log(id, "tes");
+      // console.log(id, "tes");
       const findClientAllUrl =
         process.env.VUE_APP_BASE_URL + `api/admins/findPrio/${id.id}`;
       return axios
@@ -1049,7 +1049,7 @@ export default createStore({
         });
     },
     fetchSmsClient({ commit }, id) {
-      console.log(id, "tes");
+      // console.log(id, "tes");
       const findClientAllUrl =
         process.env.VUE_APP_BASE_URL +
         `api/operators/findAllSmsByClient/${id.id}`;

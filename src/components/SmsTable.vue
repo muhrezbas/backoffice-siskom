@@ -40,27 +40,34 @@
         <td data-label="Customer">{{ sms.client.companyName }}</td>
         <td data-label="SmsIn">{{ formatDate(sms.smsIn) }}</td>
         <td data-label="SmsOut">{{ formatDate(sms.smsOut) }}</td>
-        <!-- <div v-if="sms.statusSms.code == 0"> -->
-        <td v-if="sms.statusSms.code == 0" data-label="DlrIn">{{ formatDate(sms.dlrIn) }}</td>
+        <td
+          v-if="sms.statusSms !== undefined && sms.statusSms.code == 0"
+          data-label="DlrIn"
+        >{{ formatDate(sms.dlrIn) }}</td>
         <td v-else data-label="DlrIn">-</td>
-        <td v-if="sms.statusSms.code == 0" data-label="DlrOut">{{ formatDate(sms.createdAt) }}</td>
+        <td
+          v-if="sms.statusSms !== undefined && sms.statusSms.code == 0"
+          data-label="DlrOut"
+        >{{ formatDate(sms.createdAt) }}</td>
         <td v-else data-label="DlrOut">-</td>
-        <!-- </div> -->
         <td data-label="Sender">{{ sms.masking }}</td>
         <td data-label="OutSender">{{ sms.masking }}</td>
         <td data-label="Receiver">{{ sms.msisdn }}</td>
         <td data-label="Operator" v-if="sms.prize !== null">{{ sms.prize.operator.name }}</td>
         <td data-label="Credit" v-if="sms.prize !== null">{{ sms.prize.total }}</td>
         <td data-label="Message">{{ sms.message }}</td>
-        <td data-label="Status">
+        <td data-label="Status" v-if="sms.statusSms !== undefined">
           <!-- <p v-if="sms.status == 0" class="text-red-700">Error</p> -->
-          <p v-if="sms.statusSms.code == 0" class="text-blue-300">{{ sms.statusSms.label }}</p>
-          <p v-else class="text-red-700">{{ sms.statusSms.label }}</p>
+          <p
+            v-if="sms.statusSms !== undefined && sms.statusSms.code == 0"
+            class="text-blue-300"
+          >{{ sms.statusSms.label }}</p>
+          <p v-else class="text-red-700">{{ sms.statusSms["label"] }}</p>
         </td>
         <td data-label="Type" v-if="sms.prize !== null">
           <!-- <p>{{ sms.prize }}</p> -->
-          <p v-if="sms.prize.akun == 'premium'" class="text-yellow-500">OTP</p>
-          <p v-if="sms.prize.akun == 'reguler'" class="text-blue-500">SMS Blast</p>
+          <p v-if="sms.prize.akun == 'otp'" class="text-yellow-500">OTP</p>
+          <p v-if="sms.prize.akun == 'reg'" class="text-blue-500">SMS Blast</p>
         </td>
         <!-- <td class="actions-cell">
         <jb-buttons type="justify-start lg:justify-end" no-wrap>
@@ -109,7 +116,7 @@ export default {
   setup(props) {
     const store = useStore();
     if (props.sms !== undefined) {
-      //console.log(props.sms, "sms dkdkdk");
+      console.log(props.sms, "sms dkdkdk");
 
       const items = computed(() => props.sms.filter((admin) => {
         return admin.message.toLowerCase().includes(store.state.search) ||

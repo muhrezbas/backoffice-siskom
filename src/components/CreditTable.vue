@@ -6,7 +6,7 @@
       <field label="Tipe Account">
         <select v-model="userData.akun" class="w-full">
           <option
-            v-for="option in ['reguler', 'premium']"
+            v-for="option in ['reg', 'otp']"
             :key="option"
             :value="option"
           >{{ option }}</option>

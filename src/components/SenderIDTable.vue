@@ -32,7 +32,7 @@
     <thead>
       <tr>
         <th>ID</th>
-        <th>Kode</th>
+        <!-- <th>Kode</th> -->
         <th>Region</th>
         <th>Operator</th>
         <th></th>
@@ -41,7 +41,7 @@
     <tbody class="font-semibold">
       <tr v-for="country in itemsPaginated" :key="country.id">
         <td>{{ country._id }}</td>
-        <td data-label="Sender ID">{{ country.senderID }}</td>
+        <!-- <td data-label="Sender ID">{{ country.senderID }}</td> -->
         <td data-label="Region">{{ country.region.toUpperCase() }}</td>
         <td data-label="Operator">{{ country.operator.nickname }}</td>
         <td class="actions-cell">
