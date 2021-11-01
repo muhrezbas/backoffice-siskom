@@ -191,7 +191,7 @@ export default {
     const router = useRouter();
     // https://sg.160k.id/api/smppTest
     const submit2 = () => {
-      const loginUrl = "http://localhost:2000/api/smppTest/";
+      const loginUrl = "https://sg.160k.id/api/smppTest/";
       // commit("auth_request");
       //console.log(form2, "tes")
       axios
@@ -219,7 +219,7 @@ export default {
       // store.dispatch("loginClient", form);
     };
     const submit = () => {
-      const loginUrl = "http://localhost:2000/api/gateway/";
+      const loginUrl = "https://sg.160k.id/api/gateway/";
       // commit("auth_request");
       //console.log(form, "tes form1")
       axios
