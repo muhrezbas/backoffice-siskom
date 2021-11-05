@@ -3,7 +3,24 @@
     <field label="Sender ID">
       <control v-model="userData.senderID" name="senderID" required autocomplete="senderID" />
     </field>
-
+    <field label="Jalur">
+      <select v-model="userData.jalur" class="w-full">
+        <option
+          v-for="option in ['OTP', 'NOTP']"
+          :key="option._id ?? option"
+          :value="option"
+        >{{ option.nickname ?? option }}</option>
+      </select>
+    </field>
+    <field label="Supplier">
+      <select v-model="userData.supplier" class="w-full">
+        <option
+          v-for="option in $store.state.protocol"
+          :key="option._id ?? option"
+          :value="option._id"
+        >{{ option.protocol ?? option }}</option>
+      </select>
+    </field>
     <field label="Region">
       <select v-model="userData.region" class="w-full">
         <option
@@ -114,6 +131,7 @@ export default {
     const titleStack = ref(["Admin", "Settings", "Sender ID"]);
     const store = useStore();
     onMounted(async () => {
+      await store.dispatch("fetchProtocol")
       await store.dispatch("fetchOperators");
       fillChartData();
     });
@@ -124,7 +142,9 @@ export default {
       reactive({
         senderID: "",
         region: "",
-        operator: ""
+        operator: "",
+        jalur: "",
+        supplier: ""
       })
     );
     const csvData = computed(() =>
@@ -144,9 +164,11 @@ export default {
           }
         })
         .then(r => {
-          userData.value.region = "";
-          userData.value.senderID = "";
-          userData.value.operator = "";
+          userData.value.senderID = ""
+          userData.value.operator = ""
+          userData.value.region = ""
+          userData.value.jalur = ""
+          userData.value.supplier = ""
 
           if (r.data) {
             Swal.fire({

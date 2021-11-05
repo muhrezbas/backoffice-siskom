@@ -59,9 +59,9 @@
           <control v-model="userData.notifEmail" name="prize" required autocomplete="prize" />
         </field>
 
-        <!-- <field label="Password" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <control v-model="userData.password" name="prize" required autocomplete="prize" />
-        </field>-->
+        <field label="Password" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <control v-model="userData.password" name="prize" required autocomplete="prize" />
+        </field>
       </div>
 
       <field label="Priority of Protocol by Operators" v-if="userData.blending == 'false'">
@@ -552,6 +552,7 @@ export default {
                 userData.value.password = "";
                 userData.value.notifEmail = "";
                 userData.value.financeEmail = "";
+                userData.value.password = "";
 
                 if (r.data) {
                   Swal.fire({
@@ -610,6 +611,7 @@ export default {
               whiteListIp: userData.value.whiteListIp,
               financeEmail: userData.value.financeEmail,
               notifEmail: userData.value.notifEmail,
+              password: userData.value.password,
               startDrop: 0,
               blending: false,
               drop: 0,
@@ -761,6 +763,7 @@ export default {
         notifEmail
           :
           "",
+        password: "",
         startDrop: 0,
         "blending": "false",
         "drop": 0,
@@ -879,7 +882,7 @@ export default {
         "Agustus",
         "September",
         "Oktober",
-        "Novermber",
+        "November",
         "Desember",
       ];
 

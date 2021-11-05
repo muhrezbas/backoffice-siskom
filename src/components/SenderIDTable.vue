@@ -3,7 +3,24 @@
     <field label="Sender ID">
       <control v-model="userData.senderID" name="senderID" required autocomplete="senderID" />
     </field>
-
+    <field label="Jalur">
+      <select v-model="userData.jalur" class="w-full">
+        <option
+          v-for="option in ['OTP', 'NOTP']"
+          :key="option._id ?? option"
+          :value="option"
+        >{{ option.nickname ?? option }}</option>
+      </select>
+    </field>
+    <field label="Supplier">
+      <select v-model="userData.supplier" class="w-full">
+        <option
+          v-for="option in $store.state.protocol"
+          :key="option._id ?? option"
+          :value="option._id"
+        >{{ option.protocol ?? option }}</option>
+      </select>
+    </field>
     <field label="Region">
       <select v-model="userData.region" class="w-full">
         <option
@@ -13,6 +30,7 @@
         >{{ option.nickname ?? option }}</option>
       </select>
     </field>
+
     <field label="Operator">
       <select v-model="userData.operator" class="w-full">
         <option
@@ -24,7 +42,12 @@
     </field>
   </modal-box>
 
-  <modal-box v-model="isModalDeleteActive" title="Please confirm action" :submit="deleteSenderID" has-cancel>
+  <modal-box
+    v-model="isModalDeleteActive"
+    title="Please confirm action"
+    :submit="deleteSenderID"
+    has-cancel
+  >
     <p>Are you sure you want to delete this entry ?</p>
   </modal-box>
 
@@ -32,16 +55,24 @@
     <thead>
       <tr>
         <th>ID</th>
-        <!-- <th>Kode</th> -->
+        <th>Sender</th>
         <th>Region</th>
         <th>Operator</th>
+        <th>Jalur</th>
+        <th>Supplier</th>
         <th></th>
       </tr>
     </thead>
     <tbody class="font-semibold">
       <tr v-for="country in itemsPaginated" :key="country.id">
-        <td>{{ country._id }}</td>
-        <!-- <td data-label="Sender ID">{{ country.senderID }}</td> -->
+        <td data-label="ID">{{ country._id }}</td>
+        <td data-label="Sender">{{ country.senderID }}</td>
+        <td data-label="Jalur">{{ country.jalur }}</td>
+        <td
+          v-if="country.supplier !== undefined"
+          data-label="Supplier"
+        >{{ country.supplier.supplier }}</td>
+        <td v-else data-label="Supplier">-</td>
         <td data-label="Region">{{ country.region.toUpperCase() }}</td>
         <td data-label="Operator">{{ country.operator.nickname }}</td>
         <td class="actions-cell">
@@ -170,6 +201,8 @@ export default {
       userData.value.senderID = payload.senderID
       userData.value.operator = payload.operator._id
       userData.value.region = payload.region
+      userData.value.jalur = payload.jalur
+      userData.value.supplier = payload.supplier
       userData.value._id = payload._id
 
       isModalActive.value = true
@@ -178,8 +211,10 @@ export default {
       //console.log(userData.value)
       let keyword = {
         senderID: userData.value.senderID,
-        region:  userData.value.region,
-        operator: userData.value.operator
+        region: userData.value.region,
+        operator: userData.value.operator,
+        jalur: userData.value.jalur,
+        supplier: userData.value.supplier
       }
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
@@ -195,6 +230,8 @@ export default {
           userData.value.senderID = ""
           userData.value.operator = ""
           userData.value.region = ""
+          userData.value.jalur = ""
+          userData.value.supplier = ""
           userData.value._id = ""
 
           if (r.data) {
@@ -224,8 +261,8 @@ export default {
     }
 
     store.commit("search", "")
-const items = computed(() => store.state.senderid.filter((admin) => {
-      return  String(admin.senderID).toLowerCase().includes(store.state.search) ||
+    const items = computed(() => store.state.senderid.filter((admin) => {
+      return String(admin.senderID).toLowerCase().includes(store.state.search) ||
         admin.region.toLowerCase().includes(store.state.search) ||
         String(admin.operator.nickname).toLowerCase().includes(store.state.search) ||
         admin._id.toLowerCase().includes(store.state.search)

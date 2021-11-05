@@ -33,7 +33,7 @@
     <tbody class="font-semibold">
       <tr v-for="sms in itemsPaginated" :key="sms.id">
         <td>{{ sms.id }}</td>
-        <td v-if="sms.protocol != null" data-label="Carrier">{{ sms.protocol }}</td>
+        <td v-if="sms.protocol != undefined" data-label="Carrier">{{ sms.protocol.supplier }}</td>
         <td v-else data-label="Carrier">-</td>
         <td data-label="Out Msg ID">{{ sms.carrierMsgID }}</td>
         <td data-label="In Msg ID">{{ sms.refno }}</td>
