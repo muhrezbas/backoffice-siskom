@@ -33,7 +33,10 @@
     <tbody class="font-semibold">
       <tr v-for="sms in itemsPaginated" :key="sms.id">
         <td>{{ sms.id }}</td>
-        <td v-if="sms.protocol != undefined" data-label="Carrier">{{ sms.protocol.supplier }}</td>
+        <td
+          v-if="sms.protocol != undefined"
+          data-label="Carrier"
+        >{{ sms.protocol.supplier }} {{ sms.prize.akun }}</td>
         <td v-else data-label="Carrier">-</td>
         <td data-label="Out Msg ID">{{ sms.carrierMsgID }}</td>
         <td data-label="In Msg ID">{{ sms.refno }}</td>
@@ -66,8 +69,8 @@
         </td>
         <td data-label="Type" v-if="sms.prize !== null">
           <!-- <p>{{ sms.prize }}</p> -->
-          <p v-if="sms.prize.akun == 'otp'" class="text-yellow-500">OTP</p>
-          <p v-if="sms.prize.akun == 'reg'" class="text-blue-500">SMS Blast</p>
+          <p v-if="sms.prize.akun == 'premium'" class="text-yellow-500">OTP</p>
+          <p v-if="sms.prize.akun == 'reguler'" class="text-blue-500">SMS Blast</p>
         </td>
         <!-- <td class="actions-cell">
         <jb-buttons type="justify-start lg:justify-end" no-wrap>

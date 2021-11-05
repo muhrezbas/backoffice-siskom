@@ -56,10 +56,10 @@
       <tr>
         <th>ID</th>
         <th>Sender</th>
-        <th>Region</th>
-        <th>Operator</th>
         <th>Jalur</th>
         <th>Supplier</th>
+        <th>Region</th>
+        <th>Operator</th>
         <th></th>
       </tr>
     </thead>
