@@ -308,7 +308,7 @@ export default createStore({
               key: "errorAccess",
               value: false
             });
-            console.log( r.data.sort(function (a, b) {
+            console.log(r.data.sort(function (a, b) {
               // Turn your strings into dates, and then subtract them
               // to get a value that is either negative, positive, or zero.
               return new Date(b.createdAt) - new Date(a.createdAt);
@@ -325,7 +325,7 @@ export default createStore({
             commit("basic", {
               key: "blastAll",
               value: r.data.filter(
-                el => el.prize !== null && el.prize.akun == "reguler" && el.statusSms.code == 0
+                el => el.prize !== null && el.statusSms !== null && el.prize.akun == "reguler" && el.statusSms.code == 0
               ).length
             });
             commit("basic", {
@@ -338,7 +338,7 @@ export default createStore({
             });
             commit("basic", {
               key: "deliveredAll",
-              value: r.data.filter(el => el.statusSms.code == 0).length
+              value: r.data.filter(el => el.statusSms !== null && el.statusSms.code == 0).length
             });
             // commit("blast", r.data)
             // commit("otp", r.data)

@@ -46,9 +46,7 @@
     </card-component>
     <!-- <title-bar :title-stack="titleStack" /> -->
 
-    <hero-bar v-if="$store.state.errorAccess == false" :control="true"
-      >Customer SMS Details List</hero-bar
-    >
+    <hero-bar v-if="$store.state.errorAccess == false" :control="true">Customer SMS Details List</hero-bar>
     <main-section v-if="$store.state.errorAccess == false">
       <card-component has-table>
         <sms-table v-if="this.sms" :sms="this.sms" checkable />
@@ -225,20 +223,20 @@ export default {
         datasets: [
           datasetObject(
             "primary",
-            store.state.sms.filter(el => el.prize !== null && el.prize.akun == "premium"),
+            store.state.sms.filter(el => el.prize !== null && el.statusSms !== null && el.prize.akun == "premium"),
             labels
           ),
           datasetObject(
             "info",
             store.state.sms.filter(
-              el => el.prize !== null && el.prize.akun == "reguler" && el.statusSms.code == 0
+              el => el.prize !== null && el.statusSms !== null && el.prize.akun == "reguler" && el.statusSms.code == 0
             ),
             labels
           ),
           datasetObject("blue", store.state.sms, labels),
           datasetObject(
             "yellow",
-            store.state.sms.filter(el => el.statusSms.code == 0),
+            store.state.sms.filter(el => el.statusSms !== null && el.statusSms.code == 0),
             labels
           )
           // datasetObject('danger', points)
