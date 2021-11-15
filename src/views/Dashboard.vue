@@ -225,13 +225,13 @@ export default {
         datasets: [
           datasetObject(
             "primary",
-            store.state.sms.filter(el => el.prize.akun == "premium"),
+            store.state.sms.filter(el => el.prize !== null && el.prize.akun == "premium"),
             labels
           ),
           datasetObject(
             "info",
             store.state.sms.filter(
-              el => el.prize.akun == "reguler" && el.statusSms.code == 0
+              el => el.prize !== null && el.prize.akun == "reguler" && el.statusSms.code == 0
             ),
             labels
           ),

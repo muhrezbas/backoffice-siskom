@@ -116,11 +116,11 @@ export default createStore({
         .filter(el => el.action == "topup");
     },
     otp(state, otp) {
-      state.otp = otp.filter(el => el.prize.akun == "premium").length;
+      // state.otp = otp.filter(el => el.prize.akun == "premium").length;
       // state.topUp = saldo.history.filter(el => el.action == "topup");
     },
     blast(state, blast) {
-      state.blast = blast.filter(el => el.prize.akun == "reguler").length;
+      // state.blast = blast.filter(el => el.prize.akun == "reguler").length;
     },
     /* A fit-them-all commit */
     basic(state, payload) {
@@ -313,6 +313,7 @@ export default createStore({
               // to get a value that is either negative, positive, or zero.
               return new Date(b.createdAt) - new Date(a.createdAt);
             }), "faofnoajfioasfj")
+            console.log(r.data.length)
             commit("basic", {
               key: "sms",
               value: r.data.sort(function (a, b) {
@@ -324,12 +325,12 @@ export default createStore({
             commit("basic", {
               key: "blastAll",
               value: r.data.filter(
-                el => el.prize.akun == "reguler" && el.statusSms.code == 0
+                el => el.prize !== null && el.prize.akun == "reguler" && el.statusSms.code == 0
               ).length
             });
             commit("basic", {
               key: "otpAll",
-              value: r.data.filter(el => el.prize.akun == "premium").length
+              value: r.data.filter(el => el.prize !== null && el.prize.akun == "premium").length
             });
             commit("basic", {
               key: "smsAll",
