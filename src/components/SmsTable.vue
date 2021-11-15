@@ -80,7 +80,10 @@
       </tr>
     </tbody>
   </table>
-  <div class="table-pagination">
+  <div class="flex">
+    <select style="width:150px; margin-right: 25px" v-model="perPage" class="w-full">
+      <option v-for="option in [10, 25, 50, 100]" :key="option" :value="option">{{ option }}</option>
+    </select>
     <level>
       <jb-buttons>
         <jb-button
@@ -99,7 +102,7 @@
 
 <script>
 /* eslint-disable */
-import { computed, ref } from "vue";
+import { computed, ref, reactive } from "vue"
 import { useStore } from "vuex";
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import ModalBox from "@/components/ModalBox";
@@ -131,8 +134,14 @@ export default {
           admin._id.toLowerCase().includes(store.state.search)
       }));
 
+      // const countPages = 10
       const isModalActive = ref(false);
-
+      const countPages = computed(() =>
+        reactive({
+          data: 10
+        })
+      )
+      console.log(countPages.value, "values")
       const perPage = ref(10);
 
       const currentPage = ref(0);
@@ -172,6 +181,7 @@ export default {
 
       }
 
+
       const currentPageHuman = computed(() => currentPage.value + 1);
 
       const pagesList = computed(() => {
@@ -192,7 +202,9 @@ export default {
         checkedRows,
         itemsPaginated,
         pagesList,
+        countPages,
         mdiEye,
+        perPage,
         mdiTrashCan,
         formatDate,
       };
