@@ -1091,9 +1091,11 @@ export default createStore({
               })
             );
           }
+          return r.data
         })
         .catch(error => {
-          console.log(error);
+          console.log(error, "haloo");
+
           if (error.message == "Request failed with status code 403") {
             commit("basic", {
               key: "errorAccess",

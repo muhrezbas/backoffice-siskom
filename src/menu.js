@@ -101,6 +101,11 @@ export default [
           label: "Whitelist Content"
         },
         {
+          to: "/admin/suppliers",
+          icon: mdiPlaylistCheck,
+          label: "Suppliers"
+        },
+        {
           to: "/admin/whitelistPhoneNumber",
           icon: mdiViewListOutline,
           label: "Whitelist Phone Number"

@@ -132,6 +132,15 @@ const routes = [
   },
   {
     meta: {
+      title: "Suppliers",
+      requiresAuth: true
+    },
+    path: "/admin/suppliers",
+    name: "Suppliers",
+    component: () => import(/* webpackChunkName: "forms" */ "../views/Supplier")
+  },
+  {
+    meta: {
       title: "Prefix",
       requiresAuth: true
     },

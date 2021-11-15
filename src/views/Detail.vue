@@ -76,7 +76,7 @@
               :key="index"
             >
               <option
-                v-for="option in $store.state.protocol"
+                v-for="option in protocolData.data"
                 :key="option._id ?? option"
                 :value="option._id"
               >{{ option.supplier ?? option }}</option>
@@ -133,7 +133,7 @@
                   :key="index2"
                 >
                   <option
-                    v-for="option in $store.state.protocol"
+                    v-for="option in protocolData.data"
                     :key="option._id ?? option"
                     :value="option._id"
                   >{{ option.supplier ?? option }}</option>
@@ -393,6 +393,10 @@ export default {
     const route = useRoute();
     //console.log(route.params.id);
     const paramWindow = ref(false);
+    const protocolData = computed(() =>
+      reactive({
+        data: []
+      }))
 
     const openParamWindow = () => {
       paramWindow.value = !paramWindow.value;
@@ -487,7 +491,20 @@ export default {
       else {
         if (userData.value.blending == "true") {
           function hasDuplicates(arr) {
-            return arr.some(x => arr.indexOf(x) !== arr.lastIndexOf(x));
+            let count = 0
+            arr.forEach(element => {
+              if (element == "empty") {
+                count++
+              }
+            });
+            if (count > 1) {
+              return false
+            }
+            else {
+
+              return arr.some(x => arr.indexOf(x) !== arr.lastIndexOf(x));
+            }
+
           }
           let duplicate = false
           store.state.operator.forEach(element => {
@@ -505,6 +522,29 @@ export default {
               }
             });
             // //console.log(userData.value.operators[element._id])
+          });
+          userData.value.batchesPrioties.forEach((btc, i) => {
+
+            for (const key in btc.prio) {
+              if (Object.hasOwnProperty.call(btc.prio, key)) {
+                const element = btc.prio[key];
+                let temp = []
+                for (let index = 0; index < element.length; index++) {
+                  const ope = element[index];
+                  if (ope !== "empty") {
+                    temp.push(ope)
+                    // console.log(ope)
+
+
+                  }
+
+                }
+
+                userData.value.batchesPrioties[i].prio[key] = temp
+                //  console.log(key, "halo")
+                //  .operators[key] = temp
+              }
+            }
           });
           let requestData = {
             username: userData.value.username,
@@ -525,11 +565,11 @@ export default {
           if (userData.value.droping == "true") {
             requestData.drop = userData.value.drop
           }
-          //console.log(requestData)
+          console.log(requestData)
           if (duplicate == false) {
-            // //console.log(userData.value);
-            // let userDataAdd = userData.value;
-            // userDataAdd.protocol = userData.value.priority[0];
+          //   // //console.log(userData.value);
+          //   // let userDataAdd = userData.value;
+          //   // userDataAdd.protocol = userData.value.priority[0];
             const loginUrl =
               process.env.VUE_APP_BASE_URL +
               "api/users/editClient/" + route.params.id + "/";
@@ -582,7 +622,20 @@ export default {
         else {
 
           function hasDuplicates(arr) {
-            return arr.some(x => arr.indexOf(x) !== arr.lastIndexOf(x));
+            // console.log( arr.some(x => arr.indexOf(x) !== arr.lastIndexOf(x)))
+            let count = 0
+            arr.forEach(element => {
+              if (element == "empty") {
+                count++
+              }
+            });
+            if (count > 1) {
+              return false
+            }
+            else {
+
+              return arr.some(x => arr.indexOf(x) !== arr.lastIndexOf(x));
+            }
           }
           let duplicate = false
           store.state.operator.forEach(element => {
@@ -601,6 +654,25 @@ export default {
           //console.log('helllloo')
 
           if (duplicate == false) {
+
+            for (const key in userData.value.operators) {
+              if (Object.hasOwnProperty.call(userData.value.operators, key)) {
+                const element = userData.value.operators[key];
+                let temp = []
+                for (let index = 0; index < element.length; index++) {
+                  const ope = element[index];
+                  if (ope !== "empty") {
+                    temp.push(ope)
+                    // console.log(ope)
+
+
+                  }
+
+                }
+
+                userData.value.operators[key] = temp
+              }
+            }
             let requestData = {
               username: userData.value.username,
               companyName: userData.value.companyName,
@@ -617,9 +689,11 @@ export default {
               drop: 0,
               operators: userData.value.operators
             }
-            //console.log(userData.value);
+
+            // console.log(requestData);
+
             let userDataAdd = userData.value;
-            // userDataAdd.protocol = userData.value.priority[0];
+            userDataAdd.protocol = userData.value.priority[0];
             const loginUrl =
               process.env.VUE_APP_BASE_URL +
               "api/users/editClient/" + route.params.id + "/";
@@ -715,6 +789,17 @@ export default {
         id: route.params.id,
       });
       await store.dispatch("fetchProtocol");
+      protocolData.value.data = store.state.protocol
+      protocolData.value.data.push({
+        "createdAt": "",
+        "protocol": "-",
+        supplier: "-",
+        updatedAt: "",
+        __v: 0,
+        _id: "empty"
+      })
+      console.log(protocolData.value, "protocol")
+
       //console.log(store.state.prio, "prio")
 
       //console.log(res, "tes");
@@ -930,6 +1015,7 @@ export default {
       putClient,
       mdiReload,
       blendingAdd,
+      protocolData,
       mdiGithub,
       userData
     };
