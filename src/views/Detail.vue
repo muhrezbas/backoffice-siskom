@@ -63,6 +63,11 @@
           <control v-model="userData.password" name="prize" required autocomplete="prize" />
         </field>
       </div>
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <field label="TPS" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <control v-model="userData.tps" name="tps" required autocomplete="tps" />
+        </field>
+      </div>
 
       <field label="Priority of Protocol by Operators" v-if="userData.blending == 'false'">
         <div v-for="oper in $store.state.operator" :key="oper._id ?? oper">
@@ -279,14 +284,14 @@
             class="tile"
             color="text-blue-500"
             :icon="mdiCellphoneMessage"
-            :number="this.$store.state.blast"
+            :number="this.$store.state.smsClient.filter(el => el.statusSms !== undefined && el.prize !== null && el.statusSms.code == 0 && el.prize.akun == 'reguler').length"
             label="SMS Blast Delivered"
           />
           <card-widget
             class="tile"
             color="text-blue-500"
             :icon="mdiCellphoneText"
-            :number="this.$store.state.otp"
+            :number="this.$store.state.smsClient.filter(el => el.statusSms !== undefined && el.prize !== null && el.statusSms.code == 0 && el.prize.akun == 'premium').length"
             label="OTP Delivered"
           />
         </div>
@@ -459,8 +464,9 @@ export default {
 
       }
 
-      //console.log(store.state.client, 'priotriy')
+      console.log(store.state.client, 'priotriy')
       userData.value.priority = test;
+      userData.value.tps = store.state.client.tps
       userData.value.droping = store.state.client.droping
       userData.value.drop = store.state.client.drop
       userData.value.startDrop = store.state.client.startDrop
@@ -555,6 +561,7 @@ export default {
             contactPic: userData.value.contactPic,
             whiteListIp: userData.value.whiteListIp,
             financeEmail: userData.value.financeEmail,
+            tps: userData.value.tps,
             notifEmail: userData.value.notifEmail,
             password: userData.value.password,
             startDrop: userData.value.startDrop,
@@ -567,9 +574,9 @@ export default {
           }
           console.log(requestData)
           if (duplicate == false) {
-          //   // //console.log(userData.value);
-          //   // let userDataAdd = userData.value;
-          //   // userDataAdd.protocol = userData.value.priority[0];
+            //   // //console.log(userData.value);
+            //   // let userDataAdd = userData.value;
+            //   // userDataAdd.protocol = userData.value.priority[0];
             const loginUrl =
               process.env.VUE_APP_BASE_URL +
               "api/users/editClient/" + route.params.id + "/";
@@ -597,7 +604,8 @@ export default {
                 if (r.data) {
                   Swal.fire({
                     title: "ADD Client!",
-                    text: "Success",
+                    text: requestData,
+                    // message: requestData,
                     icon: "success"
                   });
                 }
@@ -681,6 +689,7 @@ export default {
               namePic: userData.value.namePic,
               contactPic: userData.value.contactPic,
               whiteListIp: userData.value.whiteListIp,
+              tps: userData.value.tps,
               financeEmail: userData.value.financeEmail,
               notifEmail: userData.value.notifEmail,
               password: userData.value.password,
@@ -848,6 +857,7 @@ export default {
         notifEmail
           :
           "",
+        tps: "",
         password: "",
         startDrop: 0,
         "blending": "false",
@@ -947,14 +957,12 @@ export default {
         cubicInterpolationMode: "default",
       };
     };
-    console.log(
-      store.state.smsClient.filter((el) => el.prize.akun == "premium"),
-      "client prem"
-    );
-    console.log(
-      store.state.smsClient.filter((el) => el.prize.akun == "reguler"),
-      "client reg"
-    );
+    // console.log(
+    //   store.state.smsClient.filter((el) => el.prize !== null && el.prize.akun == "premium"),
+    //   console.log(
+    //     store.state.smsClient.filter((el) => el.prize !== null && el.prize.akun == "reguler"),
+    //     "client reg"
+    //   );
     const sampleChartData = (points = 12) => {
       const labels = [
         "January",
@@ -980,12 +988,12 @@ export default {
         datasets: [
           datasetObject(
             "primary",
-            store.state.smsClient.filter((el) => el.prize.akun == "premium"),
+            store.state.smsClient.filter(el => el.statusSms !== undefined && el.prize !== null && el.statusSms.code == 0 && el.prize.akun == 'premium'),
             labels
           ),
           datasetObject(
             "info",
-            store.state.smsClient.filter((el) => el.prize.akun == "reguler"),
+            store.state.smsClient.filter(el => el.statusSms !== undefined && el.prize !== null && el.statusSms.code == 0 && el.prize.akun == 'reguler'),
             labels
           ),
           // datasetObject('danger', points)

@@ -323,22 +323,23 @@ export default createStore({
               })
             });
             commit("basic", {
-              key: "blastAll",
-              value: r.data.filter(
-                el => el.prize !== null && el.statusSms !== null && el.prize.akun == "reguler" && el.statusSms.code == 0
-              ).length
-            });
-            commit("basic", {
-              key: "otpAll",
-              value: r.data.filter(el => el.prize !== null && el.prize.akun == "premium").length
-            });
-            commit("basic", {
               key: "smsAll",
               value: r.data.length
             });
             commit("basic", {
+              key: "blastAll",
+              value: r.data.filter(
+                el => el.prize !== null && el.statusSms !== undefined && el.prize.akun == "reguler" && el.statusSms.code == 0
+              ).length
+            });
+            commit("basic", {
+              key: "otpAll",
+              value: r.data.filter(el => el.prize !== null && el.statusSms !== undefined && el.prize.akun == "premium" && el.statusSms.code == 0).length
+            });
+            
+            commit("basic", {
               key: "deliveredAll",
-              value: r.data.filter(el => el.statusSms !== null && el.statusSms.code == 0).length
+              value: r.data.filter(el => el.statusSms !== undefined && el.statusSms.code == 0).length
             });
             // commit("blast", r.data)
             // commit("otp", r.data)

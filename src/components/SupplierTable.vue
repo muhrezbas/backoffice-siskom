@@ -1,12 +1,12 @@
 <template>
   <modal-box v-model="isModalActive" title="Edit Country" :submit="putCountry">
-    <field label="Kode">
-      <control v-model="userData.kode" name="kode" required autocomplete="kode" />
+    <field label="Name">
+      <control v-model="userData.protocol" name="name" required autocomplete="name" />
+    </field>
+    <field label="TPS">
+      <control v-model="userData.tps" name="tps" required autocomplete="tps" />
     </field>
 
-    <field label="Region">
-      <control v-model="userData.region" name="region" required autocomplete="region" />
-    </field>
   </modal-box>
 
   <modal-box
@@ -22,7 +22,7 @@
     <thead>
       <tr>
         <th>ID</th>
-        <!-- <th>Kode</th> -->
+        <th>TPS</th>
         <th>Name</th>
         <!-- <th></th> -->
       </tr>
@@ -31,25 +31,20 @@
       <tr v-for="country in itemsPaginated" :key="country.id">
         <td v-if="country.bind == false" style="background-color :#F2DEDF">{{ country._id }}</td>
         <td v-else style="background-color :#DCF2C9">{{ country._id }}</td>
+        <td v-if="country.bind == false" style="background-color :#F2DEDF" data-label="TPS">{{ country.tps }}</td>
+        <td v-else style="background-color :#DCF2C9" data-label="TPS">{{ country.tps }}</td>
         <td
           v-if="country.bind == false"
           data-label="Name"
           style="background-color :#F2DEDF"
         >{{ country.protocol }}</td>
         <td v-else data-label="Name" style="background-color :#DCF2C9">{{ country.protocol }}</td>
-        <!-- <td data-label="Kode">{{ country.kode }}</td> -->
-        <!-- <td class="actions-cell">
+
+        <td class="actions-cell">
           <jb-buttons type="justify-start lg:justify-end" no-wrap>
             <jb-button class="mr-3" color="info" :icon="mdiEye" small @click="clickEye(country)" />
-            <jb-button
-              class="mr-3"
-              color="info"
-              :icon="mdiTrashCan"
-              small
-              @click="clickTrash(country)"
-            />
           </jb-buttons>
-        </td>-->
+        </td>
       </tr>
     </tbody>
   </table>
@@ -98,8 +93,8 @@ export default {
     const store = useStore();
     const userData = computed(() =>
       reactive({
-        kode: "",
-        region: "",
+        protocol: "",
+        tps: "",
         _id: ""
       })
     )
@@ -114,8 +109,8 @@ export default {
     });
     const clickEye = (payload) => {
       //console.log(payload, "tesr")
-      userData.value.kode = payload.kode
-      userData.value.region = payload.region
+      userData.value.protocol = payload.protocol
+      userData.value.tps = payload.tps
       userData.value._id = payload._id
 
       isModalActive.value = true
@@ -168,14 +163,14 @@ export default {
         });
     }
     const putCountry = () => {
-      //console.log(userData.value)
+      console.log(userData.value)
       let keyword = {
-        kode: userData.value.kode,
-        region: userData.value.region
+        protocol: userData.value.protocol,
+        tps: userData.value.tps
       }
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
-        "api/operators/editCountry/" + userData.value._id + "/";
+        "api/users/editProtocol/" + userData.value._id ;
       // commit("auth_request");
       axios
         .put(loginUrl, keyword, {
@@ -184,18 +179,18 @@ export default {
           },
         })
         .then((r) => {
-          userData.value.kode = ""
-          userData.value.region = ""
+          userData.value.protocol = ""
+          userData.value.tps = ""
           userData.value._id = ""
 
           if (r.data) {
             Swal.fire({
-              title: "EDIT Country!",
+              title: "EDIT Supplier!",
               text: "Success",
               icon: "success",
             });
           }
-          store.dispatch("fetchCountrys");
+          store.dispatch("fetchProtocol");
           isModalActive.value = false
 
         })

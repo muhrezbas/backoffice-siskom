@@ -2,34 +2,49 @@
   <title-bar :title-stack="titleStack" />
   <hero-bar>Dashboard</hero-bar>
   <main-section>
+    <select style="width:150px; margin-right: 25px" v-model="userData.filterTime" class="w-full">
+      <option
+        v-for="option in [{ name: '10 Min', value: 10 }, { name: '15 Min', value: 15 }, { name: '30 Min', value: 30 }, { name: '1 Hour', value: 60 }, { name: '3 Hour', value: 240 }, { name: '6 Hour', value: 480 }, { name: '12 Hour', value: 960 }, { name: '1 Days', value: 1920 }, { name: '7 days', value: 10080 }, { name: '28 days', value: 40320 }, { name: 'All Time', value: 'alltime' }]"
+        :key="option"
+        :value="option.value"
+      >{{ option.name }}</option>
+    </select>
+    <jb-button class="mr-3" color="info" :icon="mdiSearchWeb" small @click="filter(perPage)" />
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 mb-6">
       <card-widget
         class="tile"
         color="text-blue-500"
         :icon="mdiCellphoneMessage"
-        :number="$store.state.smsAll"
+        :number="sms.length"
         label="Number of SMS"
       />
       <card-widget
         class="tile"
         color="text-yellow-500"
         :icon="mdiCheckboxMarked"
-        :number="$store.state.deliveredAll"
+        :number="sms.filter(el => el.statusSms !== undefined && el.prize !== null && el.statusSms.code == 0).length"
         label="SMS Delivered"
       />
       <card-widget
         class="tile"
         color="text-purple-500"
         :icon="mdiFlash"
-        :number="$store.state.blastAll"
+        :number="sms.filter(el => el.statusSms !== undefined && el.prize !== null && el.statusSms.code == 0 && el.prize.akun == 'reguler').length"
         label="SMS Blast"
       />
       <card-widget
         class="tile"
         color="text-green-500"
         :icon="mdiChartTimelineVariant"
-        :number="$store.state.otpAll"
+        :number="sms.filter(el => el.statusSms !== undefined && el.prize !== null && el.statusSms.code == 0 && el.prize.akun == 'premium').length"
         label="OTP"
+      />
+      <card-widget
+        class="tile"
+        color="text-red-500"
+        :icon="mdiChartTimelineVariant"
+        :number="sms.filter(el => el.statusSms !== undefined && el.prize !== null && el.statusSms.code !== 0 || el.statusSms == undefined).length"
+        label="NOT SENT"
       />
     </div>
 
@@ -68,7 +83,7 @@
 <script>
 /* eslint-disable */
 // @ is an alias to /src
-import { ref, onMounted } from "vue";
+import { computed, ref, onMounted, reactive } from "vue";
 import { useStore } from "vuex";
 import {
   mdiAccountMultiple,
@@ -79,6 +94,8 @@ import {
   mdiCellphoneMessage,
   mdiMonitorCellphone,
   mdiMessageProcessing,
+  mdiEye,
+  mdiSearchWeb,
   mdiCellphoneKey,
   mdiBullhornOutline,
   mdiReload,
@@ -93,6 +110,8 @@ import HeroBar from "@/components/HeroBar";
 import CardWidget from "@/components/CardWidget";
 import CardComponent from "@/components/CardComponent";
 import ErrorAccess from "../components/ErrorAccess.vue";
+import JbButtons from "@/components/JbButtons";
+import JbButton from "@/components/JbButton";
 
 // import ClientsTable from '@/components/ClientsTable'
 // import JbButton from '@/components/JbButton'
@@ -106,16 +125,18 @@ export default {
     SmsTable,
     CardComponent,
     CardWidget,
+    JbButton,
     HeroBar,
+    JbButtons,
     TitleBar,
     ErrorAccess
     // JbButton
   },
-  computed: {
-    sms() {
-      return this.$store.state.sms;
-    }
-  },
+  // computed: {
+  //   sms() {
+  //     return this.$store.state.sms;
+  //   }
+  // },
   setup() {
     const store = useStore();
     onMounted(async () => {
@@ -129,8 +150,38 @@ export default {
       //console.log(store.state.smsAll, "sms All letes");
     });
     //console.log(store.state.sms, "dapetkan");
+
     //console.log(store.state.smsAll, "sms All");
+    const userData = computed(() =>
+      reactive({
+        toTime: new Date(-8640000000000000),
+        filterTime: 'alltime',
+        // smsBlast : sms.value.filter(el => el.prize !== null && el.statusSms !== undefined && el.prize.akun == "reguler" && el.statusSms.code == 0)
+      })
+    )
+    // const toTime = new Date(-8640000000000000);;
+    // console.log(toTime.getTime(), "to Time")
+
     const titleStack = ref(["Admin", "Dashboard"]);
+    const sms = computed(() => store.state.sms.filter((admin) => {
+      return new Date(admin.createdAt).getTime() >= userData.value.toTime.getTime() &&
+        new Date(admin.createdAt).getTime() <= new Date()
+    }));
+    console.log(sms.value, "tester")
+    const filter = (payload) => {
+      if (userData.value.filterTime == 'alltime') {
+        userData.value.toTime = new Date(-8640000000000000)
+      }
+      else {
+        console.log(payload, "tesr")
+        var d = new Date();
+
+
+        userData.value.toTime = new Date(d.setMinutes(d.getMinutes() - userData.value.filterTime))
+        console.log(userData.value.toTime)
+      }
+
+    }
 
     const chartData = ref(null);
     const chartColors = {
@@ -138,7 +189,8 @@ export default {
         primary: "#00D1B2",
         info: "purple",
         yellow: "yellow",
-        blue: "blue"
+        blue: "blue",
+        red: "red",
         // danger: '#FF3860'
       }
     };
@@ -190,14 +242,6 @@ export default {
         cubicInterpolationMode: "default"
       };
     };
-    console.log(
-      store.state.smsClient.filter(el => el.prize.akun == "premium"),
-      "client prem"
-    );
-    console.log(
-      store.state.smsClient.filter(el => el.prize.akun == "reguler"),
-      "client reg"
-    );
     const sampleChartData = (points = 12) => {
       const labels = [
         "January",
@@ -223,20 +267,25 @@ export default {
         datasets: [
           datasetObject(
             "primary",
-            store.state.sms.filter(el => el.prize !== null && el.statusSms !== null && el.prize.akun == "premium"),
+            sms.value.filter(el => el.prize !== null && el.statusSms !== null && el.prize.akun == "premium"),
             labels
           ),
           datasetObject(
             "info",
-            store.state.sms.filter(
-              el => el.prize !== null && el.statusSms !== null && el.prize.akun == "reguler" && el.statusSms.code == 0
+            sms.value.filter(
+              el => el.prize !== null && el.statusSms !== undefined && el.prize.akun == "reguler" && el.statusSms.code == 0
             ),
             labels
           ),
-          datasetObject("blue", store.state.sms, labels),
+          datasetObject("blue", sms.value, labels),
           datasetObject(
             "yellow",
-            store.state.sms.filter(el => el.statusSms !== null && el.statusSms.code == 0),
+            sms.value.filter(el => el.statusSms !== undefined && el.statusSms.code == 0),
+            labels
+          ),
+          datasetObject(
+            "red",
+            sms.value.filter(el => el.statusSms !== undefined && el.prize !== undefined && el.statusSms.code !== 0 || el.statusSms == undefined),
             labels
           )
           // datasetObject('danger', points)
@@ -260,13 +309,18 @@ export default {
       fillChartData,
       tkn,
       mdiAccountMultiple,
+      sms,
       mdiCheckboxMarked,
       mdiChartTimelineVariant,
+      filter,
+      mdiEye,
       mdiFinance,
       mdiCellphoneMessage,
       mdiMonitorCellphone,
+      mdiSearchWeb,
       mdiMessageProcessing,
       mdiCellphoneKey,
+      userData,
       mdiBullhornOutline,
       mdiReload,
       mdiFlash,

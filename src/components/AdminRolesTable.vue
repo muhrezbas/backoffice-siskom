@@ -568,7 +568,7 @@ const items = computed(() => store.state.adminRoles.filter((admin) => {
       dataOld.selectOld = dataSelect
 
       userData.value.select = dataSelect
-      userData.value.unselect = []
+      userData.value.anjay = []
       //console.log(userData.value.select, "sekect")
       // userData.value
       //console.log(userData.value.permission, "sbelum")

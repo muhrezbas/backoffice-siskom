@@ -34,9 +34,10 @@
       <tr v-for="sms in itemsPaginated" :key="sms.id">
         <td>{{ sms.id }}</td>
         <td
-          v-if="sms.protocol != undefined"
+          v-if="sms.protocol != undefined && sms.prize !== null"
           data-label="Carrier"
         >{{ sms.protocol.supplier }} {{ sms.prize.akun }}</td>
+        <!-- <td v-if="sms.protocol != undefined && sms.prize == null" data-label="Carrier">{{ sms.protocol.supplier }}</td> -->
         <td v-else data-label="Carrier">-</td>
         <td data-label="Out Msg ID">{{ sms.carrierMsgID }}</td>
         <td data-label="In Msg ID">{{ sms.refno }}</td>
@@ -67,10 +68,18 @@
           >{{ sms.statusSms.label }}</p>
           <p v-else class="text-red-700">{{ sms.statusSms["label"] }}</p>
         </td>
+          <td data-label="Status" v-else>
+          <!-- <p v-if="sms.status == 0" class="text-red-700">Error</p> -->
+
+          <p class="text-red-700">Uknown</p>
+        </td>
         <td data-label="Type" v-if="sms.prize !== null">
           <!-- <p>{{ sms.prize }}</p> -->
-          <p v-if="sms.prize.akun == 'premium'" class="text-yellow-500">OTP</p>
-          <p v-if="sms.prize.akun == 'reguler'" class="text-blue-500">SMS Blast</p>
+          <p v-if="sms.prize !== null && sms.prize.akun == 'premium'" class="text-yellow-500">OTP</p>
+          <p
+            v-if="sms.prize !== null && sms.prize.akun == 'reguler'"
+            class="text-blue-500"
+          >SMS Blast</p>
         </td>
         <!-- <td class="actions-cell">
         <jb-buttons type="justify-start lg:justify-end" no-wrap>
