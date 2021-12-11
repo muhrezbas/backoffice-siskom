@@ -1,22 +1,25 @@
 <template>
   <modal-box v-model="paramWindow" title="Set Parameter" :submit="postClient">
-    <field label="Blend" wrap-body>
-      <check-radio-picker
-        name="sample-radio"
-        type="radio"
-        v-model="userData.blending"
-        :options="{ true: 'Yes', false: 'No' }"
-      ></check-radio-picker>
-    </field>
-    <field label="Drop" wrap-body>
-      <check-radio-picker
-        name="radio"
-        type="radio"
-        v-model="userData.droping"
-        :options="{ true: 'Yes', false: 'No' }"
-      ></check-radio-picker>
-    </field>
     <div class="overflow-y-auto overflow-x-hidden max-h-paramMobile md:max-h-paramDesktop">
+      <div class="flex flex-wrap">
+        <field label="Blend" wrap-body>
+          <check-radio-picker
+            name="sample-radio"
+            type="radio"
+            v-model="userData.blending"
+            :options="{ true: 'Yes', false: 'No' }"
+          ></check-radio-picker>
+        </field>
+        <div class="mx-12" />
+        <field label="Drop" wrap-body>
+          <check-radio-picker
+            name="radio"
+            type="radio"
+            v-model="userData.droping"
+            :options="{ true: 'Yes', false: 'No' }"
+          ></check-radio-picker>
+        </field>
+      </div>
       <div class="flex flex-wrap -mx-3 mb-6">
         <field label="Username" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <control v-model="userData.username" name="prize" required autocomplete="prize" />
@@ -71,7 +74,7 @@
             {{ userData.operators[oper._id][index] }}
             <select
               v-model="userData.operators[oper._id][index]"
-              class="w-1/4 mb-2 ml-1"
+              class="w-full my-2"
               v-for="(deta, index) in $store.state.protocol"
               :key="index"
             >

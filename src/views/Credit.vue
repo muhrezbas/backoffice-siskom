@@ -1,49 +1,51 @@
 <template>
   <modal-box v-model="paramWindow" title="Set Parameter" :submit="postPrize">
-    <field label="Tipe Account">
-      <select v-model="userData.akun" class="w-full">
-        <option v-for="option in ['reguler', 'premium']" :key="option" :value="option">{{ option }}</option>
-      </select>
-    </field>
+    <div class="overflow-y-auto overflow-x-hidden max-h-paramMobile md:max-h-paramDesktop">
+      <field label="Tipe Account">
+        <select v-model="userData.akun" class="w-full">
+          <option v-for="option in ['reguler', 'premium']" :key="option" :value="option">{{ option }}</option>
+        </select>
+      </field>
 
-    <field label="Credit">
-      <control v-model="userData.total" name="prize" required autocomplete="prize" />
-    </field>
-    <field label="Code Credit">
-      <control v-model="userData.kodeCreditClient" name="prize" required autocomplete="prize" />
-    </field>
+      <field label="Credit">
+        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+      </field>
+      <field label="Code Credit">
+        <control v-model="userData.kodeCreditClient" name="prize" required autocomplete="prize" />
+      </field>
 
-    <field label="Tax">
-      <control v-model="userData.tax" name="tax" required autocomplete="tax" />
-    </field>
-    <field label="Client">
-      <select v-model="userData.client" class="w-full">
-        <option
-          v-for="option in $store.state.clients"
-          :key="option._id ?? option"
-          :value="option._id"
-        >{{ option.companyName ?? option }}</option>
-      </select>
-    </field>
-    <field label="Price of mitracomm">
-      <select v-model="userData.prize" class="w-full">
-        <option
-          v-for="option in $store.state.prize"
-          :key="option._id ?? option"
-          :value="option._id"
-        >{{ option.kodePrize ?? option }}</option>
-      </select>
-    </field>
+      <field label="Tax">
+        <control v-model="userData.tax" name="tax" required autocomplete="tax" />
+      </field>
+      <field label="Client">
+        <select v-model="userData.client" class="w-full">
+          <option
+            v-for="option in $store.state.clients"
+            :key="option._id ?? option"
+            :value="option._id"
+          >{{ option.companyName ?? option }}</option>
+        </select>
+      </field>
+      <field label="Price of mitracomm">
+        <select v-model="userData.prize" class="w-full">
+          <option
+            v-for="option in $store.state.prize"
+            :key="option._id ?? option"
+            :value="option._id"
+          >{{ option.kodePrize ?? option }}</option>
+        </select>
+      </field>
 
-    <field label="Operator">
-      <select v-model="userData.operator" class="w-full">
-        <option
-          v-for="option in $store.state.operator"
-          :key="option._id ?? option"
-          :value="option._id"
-        >{{ option.nickname ?? option }}</option>
-      </select>
-    </field>
+      <field label="Operator">
+        <select v-model="userData.operator" class="w-full">
+          <option
+            v-for="option in $store.state.operator"
+            :key="option._id ?? option"
+            :value="option._id"
+          >{{ option.nickname ?? option }}</option>
+        </select>
+      </field>
+    </div>
   </modal-box>
   <title-bar :title-stack="titleStack" />
   <hero-bar class="mb-5">Settings</hero-bar>
