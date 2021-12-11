@@ -12,13 +12,15 @@
       <tr>
         <th></th>
         <th>Carrier</th>
+        <th>Coding</th>
+        <th>UDH Length</th>
         <th>Out Msg ID</th>
         <th>In Msg ID</th>
         <th>Customer</th>
-        <th style="width: 200px;">SMS In</th>
-        <th style="width: 200px;">SMS Out</th>
-        <th style="width: 200px;">DLR In</th>
-        <th style="width: 200px;">DLR Out</th>
+        <th>SMS In</th>
+        <th>SMS Out</th>
+        <th>DLR In</th>
+        <th>DLR Out</th>
         <th>Sender</th>
         <th>Out Sender</th>
         <th>Receiver</th>
@@ -38,7 +40,9 @@
           data-label="Carrier"
         >{{ sms.protocol.supplier }} {{ sms.prize.akun }}</td>
         <!-- <td v-if="sms.protocol != undefined && sms.prize == null" data-label="Carrier">{{ sms.protocol.supplier }}</td> -->
-        <td v-else data-label="Carrier">-</td>
+        <td v-else data-label="Carrier"></td>
+        <td data-label="Coding">{{ sms.coding }}</td>
+        <td data-label="UDH Length">{{ sms.udh }}</td>
         <td data-label="Out Msg ID">{{ sms.carrierMsgID }}</td>
         <td data-label="In Msg ID">{{ sms.refno }}</td>
         <td data-label="Customer">{{ sms.client.companyName }}</td>
