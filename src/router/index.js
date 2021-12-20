@@ -227,6 +227,16 @@ const routes = [
   },
   {
     meta: {
+      title: "Error Mapping Setting",
+      requiresAuth: true
+    },
+    path: "/admin/errorMapping",
+    name: "errorMapping",
+    component: () =>
+      import(/* webpackChunkName: "profile" */ "../views/ErrorMapping")
+  },
+  {
+    meta: {
       title: "Country Setting",
       requiresAuth: true
     },

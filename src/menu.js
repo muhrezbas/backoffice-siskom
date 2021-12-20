@@ -129,6 +129,11 @@ export default [
           to: "/admin/keywordReguler",
           icon: mdiFormatText,
           label: "Keyword Restriction on Regular"
+        },
+        {
+          to: "/admin/errorMapping",
+          icon: mdiFormatText,
+          label: "Error Mapping"
         }
       ]
     },

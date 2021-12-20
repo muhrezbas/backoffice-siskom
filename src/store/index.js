@@ -28,11 +28,14 @@ export default createStore({
     credit: [],
     clients: [],
     client: {},
+    our:[],
     saldo: 0,
     blast: 0,
     adminRoles: [],
     AdminUnsel: [],
     AdminWithRoles: [],
+    submit : [],
+    delivery : [],
     otp: 0,
     searchMaterial: [],
     blastAll: 0,
@@ -46,6 +49,7 @@ export default createStore({
     senderid: [],
     search: "",
     errorAccess: false,
+    statusSms: [],
     // transaction: [],
     protocol: [],
     topup: [],
@@ -932,7 +936,7 @@ export default createStore({
     fetchProtocol({ commit }) {
       const countryUrl = process.env.VUE_APP_BASE_URL + "api/users/protocol/";
       console.log("senderidss");
-      axios
+      return axios
         .get(countryUrl, {
           headers: {
             token: localStorage.getItem("token")
@@ -953,6 +957,7 @@ export default createStore({
                 return new Date(b.createdAt) - new Date(a.createdAt);
               })
             });
+            return r.data
           }
         })
         .catch(error => {
@@ -1130,7 +1135,151 @@ export default createStore({
           console.log(error.response, "erorr bro");
           alert(error);
         });
-    }
+    },
+    fetchDelivery({ commit }) {
+      const adminUrl = process.env.VUE_APP_BASE_URL + "api/admins/clientError/";
+      return axios
+        .get(adminUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
+            commit("basic", {
+              key: "delivery",
+              value: r.data.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
+            });
+            return r.data
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          // if (error.message == "Request failed with status code 403") {
+          //   commit("basic", {
+          //     key: "errorAccess",
+          //     value: true
+          //   });
+          // }
+          // alert(error.message);
+        });
+    },
+    fetchOur({ commit }) {
+      const adminUrl = process.env.VUE_APP_BASE_URL + "api/admins/ourError/";
+      return axios
+        .get(adminUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
+            commit("basic", {
+              key: "our",
+              value: r.data.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
+            });
+            return r.data
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          // if (error.message == "Request failed with status code 403") {
+          //   commit("basic", {
+          //     key: "errorAccess",
+          //     value: true
+          //   });
+          // }
+          // alert(error.message);
+        });
+    },
+    fetchSubmit({ commit }) {
+      const adminUrl = process.env.VUE_APP_BASE_URL + "api/admins/submitError/";
+      return axios
+        .get(adminUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
+            commit("basic", {
+              key: "submit",
+              value: r.data.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
+            });
+            return r.data
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          // if (error.message == "Request failed with status code 403") {
+          //   commit("basic", {
+          //     key: "errorAccess",
+          //     value: true
+          //   });
+          // }
+          // alert(error.message);
+        });
+    },
+    fetchStatusSms({ commit }) {
+      const adminUrl = process.env.VUE_APP_BASE_URL + "api/admins/statusSms/";
+      return axios
+        .get(adminUrl, {
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          if (r.data) {
+            commit("basic", {
+              key: "errorAccess",
+              value: false
+            });
+            commit("basic", {
+              key: "statusSms",
+              value: r.data.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
+            });
+            return r.data
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          // if (error.message == "Request failed with status code 403") {
+          //   commit("basic", {
+          //     key: "errorAccess",
+          //     value: true
+          //   });
+          // }
+          // alert(error.message);
+        });
+    },
   },
 
   modules: {}

@@ -13,7 +13,7 @@
         <th></th>
         <th>Carrier</th>
         <th>Coding</th>
-        <th>UDH Length</th>
+        <!-- <th>UDH Length</th> -->
         <th>Out Msg ID</th>
         <th>In Msg ID</th>
         <th>Customer</th>
@@ -27,6 +27,9 @@
         <th>Operator</th>
         <th>Credit</th>
         <th>Message</th>
+        <th>Status Response</th>
+        <th>Status Delivery Response</th>
+
         <th>Status</th>
         <th>Type</th>
         <!-- <th></th> -->
@@ -42,37 +45,40 @@
         <!-- <td v-if="sms.protocol != undefined && sms.prize == null" data-label="Carrier">{{ sms.protocol.supplier }}</td> -->
         <td v-else data-label="Carrier"></td>
         <td data-label="Coding">{{ sms.coding }}</td>
-        <td data-label="UDH Length">{{ sms.udh }}</td>
+        <!-- <td data-label="UDH Length">{{ sms.udh }}</td> -->
         <td data-label="Out Msg ID">{{ sms.carrierMsgID }}</td>
         <td data-label="In Msg ID">{{ sms.refno }}</td>
         <td data-label="Customer">{{ sms.client.companyName }}</td>
         <td data-label="SmsIn">{{ formatDate(sms.smsIn) }}</td>
         <td data-label="SmsOut">{{ formatDate(sms.smsOut) }}</td>
-        <td
-          v-if="sms.statusSms !== undefined && sms.statusSms.code == 0"
-          data-label="DlrIn"
-        >{{ formatDate(sms.dlrIn) }}</td>
-        <td v-else data-label="DlrIn">-</td>
-        <td
-          v-if="sms.statusSms !== undefined && sms.statusSms.code == 0"
-          data-label="DlrOut"
-        >{{ formatDate(sms.createdAt) }}</td>
-        <td v-else data-label="DlrOut">-</td>
+        <td data-label="DlrIn">{{ formatDate(sms.dlrIn) }}</td>
+        <td data-label="DlrOut">{{ formatDate(sms.dlrOut) }}</td>
         <td data-label="Sender">{{ sms.masking }}</td>
         <td data-label="OutSender">{{ sms.masking }}</td>
         <td data-label="Receiver">{{ sms.msisdn }}</td>
         <td data-label="Operator" v-if="sms.prize !== null">{{ sms.prize.operator.name }}</td>
         <td data-label="Credit" v-if="sms.prize !== null">{{ sms.prize.total }}</td>
         <td data-label="Message">{{ sms.message }}</td>
+        <td
+          data-label="Status Response"
+          v-if="sms.submitSms !== undefined"
+        >{{ sms.submitSms.label }}, {{ sms.submitSms.code }}</td>
+        <td data-label="Status Response" v-else>-</td>
+        <td
+          data-label="Status Delivery Response"
+          v-if="sms.statusDelivery !== undefined"
+        >{{ sms.statusDelivery.label }}, {{ sms.statusDelivery.code }}</td>
+        <td data-label="Status Delivery Response" v-else>-</td>
         <td data-label="Status" v-if="sms.statusSms !== undefined">
           <!-- <p v-if="sms.status == 0" class="text-red-700">Error</p> -->
+          <!-- {{sms.statusSms}} -->
           <p
-            v-if="sms.statusSms !== undefined && sms.statusSms.code == 0"
+            v-if="sms.statusSms !== undefined "
             class="text-blue-300"
           >{{ sms.statusSms.label }}</p>
           <p v-else class="text-red-700">{{ sms.statusSms["label"] }}</p>
         </td>
-          <td data-label="Status" v-else>
+        <td data-label="Status" v-else>
           <!-- <p v-if="sms.status == 0" class="text-red-700">Error</p> -->
 
           <p class="text-red-700">Uknown</p>
