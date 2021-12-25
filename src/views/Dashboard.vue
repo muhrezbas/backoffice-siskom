@@ -9,8 +9,11 @@
     >
       <option
         v-for="option in [
-          { name: '6 Hour', value: 360 },
-          { name: '1 Days', value: 1440 },
+          { name: '12 Minutes', value: 1 },
+          { name: '1 Hour', value: 5 },
+          { name: '6 Hour', value: 30 },
+          { name: '12 Hour', value: 60 },
+          { name: '1 Days', value: 120 },
           { name: '7 days', value: 10080 },
           { name: '28 days', value: 40320 },
           { name: 'All Time', value: 'alltime' }
@@ -430,10 +433,16 @@ export default {
 
     const declareLabelRange = () => {
       switch (userData.value.filterTime) {
-        case 360:
-          return chartLabelHours(360);
-        case 1440:
-          return chartLabelDays(1440);
+        case 1:
+          return chartLabelHours(1);
+        case 5:
+          return chartLabelHours(5);
+        case 30:
+          return chartLabelHours(30);
+        case 60:
+          return chartLabelHours(60);
+        case 120:
+          return chartLabelHours(120);
         case 10080:
           return chartLabelDays(10080);
         case 40320:

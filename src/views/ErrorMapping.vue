@@ -4,15 +4,30 @@
       class="overflow-y-auto overflow-x-hidden max-h-paramMobile md:max-h-paramDesktop :max-h-paramDesktop"
     >
       <field label="Label">
-        <control v-model="submitData.label" name="label" required autocomplete="label" />
+        <control
+          v-model="submitData.label"
+          name="label"
+          required
+          autocomplete="label"
+        />
       </field>
 
       <field label="Kode">
-        <control v-model="submitData.code" name="code" required autocomplete="code" />
+        <control
+          v-model="submitData.code"
+          name="code"
+          required
+          autocomplete="code"
+        />
       </field>
       <field label="Paid">
         <select v-model="submitData.paid" class="w-full">
-          <option v-for="option in [true, false]" :key="option" :value="option">{{ option }}</option>
+          <option
+            v-for="option in [true, false]"
+            :key="option"
+            :value="option"
+            >{{ option }}</option
+          >
         </select>
         <!-- <control v-model="submitData.paid" name="paid" required autocomplete="paid" /> -->
       </field>
@@ -57,20 +72,38 @@
       class="overflow-y-auto overflow-x-hidden max-h-paramMobile md:max-h-paramDesktop :max-h-paramDesktop"
     >
       <field label="Label">
-        <control v-model="ourData.label" name="label" required autocomplete="label" />
+        <control
+          v-model="ourData.label"
+          name="label"
+          required
+          autocomplete="label"
+        />
       </field>
 
       <field label="Kode">
-        <control v-model="ourData.code" name="code" required autocomplete="code" />
+        <control
+          v-model="ourData.code"
+          name="code"
+          required
+          autocomplete="code"
+        />
       </field>
 
-       <field label="Status SMPP" class="w-full">
+      <field label="Status SMPP" class="w-full">
         <select v-model="ourData.dlr" style="width: 100%;">
-        <option
-            v-for="option in ['DELIVRD', 'ACCEPTD', 'REJECTED', 'UNKNOWN', 'EXPIRED', 'UNDELIV']"
+          <option
+            v-for="option in [
+              'DELIVRD',
+              'ACCEPTD',
+              'REJECTED',
+              'UNKNOWN',
+              'EXPIRED',
+              'UNDELIV'
+            ]"
             :key="option"
             :value="option"
-          >{{ option }}</option>
+            >{{ option }}</option
+          >
         </select>
       </field>
       <!-- <field label="Status SMS">
@@ -109,16 +142,30 @@
       </card-component>
     </div>
   </modal-box>
-  <modal-box v-model="deliveryWindow" title="Set Parameter" :submit="deliverySubmit">
+  <modal-box
+    v-model="deliveryWindow"
+    title="Set Parameter"
+    :submit="deliverySubmit"
+  >
     <div
       class="overflow-y-auto overflow-x-hidden max-h-paramMobile md:max-h-paramDesktop :max-h-paramDesktop"
     >
       <field label="Label">
-        <control v-model="deliveryData.label" name="label" required autocomplete="label" />
+        <control
+          v-model="deliveryData.label"
+          name="label"
+          required
+          autocomplete="label"
+        />
       </field>
 
       <field label="Kode">
-        <control v-model="deliveryData.code" name="code" required autocomplete="code" />
+        <control
+          v-model="deliveryData.code"
+          name="code"
+          required
+          autocomplete="code"
+        />
       </field>
       <field label="Supplier" class="w-full">
         <select v-model="deliveryData.protocol" style="width: 100%;">
@@ -126,7 +173,8 @@
             v-for="option in $store.state.protocol"
             :key="option._id ?? option"
             :value="option._id"
-          >{{ option.supplier ?? option }}</option>
+            >{{ option.supplier ?? option }}</option
+          >
         </select>
       </field>
       <field label="Mapping Error" class="w-full">
@@ -135,7 +183,8 @@
             v-for="option in $store.state.our"
             :key="option._id ?? option"
             :value="option._id"
-          >{{ option.label ?? option }}</option>
+            >{{ option.label ?? option }}</option
+          >
         </select>
       </field>
     </div>
@@ -147,10 +196,13 @@
     v-model="csvData.file"
     :confirm="csvData.file == null ? false : true"
     :csvFunction="uploadCsv"
-  >Settings</hero-bar>
+    >Settings</hero-bar
+  >
 
   <div id="country" v-if="$store.state.errorAccess == false">
-    <hero-bar param :paramFunction="openParamWindow" search>SMS Response</hero-bar>
+    <hero-bar param :paramFunction="openParamWindow" search
+      >SMS Response</hero-bar
+    >
 
     <main-section>
       <card-component has-table>
@@ -160,7 +212,9 @@
   </div>
 
   <div id="country" v-if="$store.state.errorAccess == false">
-    <hero-bar param :paramFunction="openOurWindow" search>SMS Status Delivery</hero-bar>
+    <hero-bar param :paramFunction="openOurWindow" search
+      >SMS Status Delivery</hero-bar
+    >
 
     <main-section>
       <card-component has-table>
@@ -170,7 +224,9 @@
   </div>
 
   <div id="country" v-if="$store.state.errorAccess == false">
-    <hero-bar param :paramFunction="openDeliveryWindow" search>SMS Status Delivery Mapping</hero-bar>
+    <hero-bar param :paramFunction="openDeliveryWindow" search
+      >SMS Status Delivery Mapping</hero-bar
+    >
 
     <main-section>
       <card-component has-table>
@@ -222,7 +278,7 @@ import HeroBar from "@/components/HeroBar";
 import CardComponent from "@/components/CardComponent";
 import SubmitTable from "@/components/SubmitTable";
 import DeliveryTable from "@/components/DeliveryTable";
-import OurTable from "@/components/OurTable"
+import OurTable from "@/components/OurTable";
 import UsersTable from "@/components/UsersTable";
 import Notification from "@/components/Notification";
 import JbButtons from "@/components/JbButtons";
@@ -251,7 +307,7 @@ export default {
   },
   setup() {
     const store = useStore();
-    const titleStack = ref(["Admin", "Settings", "Country"]);
+    const titleStack = ref(["Admin", "Settings", "Error Mapping"]);
 
     const chartData = ref(null);
     const ourWindow = ref(false);
@@ -294,21 +350,21 @@ export default {
     };
 
     const openOurWindow = () => {
-      ourWindow.value = !ourWindow.value
+      ourWindow.value = !ourWindow.value;
     };
 
     const openDeliveryWindow = () => {
-      deliveryWindow.value = !deliveryWindow.value
+      deliveryWindow.value = !deliveryWindow.value;
     };
     const deliverySubmit = () => {
       // console.log(submitData.value);
       let sendData = {
-        "label": deliveryData.value.label,
-        "code": deliveryData.value.code,
-        "protocol": deliveryData.value.protocol,
-        "ourError": deliveryData.value.ourError
-      }
-      console.log(sendData)
+        label: deliveryData.value.label,
+        code: deliveryData.value.code,
+        protocol: deliveryData.value.protocol,
+        ourError: deliveryData.value.ourError
+      };
+      console.log(sendData);
       const loginUrl = process.env.VUE_APP_BASE_URL + "api/admins/clientError/";
       // commit("auth_request");
       axios
@@ -322,7 +378,6 @@ export default {
           deliveryData.value.code = "";
           deliveryData.value.protocol = "";
           deliveryData.value.ourError = "";
-
 
           if (r.data) {
             Swal.fire({
@@ -350,18 +405,18 @@ export default {
     const ourSubmit = () => {
       // console.log(submitData.value);
       let sendData = {
-        "label": ourData.value.label,
-        "code": ourData.value.code,
-        "statusSms": [],
-        "dlr": ourData.value.dlr
-      }
+        label: ourData.value.label,
+        code: ourData.value.code,
+        statusSms: [],
+        dlr: ourData.value.dlr
+      };
       ourData.value.statusSms.forEach(element => {
         if (element.check == true) {
           // console.log(element.check)
-          sendData.statusSms.push(element._id)
+          sendData.statusSms.push(element._id);
         }
       });
-      console.log(sendData)
+      console.log(sendData);
       const loginUrl = process.env.VUE_APP_BASE_URL + "api/admins/ourError/";
       // commit("auth_request");
       axios
@@ -400,18 +455,18 @@ export default {
     const postSubmit = () => {
       // console.log(submitData.value);
       let sendData = {
-        "label": submitData.value.label,
-        "code": submitData.value.code,
-        "paid": submitData.value.paid,
-        "statusSms": []
-      }
+        label: submitData.value.label,
+        code: submitData.value.code,
+        paid: submitData.value.paid,
+        statusSms: []
+      };
       submitData.value.statusSms.forEach(element => {
         if (element.check == true) {
           // console.log(element.check)
-          sendData.statusSms.push(element._id)
+          sendData.statusSms.push(element._id);
         }
       });
-      console.log(sendData)
+      console.log(sendData);
       const loginUrl = process.env.VUE_APP_BASE_URL + "api/admins/submitError/";
       // commit("auth_request");
       axios
@@ -449,9 +504,10 @@ export default {
     const uploadCsv = () => {
       //console.log('upload')
       //console.log(csvData.value)
-      const loginUrl = process.env.VUE_APP_BASE_URL + "api/operators/bulkCountries/";
-      let formData = new FormData()
-      formData.append('file', csvData.value.file)
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL + "api/operators/bulkCountries/";
+      let formData = new FormData();
+      formData.append("file", csvData.value.file);
       // commit("auth_request");
       axios
         .post(loginUrl, formData, {
@@ -460,7 +516,7 @@ export default {
           }
         })
         .then(r => {
-          csvData.value.file = null
+          csvData.value.file = null;
 
           if (r.data) {
             Swal.fire({
@@ -483,7 +539,7 @@ export default {
           });
           // alert(error.message);
         });
-    }
+    };
     const fillChartData = () => {
       chartData.value = chartConfig.sampleChartData();
     };
@@ -492,16 +548,14 @@ export default {
       fillChartData();
       const peot = await store.dispatch("fetchProtocol");
       const res = await store.dispatch("fetchStatusSms");
-      const our = await store.dispatch("fetchOur")
+      const our = await store.dispatch("fetchOur");
       res.forEach(element => {
-        element.check = false
-        submitData.value.statusSms.push(element)
-        ourData.value.statusSms.push(element)
+        element.check = false;
+        submitData.value.statusSms.push(element);
+        ourData.value.statusSms.push(element);
       });
-      console.log(our, "our")
-      console.log(res, "status")
-
-
+      console.log(our, "our");
+      console.log(res, "status");
     });
 
     return {
