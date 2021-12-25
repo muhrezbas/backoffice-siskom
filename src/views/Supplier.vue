@@ -1,20 +1,28 @@
 <template>
-  <modal-box v-model="paramWindow" title="Set Parameter" :submit="postCountry">
+  <!-- <modal-box v-model="paramWindow" title="Set Parameter" :submit="postCountry">
     <field label="Kode">
-      <control v-model="userData.kode" name="kode" required autocomplete="kode" />
+      <control
+        v-model="userData.kode"
+        name="kode"
+        required
+        autocomplete="kode"
+      />
     </field>
 
     <field label="Region">
-      <control v-model="userData.region" name="region" required autocomplete="region" />
+      <control
+        v-model="userData.region"
+        name="region"
+        required
+        autocomplete="region"
+      />
     </field>
-  </modal-box>
+  </modal-box> -->
   <title-bar :title-stack="titleStack" />
-  <hero-bar
-    class="mb-5"
-  >Settings</hero-bar>
+  <hero-bar class="mb-5">Settings</hero-bar>
 
   <div id="country" v-if="$store.state.errorAccess == false">
-    <hero-bar  search>Suppliers</hero-bar>
+    <hero-bar search>Suppliers</hero-bar>
 
     <main-section>
       <card-component has-table>
@@ -91,15 +99,15 @@ export default {
   },
   setup() {
     const store = useStore();
-    const titleStack = ref(["Admin", "Settings", "Country"]);
+    const titleStack = ref(["Admin", "Settings", "Suppliers"]);
 
     const chartData = ref(null);
 
     const paramWindow = ref(false);
     const userData = computed(() =>
       reactive({
-        kode: "",
-        region: ""
+        tps: "",
+        protocol: ""
       })
     );
     const csvData = computed(() =>
@@ -111,48 +119,49 @@ export default {
     const openParamWindow = () => {
       paramWindow.value = !paramWindow.value;
     };
-    const postCountry = () => {
-      //console.log(userData.value);
-      const loginUrl = process.env.VUE_APP_BASE_URL + "api/operators/country/";
-      // commit("auth_request");
-      axios
-        .post(loginUrl, userData.value, {
-          headers: {
-            token: localStorage.getItem("token")
-          }
-        })
-        .then(r => {
-          userData.value.region = "";
-          userData.value.kode = "";
+    // const postCountry = () => {
+    //   //console.log(userData.value);
+    //   const loginUrl = process.env.VUE_APP_BASE_URL + "api/operators/country/";
+    //   // commit("auth_request");
+    //   axios
+    //     .post(loginUrl, userData.value, {
+    //       headers: {
+    //         token: localStorage.getItem("token")
+    //       }
+    //     })
+    //     .then(r => {
+    //       userData.value.region = "";
+    //       userData.value.kode = "";
 
-          if (r.data) {
-            Swal.fire({
-              title: "ADD Country!",
-              text: "Success",
-              icon: "success"
-            });
-          }
-          store.dispatch("fetchCountrys");
-          paramWindow.value = false;
-        })
-        .catch(error => {
-          //console.log(error);
-          // commit("auth_error");
-          // localStorage.removeItem("token");
-          // Swal.fire({
-          //   title: "TOP UP!",
-          //   text: "Gagal",
-          //   icon: "warning",
-          // });
-          // alert(error.message);
-        });
-    };
+    //       if (r.data) {
+    //         Swal.fire({
+    //           title: "ADD Country!",
+    //           text: "Success",
+    //           icon: "success"
+    //         });
+    //       }
+    //       store.dispatch("fetchCountrys");
+    //       paramWindow.value = false;
+    //     })
+    //     .catch(error => {
+    //       //console.log(error);
+    //       // commit("auth_error");
+    //       // localStorage.removeItem("token");
+    //       // Swal.fire({
+    //       //   title: "TOP UP!",
+    //       //   text: "Gagal",
+    //       //   icon: "warning",
+    //       // });
+    //       // alert(error.message);
+    //     });
+    // };
     const uploadCsv = () => {
       //console.log('upload')
       //console.log(csvData.value)
-      const loginUrl = process.env.VUE_APP_BASE_URL + "api/operators/bulkCountries/";
-      let formData = new FormData()
-      formData.append('file', csvData.value.file)
+      const loginUrl =
+        process.env.VUE_APP_BASE_URL + "api/operators/bulkCountries/";
+      let formData = new FormData();
+      formData.append("file", csvData.value.file);
       // commit("auth_request");
       axios
         .post(loginUrl, formData, {
@@ -161,7 +170,7 @@ export default {
           }
         })
         .then(r => {
-          csvData.value.file = null
+          csvData.value.file = null;
 
           if (r.data) {
             Swal.fire({
@@ -184,7 +193,7 @@ export default {
           });
           // alert(error.message);
         });
-    }
+    };
     const fillChartData = () => {
       chartData.value = chartConfig.sampleChartData();
     };
@@ -210,7 +219,6 @@ export default {
       mdiReload,
       mdiTrashCan,
       mdiGithub,
-      postCountry,
       userData,
       uploadCsv,
       csvData

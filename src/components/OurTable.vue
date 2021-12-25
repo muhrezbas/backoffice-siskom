@@ -1,47 +1,56 @@
 <template>
   <modal-box v-model="isModalActive" title="Edit Country" :submit="putCountry">
     <field label="Label">
-      <control v-model="userData.label" name="label" required autocomplete="label" />
+      <control
+        v-model="userData.label"
+        name="label"
+        required
+        autocomplete="label"
+      />
     </field>
 
     <field label="Kode">
-      <control v-model="userData.code" name="code" required autocomplete="code" />
+      <control
+        v-model="userData.code"
+        name="code"
+        required
+        autocomplete="code"
+      />
     </field>
-     <!-- <field label="Status SMS">
+    <!-- <field label="Status SMS">
       <control v-model="userData.statusSms" name="statusSms" required autocomplete="statusSms" />
     </field> -->
     <card-component has-table>
-        <table>
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th>Description</th>
-              <th>Permission</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody class="font-semibold">
-            <tr v-for="admins in userData.permission" :key="admins.id">
-              <td data-label="Feature">{{ admins.code }}</td>
-              <td data-label="Description">{{ admins.name }}</td>
-              <td class="actions-cell h-0">
-                <jb-buttons type="justify-start lg:justify-start" no-wrap>
-                  <!-- {{admins.check}} -->
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Description</th>
+            <th>Permission</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody class="font-semibold">
+          <tr v-for="admins in userData.permission" :key="admins.id">
+            <td data-label="Feature">{{ admins.code }}</td>
+            <td data-label="Description">{{ admins.name }}</td>
+            <td class="actions-cell h-0">
+              <jb-buttons type="justify-start lg:justify-start" no-wrap>
+                <!-- {{admins.check}} -->
 
-                  <control
-                    v-model="admins.statusSms"
-                    name="check"
-                    type="checkbox"
-                    required
-                    autocomplete="check"
-                  />
-                </jb-buttons>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </card-component>
-
+                <control
+                  v-model="admins.statusSms"
+                  name="check"
+                  type="checkbox"
+                  required
+                  autocomplete="check"
+                />
+              </jb-buttons>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </card-component>
   </modal-box>
 
   <modal-box
@@ -69,10 +78,14 @@
       <!-- {{JSON.stringify($store.state.submit)}} -->
       <tr v-for="country in itemsPaginated" :key="country._id">
         <td>{{ country._id }}</td>
-         <td data-label="Status"><p v-for="status in country.statusSms" :key="status._id"> {{status.label}}</p></td>
-         <td data-label="Kode">{{ country.code }}</td>
+        <td data-label="Status">
+          <p v-for="status in country.statusSms" :key="status._id">
+            {{ status.label }}
+          </p>
+        </td>
+        <td data-label="Kode">{{ country.code }}</td>
         <td data-label="Label">{{ country.label }}</td>
-         <td data-label="SMPP">{{ country.dlr }}</td>
+        <td data-label="SMPP">{{ country.dlr }}</td>
         <!-- <td data-label="Paid">{{ country.paid }}</td> -->
         <!-- <td data-label="Region">{{ country.region.toUpperCase() }}</td> -->
         <!-- <td class="actions-cell">
@@ -111,8 +124,8 @@
 /* eslint-disable */
 import { ref, onMounted, computed, reactive } from "vue";
 import { useStore } from "vuex";
-import Swal from 'sweetalert2'
-import axios from 'axios'
+import Swal from "sweetalert2";
+import axios from "axios";
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import ModalBox from "@/components/ModalBox";
 import Field from "@/components/Field";
@@ -139,60 +152,58 @@ export default {
         region: "",
         _id: ""
       })
-    )
+    );
     onMounted(async () => {
-      console.log('halo bandung')
+      console.log("halo bandung");
       const res = await store.dispatch("fetchOur");
-      console.log(store.state.our, "submit")
+      console.log(store.state.our, "submit");
       //console.log(res, "tes");
       // //console.log(this.$route, "test");
       // fillChartData();
       // //console.log(this.$store.state.client, "tessc");
     });
-    const clickEye = (payload) => {
+    const clickEye = payload => {
       //console.log(payload, "tesr")
-      userData.value.kode = payload.kode
-      userData.value.region = payload.region
-      userData.value._id = payload._id
+      userData.value.kode = payload.kode;
+      userData.value.region = payload.region;
+      userData.value._id = payload._id;
 
-      isModalActive.value = true
-    }
-    const clickTrash = (payload) => {
+      isModalActive.value = true;
+    };
+    const clickTrash = payload => {
       //console.log(payload, "tesr")
 
-      userData.value._id = payload._id
+      userData.value._id = payload._id;
 
-
-      isModalDeleteActive.value = true
-    }
+      isModalDeleteActive.value = true;
+    };
     const deleteCountry = () => {
       //console.log(userData.value, "delete country")
 
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
-        "api/operators/deleteCountry/" + userData.value._id + "/";
+        "api/operators/deleteCountry/" +
+        userData.value._id +
+        "/";
       // commit("auth_request");
       axios
         .delete(loginUrl, {
           headers: {
-            token: localStorage.getItem("token"),
-          },
+            token: localStorage.getItem("token")
+          }
         })
-        .then((r) => {
-
-
+        .then(r => {
           if (r.data) {
             Swal.fire({
               title: "Delete Country!",
               text: "Success",
-              icon: "success",
+              icon: "success"
             });
           }
           store.dispatch("fetchCountrys");
-          isModalDeleteActive.value = false
-
+          isModalDeleteActive.value = false;
         })
-        .catch((error) => {
+        .catch(error => {
           // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
@@ -203,40 +214,41 @@ export default {
           // });
           // alert(error.message);
         });
-    }
+    };
     const putCountry = () => {
       //console.log(userData.value)
       let keyword = {
         kode: userData.value.kode,
         region: userData.value.region
-      }
+      };
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
-        "api/operators/editCountry/" + userData.value._id + "/";
+        "api/operators/editCountry/" +
+        userData.value._id +
+        "/";
       // commit("auth_request");
       axios
         .put(loginUrl, keyword, {
           headers: {
-            token: localStorage.getItem("token"),
-          },
+            token: localStorage.getItem("token")
+          }
         })
-        .then((r) => {
-          userData.value.kode = ""
-          userData.value.region = ""
-          userData.value._id = ""
+        .then(r => {
+          userData.value.kode = "";
+          userData.value.region = "";
+          userData.value._id = "";
 
           if (r.data) {
             Swal.fire({
               title: "EDIT Country!",
               text: "Success",
-              icon: "success",
+              icon: "success"
             });
           }
           store.dispatch("fetchCountrys");
-          isModalActive.value = false
-
+          isModalActive.value = false;
         })
-        .catch((error) => {
+        .catch(error => {
           // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
@@ -247,17 +259,27 @@ export default {
           // });
           // alert(error.message);
         });
+    };
 
-
-    }
-
-    store.commit("search", "")
-const items = computed(() => store.state.our.filter((admin) => {
-      return String(admin.label).toLowerCase().includes(store.state.search) ||
-        String(admin.code).toLowerCase().includes(store.state.search) ||
-        // admin.paid.toLowerCase().includes(store.state.search) ||
-        admin._id.toLowerCase().includes(store.state.search)
-    }));
+    store.commit("search", "");
+    const items = computed(() =>
+      store.state.our.filter(admin => {
+        return (
+          String(admin.label)
+            .toLowerCase()
+            .includes(store.state.search) ||
+          String(admin.code)
+            .toLowerCase()
+            .includes(store.state.search) ||
+          String(admin.dlr)
+            .toLowerCase()
+            .includes(store.state.search) ||
+          String(admin._id)
+            .toLowerCase()
+            .includes(store.state.search)
+        );
+      })
+    );
     console.log(items.value, "fna");
 
     const isModalActive = ref(false);
@@ -276,7 +298,7 @@ const items = computed(() => store.state.our.filter((admin) => {
         perPage.value * (currentPage.value + 1)
       )
     );
-    console.log(itemsPaginated.value)
+    console.log(itemsPaginated.value);
 
     const numPages = computed(() =>
       Math.ceil(items.value.length / perPage.value)

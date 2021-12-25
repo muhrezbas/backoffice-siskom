@@ -9,19 +9,35 @@
             v-for="option in ['reg', 'otp']"
             :key="option"
             :value="option"
-          >{{ option }}</option>
+            >{{ option }}</option
+          >
         </select>
       </field>
 
       <field label="Credit">
-        <control v-model="userData.total" name="prize" required autocomplete="prize" />
+        <control
+          v-model="userData.total"
+          name="prize"
+          required
+          autocomplete="prize"
+        />
       </field>
       <field label="Code Credit">
-        <control v-model="userData.kodeCreditClient" name="prize" required autocomplete="prize" />
+        <control
+          v-model="userData.kodeCreditClient"
+          name="prize"
+          required
+          autocomplete="prize"
+        />
       </field>
 
       <field label="Tax">
-        <control v-model="userData.tax" name="tax" required autocomplete="tax" />
+        <control
+          v-model="userData.tax"
+          name="tax"
+          required
+          autocomplete="tax"
+        />
       </field>
       <field label="Client">
         <select v-model="userData.client" class="w-full">
@@ -29,7 +45,8 @@
             v-for="option in $store.state.clients"
             :key="option._id ?? option"
             :value="option._id"
-          >{{ option.companyName ?? option }}</option>
+            >{{ option.companyName ?? option }}</option
+          >
         </select>
       </field>
       <field label="Price of mitracomm">
@@ -38,7 +55,8 @@
             v-for="option in $store.state.prize"
             :key="option._id ?? option"
             :value="option._id"
-          >{{ option.kodePrize ?? option }}</option>
+            >{{ option.kodePrize ?? option }}</option
+          >
         </select>
       </field>
 
@@ -48,7 +66,8 @@
             v-for="option in $store.state.operator"
             :key="option._id ?? option"
             :value="option._id"
-          >{{ option.nickname ?? option }}</option>
+            >{{ option.nickname ?? option }}</option
+          >
         </select>
       </field>
     </div>
@@ -91,7 +110,13 @@
         <td data-label="Operator">{{ country.operator.name }}</td>
         <td class="actions-cell">
           <jb-buttons type="justify-start lg:justify-end" no-wrap>
-            <jb-button class="mr-3" color="info" :icon="mdiEye" small @click="clickEye(country)" />
+            <jb-button
+              class="mr-3"
+              color="info"
+              :icon="mdiEye"
+              small
+              @click="clickEye(country)"
+            />
             <jb-button
               class="mr-3"
               color="info"
@@ -125,8 +150,8 @@
 /* eslint-disable */
 import { ref, onMounted, computed, reactive } from "vue";
 import { useStore } from "vuex";
-import Swal from 'sweetalert2'
-import axios from 'axios'
+import Swal from "sweetalert2";
+import axios from "axios";
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import ModalBox from "@/components/ModalBox";
 import Field from "@/components/Field";
@@ -157,42 +182,40 @@ export default {
       // fillChartData();
       // //console.log(this.$store.state.client, "tessc");
     });
-    const clickTrash = (payload) => {
+    const clickTrash = payload => {
       //console.log(payload, "tesr")
 
-      userData.value._id = payload._id
+      userData.value._id = payload._id;
 
-
-      isModalDeleteActive.value = true
-    }
+      isModalDeleteActive.value = true;
+    };
     const deleteCredit = () => {
       //console.log(userData.value, "delete country")
 
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
-        "api/operators/deleteCredit/" + userData.value._id + "/";
+        "api/operators/deleteCredit/" +
+        userData.value._id +
+        "/";
       // commit("auth_request");
       axios
         .delete(loginUrl, {
           headers: {
-            token: localStorage.getItem("token"),
-          },
+            token: localStorage.getItem("token")
+          }
         })
-        .then((r) => {
-
-
+        .then(r => {
           if (r.data) {
             Swal.fire({
               title: "Delete Credit!",
               text: "Success",
-              icon: "success",
+              icon: "success"
             });
           }
           store.dispatch("fetchCredit");
-          isModalDeleteActive.value = false
-
+          isModalDeleteActive.value = false;
         })
-        .catch((error) => {
+        .catch(error => {
           // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
@@ -203,21 +226,20 @@ export default {
           // });
           // alert(error.message);
         });
-    }
-    const clickEye = (payload) => {
+    };
+    const clickEye = payload => {
       //console.log(payload, "tesr")
-      userData.value.akun = payload.akun
-      userData.value.total = payload.total
-      userData.value.operator = payload.operator._id
-      userData.value.kodeCreditClient = payload.kodeCreditClient
-      userData.value.tax = payload.tax
-      userData.value.client = payload.client._id
-      userData.value.prize = payload.prize._id
-      userData.value._id = payload._id
+      userData.value.akun = payload.akun;
+      userData.value.total = payload.total;
+      userData.value.operator = payload.operator._id;
+      userData.value.kodeCreditClient = payload.kodeCreditClient;
+      userData.value.tax = payload.tax;
+      userData.value.client = payload.client._id;
+      userData.value.prize = payload.prize._id;
+      userData.value._id = payload._id;
 
-
-      isModalActive.value = true
-    }
+      isModalActive.value = true;
+    };
     const putCredit = () => {
       //console.log(userData.value)
       let keyword = {
@@ -229,40 +251,41 @@ export default {
         prize: userData.value.prize,
         client: userData.value.client,
         kodeCreditClient: userData.value.kodeCreditClient
-      }
+      };
 
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
-        "api/operators/editCredit/" + userData.value._id + "/";
+        "api/operators/editCredit/" +
+        userData.value._id +
+        "/";
       // commit("auth_request");
       axios
         .put(loginUrl, keyword, {
           headers: {
-            token: localStorage.getItem("token"),
-          },
+            token: localStorage.getItem("token")
+          }
         })
-        .then((r) => {
-          userData.value.akun = ""
-          userData.value.total = ""
-          userData.value.operator = ""
-          userData.value.kodeCreditClient = ""
-          userData.value.tax = ""
-          userData.value.protocol = ""
-          userData.value._id = ""
-          userData.value.client = ""
+        .then(r => {
+          userData.value.akun = "";
+          userData.value.total = "";
+          userData.value.operator = "";
+          userData.value.kodeCreditClient = "";
+          userData.value.tax = "";
+          userData.value.protocol = "";
+          userData.value._id = "";
+          userData.value.client = "";
 
           if (r.data) {
             Swal.fire({
               title: "EDIT Credit!",
               text: "Success",
-              icon: "success",
+              icon: "success"
             });
           }
           store.dispatch("fetchCredit");
-          isModalActive.value = false
-
+          isModalActive.value = false;
         })
-        .catch((error) => {
+        .catch(error => {
           // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
@@ -273,7 +296,7 @@ export default {
           // });
           // alert(error.message);
         });
-    }
+    };
     const userData = computed(() =>
       reactive({
         akun: "",
@@ -282,21 +305,36 @@ export default {
         protocol: "",
         operator: "",
         kodeCreditClient: "",
-        client: '',
-        _id: '',
-        prize: ''
+        client: "",
+        _id: "",
+        prize: ""
       })
-    )
+    );
 
-    store.commit("search", "")
-    const items = computed(() => store.state.credit.filter((admin) => {
-      return admin.akun.toLowerCase().includes(store.state.search) ||
-        String(admin.total).toLowerCase().includes(store.state.search) ||
-        String(admin.tax).toLowerCase().includes(store.state.search) ||
-        String(admin.protocol.supplier).toLowerCase().includes(store.state.search) ||
-        String(admin.operator.name).toLowerCase().includes(store.state.search) ||
-        admin._id.toLowerCase().includes(store.state.search)
-    }));
+    store.commit("search", "");
+    const items = computed(() =>
+      store.state.credit.filter(admin => {
+        return (
+          admin.akun.toLowerCase().includes(store.state.search) ||
+          String(admin.total)
+            .toLowerCase()
+            .includes(store.state.search) ||
+          String(admin.tax)
+            .toLowerCase()
+            .includes(store.state.search) ||
+          String(admin.client.companyName)
+            .toLowerCase()
+            .includes(store.state.search) ||
+          String(admin.prize.kodePrize)
+            .toLowerCase()
+            .includes(store.state.search) ||
+          String(admin.operator.name)
+            .toLowerCase()
+            .includes(store.state.search) ||
+          admin._id.toLowerCase().includes(store.state.search)
+        );
+      })
+    );
     //console.log(store.state.credit, "tesss");
 
     const isModalActive = ref(false);

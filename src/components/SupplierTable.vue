@@ -1,12 +1,16 @@
 <template>
   <modal-box v-model="isModalActive" title="Edit Country" :submit="putCountry">
     <field label="Name">
-      <control v-model="userData.protocol" name="name" required autocomplete="name" />
+      <control
+        v-model="userData.protocol"
+        name="name"
+        required
+        autocomplete="name"
+      />
     </field>
     <field label="TPS">
       <control v-model="userData.tps" name="tps" required autocomplete="tps" />
     </field>
-
   </modal-box>
 
   <modal-box
@@ -23,26 +27,46 @@
       <tr>
         <th>ID</th>
         <th>TPS</th>
-        <th>Name</th>
+        <th>Protocol</th>
         <!-- <th></th> -->
       </tr>
     </thead>
     <tbody class="font-semibold">
       <tr v-for="country in itemsPaginated" :key="country.id">
-        <td v-if="country.bind == false" style="background-color :#F2DEDF">{{ country._id }}</td>
+        <td v-if="country.bind == false" style="background-color :#F2DEDF">
+          {{ country._id }}
+        </td>
         <td v-else style="background-color :#DCF2C9">{{ country._id }}</td>
-        <td v-if="country.bind == false" style="background-color :#F2DEDF" data-label="TPS">{{ country.tps }}</td>
-        <td v-else style="background-color :#DCF2C9" data-label="TPS">{{ country.tps }}</td>
+        <td
+          v-if="country.bind == false"
+          style="background-color :#F2DEDF"
+          data-label="TPS"
+        >
+          {{ country.tps }}
+        </td>
+        <td v-else style="background-color :#DCF2C9" data-label="TPS">
+          {{ country.tps }}
+        </td>
         <td
           v-if="country.bind == false"
           data-label="Name"
           style="background-color :#F2DEDF"
-        >{{ country.protocol }}</td>
-        <td v-else data-label="Name" style="background-color :#DCF2C9">{{ country.protocol }}</td>
+        >
+          {{ country.protocol }}
+        </td>
+        <td v-else data-label="Name" style="background-color :#DCF2C9">
+          {{ country.protocol }}
+        </td>
 
         <td class="actions-cell">
           <jb-buttons type="justify-start lg:justify-end" no-wrap>
-            <jb-button class="mr-3" color="info" :icon="mdiEye" small @click="clickEye(country)" />
+            <jb-button
+              class="mr-3"
+              color="info"
+              :icon="mdiEye"
+              small
+              @click="clickEye(country)"
+            />
           </jb-buttons>
         </td>
       </tr>
@@ -69,8 +93,8 @@
 /* eslint-disable */
 import { ref, onMounted, computed, reactive } from "vue";
 import { useStore } from "vuex";
-import Swal from 'sweetalert2'
-import axios from 'axios'
+import Swal from "sweetalert2";
+import axios from "axios";
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import ModalBox from "@/components/ModalBox";
 import Field from "@/components/Field";
@@ -97,9 +121,9 @@ export default {
         tps: "",
         _id: ""
       })
-    )
+    );
     onMounted(async () => {
-      console.log("hello frm supplier")
+      console.log("hello frm supplier");
       const res = await store.dispatch("fetchProtocol");
 
       //console.log(res, "tes");
@@ -107,50 +131,48 @@ export default {
       // fillChartData();
       // //console.log(this.$store.state.client, "tessc");
     });
-    const clickEye = (payload) => {
+    const clickEye = payload => {
       //console.log(payload, "tesr")
-      userData.value.protocol = payload.protocol
-      userData.value.tps = payload.tps
-      userData.value._id = payload._id
+      userData.value.protocol = payload.protocol;
+      userData.value.tps = payload.tps;
+      userData.value._id = payload._id;
 
-      isModalActive.value = true
-    }
-    const clickTrash = (payload) => {
+      isModalActive.value = true;
+    };
+    const clickTrash = payload => {
       //console.log(payload, "tesr")
 
-      userData.value._id = payload._id
+      userData.value._id = payload._id;
 
-
-      isModalDeleteActive.value = true
-    }
+      isModalDeleteActive.value = true;
+    };
     const deleteCountry = () => {
       //console.log(userData.value, "delete country")
 
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
-        "api/operators/deleteCountry/" + userData.value._id + "/";
+        "api/operators/deleteCountry/" +
+        userData.value._id +
+        "/";
       // commit("auth_request");
       axios
         .delete(loginUrl, {
           headers: {
-            token: localStorage.getItem("token"),
-          },
+            token: localStorage.getItem("token")
+          }
         })
-        .then((r) => {
-
-
+        .then(r => {
           if (r.data) {
             Swal.fire({
               title: "Delete Country!",
               text: "Success",
-              icon: "success",
+              icon: "success"
             });
           }
           store.dispatch("fetchCountrys");
-          isModalDeleteActive.value = false
-
+          isModalDeleteActive.value = false;
         })
-        .catch((error) => {
+        .catch(error => {
           // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
@@ -161,40 +183,40 @@ export default {
           // });
           // alert(error.message);
         });
-    }
+    };
     const putCountry = () => {
-      console.log(userData.value)
+      console.log(userData.value);
       let keyword = {
         protocol: userData.value.protocol,
         tps: userData.value.tps
-      }
+      };
       const loginUrl =
         process.env.VUE_APP_BASE_URL +
-        "api/users/editProtocol/" + userData.value._id ;
+        "api/users/editProtocol/" +
+        userData.value._id;
       // commit("auth_request");
       axios
         .put(loginUrl, keyword, {
           headers: {
-            token: localStorage.getItem("token"),
-          },
+            token: localStorage.getItem("token")
+          }
         })
-        .then((r) => {
-          userData.value.protocol = ""
-          userData.value.tps = ""
-          userData.value._id = ""
+        .then(r => {
+          userData.value.protocol = "";
+          userData.value.tps = "";
+          userData.value._id = "";
 
           if (r.data) {
             Swal.fire({
               title: "EDIT Supplier!",
               text: "Success",
-              icon: "success",
+              icon: "success"
             });
           }
           store.dispatch("fetchProtocol");
-          isModalActive.value = false
-
+          isModalActive.value = false;
         })
-        .catch((error) => {
+        .catch(error => {
           // //console.log(error.response.data.message)
           // // commit("auth_error");
           // // localStorage.removeItem("token");
@@ -205,17 +227,21 @@ export default {
           // });
           // alert(error.message);
         });
+    };
 
-
-    }
-
-    store.commit("search", "")
-    const items = computed(() => store.state.protocol.filter((admin) => {
-      return String(admin.protocol).toLowerCase().includes(store.state.search) ||
-        // admin.email.toLowerCase().includes(store.state.search) ||
-        admin.suppplier.toLowerCase().includes(store.state.search) ||
-        admin._id.toLowerCase().includes(store.state.search)
-    }));
+    store.commit("search", "");
+    const items = computed(() =>
+      store.state.protocol.filter(admin => {
+        return (
+          String(admin.protocol)
+            .toLowerCase()
+            .includes(store.state.search) ||
+          // admin.email.toLowerCase().includes(store.state.search) ||
+          admin.supplier.toLowerCase().includes(store.state.search) ||
+          admin._id.toLowerCase().includes(store.state.search)
+        );
+      })
+    );
     //console.log(items, "fna");
 
     const isModalActive = ref(false);
