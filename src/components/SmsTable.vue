@@ -233,7 +233,15 @@ export default {
       const items = computed(() =>
         props.sms.filter(admin => {
           return (
-            admin.message.toLowerCase().includes(store.state.search) ||
+            String(admin.masking)
+              .toLowerCase()
+              .includes(store.state.search) ||
+            String(admin.carrierMsgID)
+              .toLowerCase()
+              .includes(store.state.search) ||
+            String(admin.message)
+              .toLowerCase()
+              .includes(store.state.search) ||
             // admin.type.toLowerCase().includes(store.state.search) ||
             String(admin.refno)
               .toLowerCase()
@@ -242,10 +250,9 @@ export default {
               .toLowerCase()
               .includes(store.state.search) ||
             // String(admin.prize.protocol.supplier).toLowerCase().includes(store.state.search) ||
-            String(admin.statusSms.label)
+            String(admin._id)
               .toLowerCase()
-              .includes(store.state.search) ||
-            admin._id.toLowerCase().includes(store.state.search)
+              .includes(store.state.search)
           );
         })
       );
