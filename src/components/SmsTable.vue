@@ -7,6 +7,48 @@
     <p>This is sample modal</p>
   </modal-box>
 
+  <div class="flex justify-end p-4">
+    <level>
+      <span class="block text-gray-600 text-sm text-left font-bold mr-4"
+        >Select Range</span
+      >
+      <DatePicker v-model="fromDate" mode="dateTime" is24hr>
+        <template v-slot="{ inputValue, inputEvents }">
+          <input
+            class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+            :value="inputValue"
+            v-on="inputEvents"
+          />
+        </template>
+      </DatePicker>
+      <span class="flex-shrink-0 m-2">
+        <svg class="w-4 h-4 stroke-current text-gray-600" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M14 5l7 7m0 0l-7 7m7-7H3"
+          />
+        </svg>
+      </span>
+      <DatePicker v-model="toDate" mode="dateTime" is24hr>
+        <template v-slot="{ inputValue, inputEvents }">
+          <input
+            class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+            :value="inputValue"
+            v-on="inputEvents"
+          />
+        </template>
+      </DatePicker>
+    </level>
+    <jb-button
+      class="ml-4"
+      color="info"
+      :label="'Export'"
+      small
+      @click="convertExcel"
+    />
+  </div>
   <div class="overflow-x-auto">
     <table class="table-auto">
       <thead>
@@ -215,6 +257,7 @@ import ModalBox from "@/components/ModalBox";
 import Level from "@/components/Level";
 import JbButtons from "@/components/JbButtons";
 import JbButton from "@/components/JbButton";
+import { Calendar, DatePicker } from "v-calendar";
 
 export default {
   name: "SmsTable",
@@ -222,7 +265,9 @@ export default {
     ModalBox,
     Level,
     JbButtons,
-    JbButton
+    JbButton,
+    Calendar,
+    DatePicker
   },
   props: ["sms"],
   setup(props) {
@@ -278,6 +323,53 @@ export default {
         )
       );
 
+      const convertExcel = async () => {
+        var XLSX = require("xlsx");
+        let data = [];
+        let total = [
+          {
+            success: 0,
+            pending: 0,
+            fail: 0
+          }
+        ];
+        props.sms.forEach(d => {
+          if (
+            d.createdAt > fromDate.value.toISOString() &&
+            d.createdAt < toDate.value.toISOString()
+          )
+            data.push(d);
+        });
+        data.forEach(t => {
+          if (t.statusDelivery !== undefined) {
+            if (t.statusDelivery.code === "00") {
+              total[0].success += 1;
+            } else if (t.statusDelivery.code === "01") {
+              total[0].pending += 1;
+            } else {
+              total[0].fail += 1;
+            }
+          } else {
+            total[0].pending += 1;
+          }
+        });
+        let workBook = await XLSX.utils.book_new();
+        let workSheet1;
+        let workSheet2;
+        console.log(data);
+        workSheet1 = await XLSX.utils.json_to_sheet(data);
+        workSheet2 = await XLSX.utils.json_to_sheet(total);
+        await XLSX.utils.book_append_sheet(workBook, workSheet1, `SMS Detail`);
+        await XLSX.utils.book_append_sheet(workBook, workSheet2, `Total`);
+
+        await XLSX.writeFile(
+          workBook,
+          `SMSReport_${fromDate.value.toLocaleDateString(
+            "id-ID"
+          )}-${toDate.value.toLocaleDateString("id-ID")}.xlsx`
+        );
+      };
+
       const numPages = computed(() =>
         Math.ceil(items.value.length / perPage.value)
       );
@@ -318,6 +410,10 @@ export default {
         return pagesList;
       });
 
+      const fromDate = ref(new Date());
+
+      const toDate = ref(new Date());
+
       return {
         isModalActive,
         currentPage,
@@ -330,7 +426,10 @@ export default {
         mdiEye,
         perPage,
         mdiTrashCan,
-        formatDate
+        formatDate,
+        convertExcel,
+        fromDate,
+        toDate
       };
     }
   }
